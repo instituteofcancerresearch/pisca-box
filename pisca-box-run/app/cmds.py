@@ -3,12 +3,12 @@ import subprocess
 def run_validation(dir):
     """Run validation command."""    
     print("listing files...")
-    result01 = subprocess.run(["ls","-l"],stdout=subprocess.PIPE)
-    result02 = subprocess.run(["pwd"],stdout=subprocess.PIPE)
-    result03 = subprocess.run(["ls","/project"],stdout=subprocess.PIPE)
-    result03 = subprocess.run(["ls",dir,"-l"],stdout=subprocess.PIPE)
+    #result01 = subprocess.run(["ls","-l"],stdout=subprocess.PIPE)
+    result01 = subprocess.run(["pwd"],stdout=subprocess.PIPE)
+    #result03 = subprocess.run(["ls","/project"],stdout=subprocess.PIPE)
+    result02 = subprocess.run(["ls",dir,"-l"],stdout=subprocess.PIPE)
     
-    return result02.stdout.decode('utf-8') + "\n" + result01.stdout.decode('utf-8') + "\n" + result03.stdout.decode('utf-8')
+    return result01.stdout.decode('utf-8') + "\n" + result02.stdout.decode('utf-8')
 
 
 

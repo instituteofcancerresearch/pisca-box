@@ -29,9 +29,11 @@ elif which_version == "beast01":
     output = cmds.run_beast01(which_xml)
     print("--------------")
     print(output)
+    print(cmds.run_validation("/project/BEASTv1.8.4"))
     print(cmds.run_validation("/project/tmp"))
 elif which_version == "pisca01":
     output = cmds.run_pisca01(which_xml)
     print("--------------")
     print(output)
+    print(cmds.run_validation("/project/PISCAv1.1"))
     print(cmds.run_validation("/project/tmp"))
