@@ -2,6 +2,8 @@
 import sys
 import cmds
 
+DOCKER = True
+
 # sys.argv[0] access the first argument passed that is the python script name
 print("\nFile or Script Name is :", sys.argv[0])
 
@@ -26,11 +28,11 @@ for i in range(1, len(sys.argv)):
 if which_version == "validate":
     print(cmds.run_validation("/project"))
 elif which_version == "beast01":
-    output = cmds.run_beast01(which_xml)
+    output = cmds.run_beast01(which_xml,DOCKER)
     print("--------------")
     print(output)
-    print(cmds.run_validation("/project/BEASTv1.8.4"))
-    print(cmds.run_validation("/project/tmp"))
+    #print(cmds.run_validation("/project/BEASTv1.8.4"))
+    #print(cmds.run_validation("/project/tmp"))
 elif which_version == "pisca01":
     output = cmds.run_pisca01(which_xml)
     print("--------------")

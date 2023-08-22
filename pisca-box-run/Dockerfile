@@ -12,6 +12,7 @@ RUN apt-get update -y
 RUN apt-get install -y openssh-client
 RUN apt-get install -y wget
 RUN apt-get install -y default-jdk
+# RUN apt-get install openjdk-8-jdk
 
 # Install beast
 RUN wget -O beast.tgz https://github.com/beast-dev/beast-mcmc/releases/download/v1.8.4/BEASTv1.8.4.tgz
@@ -49,5 +50,8 @@ ENTRYPOINT ["python3", "app/app.py"]
 # beast -beagle_off -working -overwrite ~/dev/beast-icr/xml/validation.xml
 # beast -beagle_off -working -overwrite ~/dev/beast-icr/xml/racoon_rabies.xml
 # beast -beagle_off -overwrite ~/dev/beast-icr/xml/testStrictClock.xml
+
+## running from python, locally
+# python3 app/app.py beast01 racoon_rabies.xml
 
 

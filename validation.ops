@@ -1,0 +1,18 @@
+
+Operator analysis
+Operator                                          Tuning   Count      Time     Time/Op  Pr(accept) 
+scale(cnv.loss)                                   0.151   2          3        1.5      0.5         
+scale(cnv.conversion)                             0.296   1          9        9.0      0.0         
+scale(clock.rate)                                 0.173   181        55       0.3      0.2541      
+scale(localClock.relativeRates)                   0.115   258        107      0.41     0.2868      
+bitFlip(localClock.changes)                               229        99       0.43     0.1004      
+subtreeSlide(treeModel)                           2.72    258        66       0.26     0.2558      
+Narrow Exchange(treeModel)                                246        49       0.2      0.3293      
+Wide Exchange(treeModel)                                  48         4        0.08     0.1458      
+wilsonBalding(treeModel)                                  53         14       0.26     0.0943      
+scale(treeModel.rootHeight)                       0.752   74         20       0.27     0.2973      
+uniform(nodeHeights(treeModel))                           487        188      0.39     0.6324      
+scale(luca_branch)                                0.143   28         8        0.29     0.2143      
+scale(constant.popSize)                           0.156   40         0        0.0      0.375       
+up:clock.rate down:nodeHeights(treeModel)         0.822   75         16       0.21     0.24        
+
