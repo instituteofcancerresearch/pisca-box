@@ -26,8 +26,11 @@ for i in range(1, len(sys.argv)):
    
 
 if which_version == "validate":
-    print(cmds.run_validation("/project"))
+    print(cmds.run_validation(["/project","/project/xml"]))
+elif which_version == "files":
+    print(cmds.rename_logs())
 elif which_version == "beast01":
+    cmds.rename_logs()
     output = cmds.run_beast01(which_xml,DOCKER)
     print("--------------")
     print(output)
@@ -37,5 +40,5 @@ elif which_version == "pisca01":
     output = cmds.run_pisca01(which_xml)
     print("--------------")
     print(output)
-    print(cmds.run_validation("/project/PISCAv1.1"))
-    print(cmds.run_validation("/project/tmp"))
+    print(cmds.run_validation(["/project/PISCAv1.1"]))
+    print(cmds.run_validation(["/project/xml"]))
