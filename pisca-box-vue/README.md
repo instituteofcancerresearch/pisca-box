@@ -13,27 +13,19 @@ pip install -r requirements.txt
 streamlit run app/app.py
 ```
 
-### Running locally directly
-```
-beast -beagle_off -working -overwrite ~/dev/beast-icr/xml/validation.xml
-beast -beagle_off -working -overwrite ~/dev/beast-icr/xml/racoon_rabies.xml
-beast -beagle_off -overwrite ~/dev/beast-icr/xml/testStrictClock.xml
-```
-
 ### Running the test suit
 TODO
 
 ### Creating the docker image
 You must be in the directory pisca-box/pisca-box-run/
 ```
-docker build -t pisca-box .
+docker build -t pisca-vue .
 ```
 
 ### Testing the docker image
 ```
-docker run pisca-box validate
-docker run -v ~/dev/beast-icr/xml:/project/xml pisca-box validation.xml
-docker run -v ~/dev/beast-icr/xml:/project/xml pisca-box testStrictClock.xml
+docker run --name pisca-vue -p 8000:8501 -v ~/dev/beast-icr/xml:/project/xml pisca-vue
+http://localhost:8000/
 ```
 
 ### Pushing the docker image to docker hub
