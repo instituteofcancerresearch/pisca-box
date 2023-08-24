@@ -16,8 +16,10 @@ No tag is latest, or pull a specific version:
 ```docker pull rachelicr/pisca-box:v01```
 
 A simple validate command checks it has worked and displays the local (container’s) file system
-```docker run rachelicr/pisca-box validate
-docker run rachelicr/pisca-box:v01 validate```
+```
+docker run rachelicr/pisca-box validate
+docker run rachelicr/pisca-box:v01 validate
+```
 
 To run pisca-box, you need to pass the directory of your xml file, and then the xml file itself separately as the first input command. Then proceed with any optional parameters that you want to pass to beast. There are 3 hardcoded parameters that will be always be included and you do not need to enter:
 •	-beagle_off – this version of pisca cannot use beagle, it is piscav1.1 and beastv1.8.4
