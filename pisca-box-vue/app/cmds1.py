@@ -5,14 +5,21 @@ import os
 DOCKER_SOURCE_DIR = "/project/xml"
 DOCKER_EXE = "/project/BEASTv1.8.4/bin/beast"
 
-def rename_logs():
-    print("") # not sure I need to do this as it is docker only
+def rename_logs(working_dir):
+    #copy everything in tmp to pisca    
+    try:        
+        files=os.listdir(working_dir)   
+        for fname in files:
+            if not ".xml" in fname and (".log" in fname or ".ops" in fname or ".trees" in fname):
+                os.rename(os.path.join(working_dir,fname), os.path.join(working_dir,"_" + fname))
+    except Exception as e:
+        print(str(e))
     
                 
-def run_beast(params,TEST_MODE):    
+def run_beast(params,working_dir,TEST_MODE):    
     print("starting pisca-box call to beast...")    
-    if not TEST_MODE:
-        rename_logs()
+    #if not TEST_MODE:
+    rename_logs(working_dir)
     try:                        
         docker = not TEST_MODE
         if docker:# DOCKER VERSION

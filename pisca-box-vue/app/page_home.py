@@ -4,12 +4,15 @@ import streamlit as st
 
 def add_widgets():   
     st.markdown('Welcome to **pisca-box**.')
-    st.markdown("This is a containerised application for pisca-beast, an adaption of BEAST (Bayesian Evolutionary Anaylsis Sampling Trees) for cancer research.")
-    
-    
-    #st.markdown(":green[$\sqrt{x^2+y^2}=1$] is a Pythagorean identity. :pencil:")
-    
+    st.markdown("This is a containerised application for pisca-beast, a plug-in to [BEAST](http://beast.community/) (Bayesian Evolutionary Anaylsis Sampling Trees) for cancer research.")
+        
+    st.markdown("_Application tabs_")
+    st.markdown("**pisca-box**: This utility runs a fully working pisca through a container and is primarily intended as an instructional tool")    
+    st.markdown("**beauti-box**: Beauti is the java gui application for creating xml files for the beast application. In beauti-box you can create pisca-specific xml files, there is also a brief tutorial on the inputs")
+                        
+    st.markdown("**pisca-box** is also a [containerised command line image](https://hub.docker.com/r/rachelicr/pisca-box) that can be run locally or on an HPC cluster. This streamlit app is intended for lighter use")
     st.divider()
+    st.write("References:")
     cite1 = """
     Suchard MA, Lemey P, Baele G, Ayres DL, Drummond AJ & Rambaut A (2018)
     Bayesian phylogenetic and phylodynamic data integration using 

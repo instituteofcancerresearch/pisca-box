@@ -18,7 +18,7 @@ st.title('Pisca-Box')
 
 # Insert containers separated into tabs:
 #tabHm, tabPB, tabBB, tabHlp, tabAb = st.tabs(["home","pisca-box","beauti-box","help","about"])
-tabHm, tabPB, tabBB, tabHlp, tabAb, tabTs = st.tabs(["home","pisca-box","beauti-box","help","about","test"])
+tabHm, tabPB, tabBB, tabHlp, tabAb, tabTs = st.tabs(["home","pisca-box","beauti-box","help","about","(test)"])
 
 with tabHm:
     pageHm.add_widgets()    

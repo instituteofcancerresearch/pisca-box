@@ -17,7 +17,7 @@ streamlit run app/app.py
 TODO
 
 ### Creating the docker image
-You must be in the directory pisca-box/pisca-box-run/
+You must be in the directory pisca-box/pisca-box-vue/
 ```
 docker build -t pisca-vue .
 ```
