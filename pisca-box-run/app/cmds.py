@@ -19,7 +19,7 @@ def run_validation(dirs):
     return result01.stdout.decode('utf-8') + "\n" + result02 + "\n" + result03.stdout.decode('utf-8')
 
 def rename_logs():
-    #copy everythong in tmp to pisca    
+    #copy everything in tmp to pisca    
     try:        
         files=os.listdir(DOCKER_SOURCE_DIR)   
         for fname in files:
