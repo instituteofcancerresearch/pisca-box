@@ -1,7 +1,10 @@
 import subprocess
 import time
-import shutil
 import os
+
+DOCKER_SOURCE_DIR = "/project/xml"
+DOCKER_EXE = "/project/BEASTv1.8.4/bin/beast"
+
 
 def run_validation(dirs):
     """Run validation command."""    
@@ -17,27 +20,31 @@ def run_validation(dirs):
 
 def rename_logs():
     #copy everythong in tmp to pisca    
-    src_dir = '/project/xml'    
-    files=os.listdir(src_dir)   
-    for fname in files:
-        if not ".xml" in fname:            
-            os.rename(os.path.join(src_dir,fname), os.path.join(src_dir,"_" + fname))
+    try:        
+        files=os.listdir(DOCKER_SOURCE_DIR)   
+        for fname in files:
+            if not ".xml" in fname:            
+                os.rename(os.path.join(DOCKER_SOURCE_DIR,fname), os.path.join(DOCKER_SOURCE_DIR,"_" + fname))
+    except Exception as e:
+        print(str(e))
+                
+def run_beast(which_xml,params,TEST_MODE):    
+    print("starting pisca-box call to beast...")    
+    if not TEST_MODE:
+        rename_logs()
+    try:                        
+        docker = not TEST_MODE
+        if docker:# DOCKER VERSION
+            params.insert(0,DOCKER_EXE)
+            params.append(DOCKER_SOURCE_DIR + "/" + which_xml)                                                                                    
+            result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                
+        else: # LOCAL VERSION for testing
+            params.insert(0,"beast")
+            params.append(which_xml)                        
+            #params3 =  ["beast","-beagle_off", '-working',"-overwrite", "/home/ralcraft/dev/beast-icr/xml/validation.xml"]            
+            print(params)
+            result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                        
         
-def run_beast01(which_xml,is_docker):
-    """Run beast01 command."""    
-    print("starting beast...")    
-    try:
-        if which_xml == "":
-            which_xml1 = "/project/BEASTv1.8.4/examples/testXML/testLikelihood.xml"
-        else:
-            which_xml1 = "/project/xml/" + which_xml            
-        if not is_docker:
-            which_xml1 = "/home/ralcraft/dev/beast-icr/xml/testStrictClock.xml"
-                                                                
-        if is_docker:
-            result = subprocess.Popen(["/project/BEASTv1.8.4/bin/beast","-beagle_off", "-working", "-overwrite", which_xml1],stdout=subprocess.PIPE,shell=False)
-        else:
-            result = subprocess.Popen(["beast","-beagle_off", "-overwrite", which_xml],stdout=subprocess.PIPE,shell=False)
         # Wait until process terminates
         while result.poll() is None:                    
             output  = result.stdout.readline()            
@@ -58,19 +65,3 @@ def run_beast01(which_xml,is_docker):
         return str(e)
     
 
-def run_pisca01(which_xml):
-    """Run beast01 command."""    
-    print("starting beast...")
-    try:
-        if which_xml == "":
-            which_xml = "/project/PISCAv1.1/validation.xml"
-        else:
-            which_xml = "/project/xml/" + which_xml
-            
-        result = subprocess.run(["/project/BEASTv1.8.4/bin/beast","-beagle_off", "-working", "-overwrite", which_xml],stdout=subprocess.PIPE)
-        print(result)
-        return result.stdout.decode('utf-8')
-    except Exception as e:
-        return str(e)
-    
-    

@@ -2,43 +2,33 @@
 import sys
 import cmds
 
-DOCKER = True
-
 # sys.argv[0] access the first argument passed that is the python script name
-print("\nFile or Script Name is :", sys.argv[0])
-
-print(sys.argv)
 
 # print arguments other than the file name
 print("\nArguments passed:")
-for i in range(1, len(sys.argv)):
-   print(sys.argv[i])
+for i in range(0, len(sys.argv)):
+   print(sys.argv[i], end=" ")
 
-# Lowercase operation on the passed arguments
-which_version = "none"
+# The first param passed in must be the xml file
+# There are 3 fixed params that we will def have and do not need to be added again
+params = ["-beagle_off", "-working", "-overwrite"]
+TEST_MODE = False
 which_xml = ""
 for i in range(1, len(sys.argv)):
-    print(sys.argv[i].lower())
+    print(sys.argv[i])
     if i == 1:
-        which_version = sys.argv[i].lower()
-    elif i == 2:
         which_xml = sys.argv[i]
+    else:
+        param = sys.argv[i]        
+        if param == "TEST_MODE":
+            TEST_MODE = True
+        elif param not in params:
+            params.append(param)
    
 
-if which_version == "validate":
+if which_xml == "validate":
     print(cmds.run_validation(["/project","/project/xml"]))
-elif which_version == "files":
-    print(cmds.rename_logs())
-elif which_version == "beast01":
-    cmds.rename_logs()
-    output = cmds.run_beast01(which_xml,DOCKER)
+else:    
+    output = cmds.run_beast(which_xml,params,TEST_MODE)
     print("--------------")
     print(output)
-    #print(cmds.run_validation("/project/BEASTv1.8.4"))
-    #print(cmds.run_validation("/project/tmp"))
-elif which_version == "pisca01":
-    output = cmds.run_pisca01(which_xml)
-    print("--------------")
-    print(output)
-    print(cmds.run_validation(["/project/PISCAv1.1"]))
-    print(cmds.run_validation(["/project/xml"]))

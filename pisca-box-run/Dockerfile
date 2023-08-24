@@ -40,43 +40,8 @@ ENTRYPOINT ["python3", "app/app.py"]
 
 ################################################################
 ## Commands to run the docker container
+# docker build -t pisca-box-run .
 # Running as a cmd app
 # docker run --rm -it pisca-box-run /bin/bash
 # /project/BEASTv1.8.4/bin/beast -beagle_off -working -overwrite /project/BEASTv1.8.4/examples/testXML/testLikelihood.xml
 ################################################################
-############ Updating to docker ################################
-# docker tag pisca-box-run rachelicr/pisca-box-run
-# docker push rachelicr/pisca-box-run
-
-################ Running the docker app ########################
-# docker build -t pisca-box-run .
-# docker run -v ~/dev/beast-icr/xml:/project/xml pisca-box-run validate
-# docker run -v ~/dev/beast-icr/xml:/project/xml pisca-box-run pisca01
-# docker run -v ~/dev/beast-icr/xml:/project/xml pisca-box-run beast01 testStrictClock.xml
-## PISCA
-# docker run -v ~/dev/beast-icr/xml:/project/xml pisca-box-run beast01 validation.xml
-
-################## Running locally directly #####################
-# beast -beagle_off -working -overwrite ~/dev/beast-icr/xml/validation.xml
-# beast -beagle_off -working -overwrite ~/dev/beast-icr/xml/racoon_rabies.xml
-# beast -beagle_off -overwrite ~/dev/beast-icr/xml/testStrictClock.xml
-
-################## running from python, locally #################
-# python3 app/app.py beast01 racoon_rabies.xml
-
-################################################################
-
-## Running it with singularity from docker hub
-# singularity pull docker://rachelicr/pisca-box-run
-# singularity run docker://rachelicr/pisca-box-run validate
-
-# singularity run -B ~/dev/beast-icr/xml:/project/xml docker://rachelicr/pisca-box-run files
-# singularity run -B ~/dev/beast-icr/xml:/project/xml docker://rachelicr/pisca-box-run beast01 validation.xml 
-# singularity run -B ~/dev/beast-icr/xml:/project/xml docker://rachelicr/pisca-box-run beast01 testStrictClock.xml 
-
-## Running it with singularity from docker hub
-# docker pull rachelicr/pisca-box-run
-# docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box-run files
-# docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box-run beast01 testStrictClock.xml
-# docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box-run beast01 validation.xml
-

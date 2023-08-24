@@ -1,21 +1,12 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/engine/reference/builder/
-
 ARG PYTHON_VERSION=3.10.12
 FROM python:${PYTHON_VERSION}-slim as base
-
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
-
 # Keeps Python from buffering stdout and stderr to avoid situations where
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
-
-WORKDIR /app
-
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user
 ARG UID=10001
@@ -29,40 +20,32 @@ RUN adduser \
     appuser
 
 #############################################################
-
 WORKDIR /project
 COPY . /project
-
 # Install software 
 RUN apt-get update -y
 RUN apt-get install -y openssh-client
 RUN apt-get install -y wget
-
-
 ##################################################################################################
-ENV JAVA_HOME=/project/jdk-20.0.2
-ENV PATH=$JAVA_HOME/bin:$PATH
-
-# install the correct version of java!!!!!
-RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz
-RUN tar zxvf jdk.tar.gz
-## makes directory jdk-20.0.2
-
-# Install beast
-RUN wget -O beast.tgz https://github.com/beast-dev/beast-mcmc/releases/download/v1.8.4/BEASTv1.8.4.tgz
-RUN tar -xvzf beast.tgz
-## makes directory BEASTv1.8.4
-
-# Install pisca
-RUN wget -O pisca.tgz https://github.com/adamallo/PISCA/releases/download/v1.1/PISCAv1.1.tgz
-RUN tar -xvzf pisca.tgz
-## makes directory PISCAv1.1 ## note that cd has to be inline with other commands
-RUN chmod +x /project/PISCAv1.1/install.sh
-RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
-
+#ENV JAVA_HOME=/project/jdk-20.0.2
+#ENV PATH=$JAVA_HOME/bin:$PATH
+## install the correct version of java!!!!!
+#RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz
+#RUN tar zxvf jdk.tar.gz
+### makes directory jdk-20.0.2
+## Install beast
+#RUN wget -O beast.tgz https://github.com/beast-dev/beast-mcmc/releases/download/v1.8.4/BEASTv1.8.4.tgz
+#RUN tar -xvzf beast.tgz
+### makes directory BEASTv1.8.4
+## Install pisca
+#RUN wget -O pisca.tgz https://github.com/adamallo/PISCA/releases/download/v1.1/PISCAv1.1.tgz
+#RUN tar -xvzf pisca.tgz
+### makes directory PISCAv1.1 ## note that cd has to be inline with other commands
+#RUN chmod +x /project/PISCAv1.1/install.sh
+#RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
+###################################################################################################
 # make a dir for the tmp files
 RUN mkdir /project/xml
-
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
