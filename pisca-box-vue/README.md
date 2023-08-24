@@ -25,16 +25,17 @@ docker build -t pisca-vue .
 ### Testing the docker image
 ```
 docker run --name pisca-vue -p 8000:8501 -v ~/dev/beast-icr/xml:/project/xml pisca-vue
+docker run --name pisca-vue -p 8000:8501 pisca-vue
 http://localhost:8000/
 ```
 
 ### Pushing the docker image to docker hub
 ```
-docker tag pisca-box rachelicr/pisca-box
-docker tag pisca-box rachelicr/pisca-box:v01
+docker tag pisca-vue rachelicr/pisca-vue
+docker tag pisca-vue rachelicr/pisca-vue:v01
 
-docker push rachelicr/pisca-box
-docker push rachelicr/pisca-box:v01
+docker push rachelicr/pisca-vue
+docker push rachelicr/pisca-vue:v01
 ```
 
 ### Running the docker image from docker hub

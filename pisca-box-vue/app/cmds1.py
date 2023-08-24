@@ -19,7 +19,7 @@ def rename_logs(working_dir):
 def run_beast(params,working_dir,TEST_MODE):    
     print("starting pisca-box call to beast...")    
     #if not TEST_MODE:
-    rename_logs(working_dir)
+    #rename_logs(working_dir)
     try:                        
         docker = not TEST_MODE
         if docker:# DOCKER VERSION
