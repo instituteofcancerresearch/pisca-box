@@ -60,7 +60,7 @@ $ singularity run docker://rachelicr/pisca-box:v01 validate
 
 The mapping of file systems uses -B instead of -v so the format of the input is as below, with the validation example.
 
-$ singularity run -B **/path/to/my/input/dir**:/project/xml docker://rachelicr/pisca-box **myinput.xml params…**
+$ singularity run -B **/path/to/my/input/dir**:/project/xml docker://rachelicr/pisca-box **myinput.xml** **params…**
 
 $ singularity run -B **~/dev/beast-icr/xml**:/project/xml docker://rachelicr/pisca-box **validation.xml**
 
