@@ -31,14 +31,14 @@ To run pisca-box, you need to pass the directory of your xml file, and then the 
 •	-overwrite – each existing logfile is prepended with an underscore anyway.
 
 The call to pisca-box thus looks like this, where anything not bold must stay exactly as it is, and anything bold must be changed as per your own inputs. The directory /project/xml is the internal directory of the container to which we map – it cannot be changed.
-```
+
 docker run -v **/path/to/my/input/dir**:/project/xml rachelicr/pisca-box **myinput.xml param1 param2**
-```
+
 
 An example, where my xml files are in the directory ~/dev/beast-icr/xml – validation.xml is the pisca validation file.
-```
+
 docker run -v **~/dev/beast-icr/xml**:/project/xml rachelicr/pisca-box **validation.xml**
-```
+
 
 
 ### singularity
@@ -59,10 +59,10 @@ singularity run docker://rachelicr/pisca-box:v01 validate
 ```
 
 The mapping of file systems uses -B instead of -v so the format of the input is as below, with the validation example.
-```
+
 singularity run -B **/path/to/my/input/dir**:/project/xml docker://rachelicr/pisca-box** myinput.xml params…**
 singularity run -B **~/dev/beast-icr/xml**:/project/xml docker://rachelicr/pisca-box **validation.xml**
-```
+
 
 
 
