@@ -28,27 +28,38 @@ def run_beast(params):
         #else: # LOCAL VERSION for testing
         params.insert(0,"beast")                                             
         print(params)
-        result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                        
+        result = subprocess.Popen(params,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=False)                        
         
         # Wait until process terminates
         while result.poll() is None:                    
-            output  = result.stdout.readline()            
+            output = result.stdout.readline()            
             if not output :
                 print("...waiting for beast to finish...")
             else:
                 while output:
-                    print(output .strip().decode('utf-8'))
-                    output  = result.stdout.readline()                        
+                    print(output.strip().decode('utf-8'))
+                    output  = result.stdout.readline()                                                                                
+            
+            error = result.stderr.readline()
+            while error:
+                    print("##########################################")
+                    print("Additional messages found:")
+                    print(error.strip().decode('utf-8'))
+                    error  = result.stderr.readline()                                                                                
             time.sleep(0.1)
         
         output  = result.stdout.readline()            
         if output :
             print(output.strip().decode('utf-8'))                                        
-        rc = result.poll()        
+        rc = result.poll()             
+        print("##########################################")
         print("...completed pisca-box")
         return ""
     except Exception as e:
         print(str(e))
+    
+
+
     
 
 

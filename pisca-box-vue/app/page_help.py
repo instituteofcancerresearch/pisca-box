@@ -14,7 +14,7 @@ def add_widgets():
     st.write("It is locally hosted on a port of your choice, in this case 8000. Open the app at [http://localhost:8000/](http://localhost:8000/)")
     
     st.markdown('**[pisca-box command-line](https://hub.docker.com/r/rachelicr/pisca-box)**')
-    msg = "To communicate with the container's file system a drive must be mounted. "
+    msg = "An alternative version of pisca-box is available to run from the command-line for heavier duty use. To communicate with the container's file system a drive must be mounted. "
     msg += "In this case the drive is :green[~/dev/beast-icr/xml], but should be the folder where your xml input file is. "
     msg += "The folder with the xml file is also used as the working directory, so the output files will be written to this folder."
     st.write(msg)  
