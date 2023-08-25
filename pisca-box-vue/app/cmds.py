@@ -16,19 +16,19 @@ def rename_logs(working_dir):
         print(str(e))
     
                 
-def run_beast(params,working_dir,TEST_MODE):    
+def run_beast(params):    
     print("starting pisca-box call to beast...")    
     #if not TEST_MODE:
     #rename_logs(working_dir)
     try:                        
-        docker = not TEST_MODE
-        if docker:# DOCKER VERSION
-            params.insert(0,DOCKER_EXE)            
-            result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                
-        else: # LOCAL VERSION for testing
-            params.insert(0,"beast")                                             
-            print(params)
-            result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                        
+        #docker = not TEST_MODE
+        #if docker:# DOCKER VERSION
+        #    params.insert(0,DOCKER_EXE)            
+        #    result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                
+        #else: # LOCAL VERSION for testing
+        params.insert(0,"beast")                                             
+        print(params)
+        result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                        
         
         # Wait until process terminates
         while result.poll() is None:                    

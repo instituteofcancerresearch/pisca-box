@@ -6,6 +6,7 @@ def add_widgets():
     st.write("The containerisation and adaption of pisca-beast is a collaboration between the Institute of Cancer Research and Arizona State University.")
     st.markdown("[BEAST](http://beast.community/) was created .... some history")    
     st.markdown("[PISCA](https://github.com/adamallo/PISCA) was created by Diego Mallo .... some history")            
+    st.markdown("[pisca-box](https://github.com/rachelicr/pisca-box) was created by Heather Grant and Rachel Alcraft .... some history")            
     st.divider()
     st.markdown("**Arizona State University**")
     

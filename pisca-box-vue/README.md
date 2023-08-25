@@ -24,7 +24,6 @@ docker build -t pisca-vue .
 
 ### Testing the docker image
 ```
-docker run --name pisca-vue -p 8000:8501 -v ~/dev/beast-icr/xml:/project/xml pisca-vue
 docker run --name pisca-vue -p 8000:8501 pisca-vue
 http://localhost:8000/
 ```

@@ -29,6 +29,7 @@ RUN apt-get install -y wget
 ##################################################################################################
 ENV JAVA_HOME=/project/jdk-20.0.2
 ENV PATH=$JAVA_HOME/bin:$PATH
+ENV PATH=/project/BEASTv1.8.4/bin:$PATH
 # install the correct version of java!!!!!
 RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz
 RUN tar zxvf jdk.tar.gz

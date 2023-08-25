@@ -9,10 +9,10 @@ def rename_logs():
     print("renaming log files")    
     
                 
-def run_beast(params,TEST_MODE):    
+def run_beast(params):    
     print("starting pisca-box call to beast...")    
-    if not TEST_MODE:
-        rename_logs()    
+    #if not TEST_MODE:
+    #    rename_logs()    
     loops = 10        
     i = 0
     # Wait until process terminates
