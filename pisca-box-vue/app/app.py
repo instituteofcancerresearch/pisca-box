@@ -14,7 +14,7 @@ import page_test as pageTs
 
 st.set_page_config(page_title='pisca-vue', page_icon = None, layout = 'wide', initial_sidebar_state = 'auto')
 # favicon being an object of the same kind as the one you should provide st.image() with (ie. a PIL array for example) or a string (url or local file path)
-st.title('Pisca-Box-Vue')
+st.title(':gift: Pisca-Box-Vue')
 
 
 # Insert containers separated into tabs:

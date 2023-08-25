@@ -28,7 +28,8 @@ def run_beast(params):
         #else: # LOCAL VERSION for testing
         params.insert(0,"beast")                                             
         print(params)
-        result = subprocess.Popen(params,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=False)                        
+        result = subprocess.Popen(params,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=False)
+        error_msg = False                  
         
         # Wait until process terminates
         while result.poll() is None:                    
@@ -42,9 +43,11 @@ def run_beast(params):
             
             error = result.stderr.readline()
             while error:
-                    print("##########################################")
-                    print("Additional messages found:")
-                    print(error.strip().decode('utf-8'))
+                    if not error_msg:
+                        print("##########################################")
+                        print("Additional messages found:")
+                        error_msg = True                                        
+                    print("#",error.strip().decode('utf-8'))
                     error  = result.stderr.readline()                                                                                
             time.sleep(0.1)
         

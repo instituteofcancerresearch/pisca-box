@@ -25,7 +25,7 @@ def st_capture(output_func):
 ######################################################################
 def add_widgets():   
         
-    st.write("#### :leaves: Choose an xml file")
+    st.subheader("Choose an xml file")
     uploaded_file = st.file_uploader("upload xml file",type=['xml'])                            
     if uploaded_file is not None:                                
         string_data = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
@@ -35,10 +35,10 @@ def add_widgets():
                                                         
         
         if os.path.isfile(full_file_name):
-            #st.caption(f"{full_file_name} is a valid file")
-            st.write("#### :leaves: Input parameters for beast")
+        
+            st.subheader("Input parameters")
             params_input = st.text_input("Enter additional parameters",value="-beagle_off")
-            st.write("#### :leaves: Check inputs and run beast")
+            st.subheader("Check inputs and run")
             if st.button('run pisca-box'):                        
                 output = st.empty()
                 params = []

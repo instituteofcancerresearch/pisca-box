@@ -44,7 +44,7 @@ class Fasta(object):
                 if id in self.dic_id_seq:
                     self.dic_id_dates[id] = (dat,dec,tip,loc,cpt)
             
-            print(self.dic_id_dates)
+            #print(self.dic_id_dates)
                 
                     
     def _make_a_taxon(self,id,date,compartment):
