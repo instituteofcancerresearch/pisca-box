@@ -59,7 +59,10 @@ singularity run -B ~/dev/beast-icr/xml:/project/xml docker://rachelicr/pisca-box
 ```
 
 
-
+### Any problems with singularity on alma, clear out:
+```
+/home/ralcraft/.local/share/containers/cache
+```
 
 
 
