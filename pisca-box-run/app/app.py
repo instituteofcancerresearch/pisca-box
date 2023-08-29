@@ -2,6 +2,10 @@
 import sys
 import cmds
 
+VERSION = "0.0.2"
+
+print("Welcome to pisca-box version " + VERSION)
+
 # sys.argv[0] access the first argument passed that is the python script name
 
 # print arguments other than the file name
@@ -27,7 +31,7 @@ for i in range(1, len(sys.argv)):
    
 
 if which_xml == "validate":
-    print(cmds.run_validation(["/project","/project/xml"]))
+    print(cmds.run_validation(["/project","/project/xml","/mnt"]))
 else:    
     output = cmds.run_beast(which_xml,params,TEST_MODE)
     print("--------------")

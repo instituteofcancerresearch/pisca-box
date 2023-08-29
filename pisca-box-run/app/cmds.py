@@ -2,7 +2,8 @@ import subprocess
 import time
 import os
 
-DOCKER_SOURCE_DIR = "/project/xml"
+#DOCKER_SOURCE_DIR = "/project/xml"
+DOCKER_SOURCE_DIR = "/mnt"
 DOCKER_EXE = "/project/BEASTv1.8.4/bin/beast"
 
 
@@ -22,8 +23,8 @@ def rename_logs():
     #copy everything in tmp to pisca    
     try:        
         files=os.listdir(DOCKER_SOURCE_DIR)   
-        for fname in files:
-            if not ".xml" in fname:            
+        for fname in files:            
+            if not ".xml" in fname and (".log" in fname or ".ops" in fname or ".trees" in fname):
                 os.rename(os.path.join(DOCKER_SOURCE_DIR,fname), os.path.join(DOCKER_SOURCE_DIR,"_" + fname))
     except Exception as e:
         print(str(e))

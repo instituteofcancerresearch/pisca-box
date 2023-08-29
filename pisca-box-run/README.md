@@ -34,10 +34,10 @@ docker run -v ~/dev/beast-icr/xml:/project/xml pisca-box testStrictClock.xml
 ### Pushing the docker image to docker hub
 ```
 docker tag pisca-box rachelicr/pisca-box
-docker tag pisca-box rachelicr/pisca-box:v01
+docker tag pisca-box rachelicr/pisca-box:vxx
 
 docker push rachelicr/pisca-box
-docker push rachelicr/pisca-box:v01
+docker push rachelicr/pisca-box:vxx
 ```
 
 ### Running the docker image from docker hub

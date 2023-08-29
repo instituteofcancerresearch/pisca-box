@@ -32,16 +32,17 @@ RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
 
 # make a dir for the tmp files
 RUN mkdir /project/xml
+#RUN mkdir /mnt
 
 ####### Commands to run python application #######################
-ENTRYPOINT ["python3", "app/app.py"]
+ENTRYPOINT ["python3", "/project/app/app.py"]
+#CMD ["python3", "/app/app.py"]
 # OR stop here to look in the container with BASH
 #CMD tail -f /dev/null
 
 ################################################################
 ## Commands to run the docker container
-# docker build -t pisca-box-run .
+# docker build -t pisca-box .
 # Running as a cmd app
-# docker run --rm -it pisca-box-run /bin/bash
-# /project/BEASTv1.8.4/bin/beast -beagle_off -working -overwrite /project/BEASTv1.8.4/examples/testXML/testLikelihood.xml
+# docker run --rm -it pisca-box /bin/bash
 ################################################################
