@@ -39,13 +39,15 @@ def add_widgets():
     
     if uploaded_file is not None:
         
-        tabAlign,tabDates, tabClock, tabLuca, tabGenerate = st.tabs(["alignment","dates","clock","luca","generate xml"])
+        tabAlign,tabDates, tabClock, tabLuca, tabTrees, tabGenerate = st.tabs(["alignment","dates","clock","luca","trees","generate xml"])
         
+        ### ALIGN ########################################################
         with tabAlign:
             st.subheader("Alignment file viewer")        
             with st.expander("expand fasta file to view"):
                 st.code(fa_data)                
-        
+                
+        ### DATES ########################################################
         with tabDates:
             st.subheader("Alignment dates")        
             uploaded_dates = st.file_uploader("Select dates file",type=['csv'])                            
@@ -54,11 +56,13 @@ def add_widgets():
                 with st.expander("expand dates file to view"):
                     st.write(fa_dates)
                                                             
+        ### CLOCK ########################################################
         with tabClock:
             st.subheader("Clock model")
             clock = st.radio('Select clock model:', ["strict clock", "random local clock"],key="cl")                    
             #clock = st.selectbox('What clock model would you like?', ('strict', 'ancestral', 'discrete'),key="bb2")
                 
+        ### LUCA ########################################################
         with tabLuca:
             st.subheader("Luca Height and Branch")
             with st.container():
@@ -78,15 +82,20 @@ def add_widgets():
                 with col3:                
                     lb_low = st.number_input(label="luca-branch lower",value=0.0)
             lucas = (lh_val,lh_up,lh_low,lb_val,lb_up,lb_low)
+        
+        ### TREES ########################################################
+        with tabTrees:
+            st.subheader("Demographic model")
+            demographic = st.radio('Select demographic model:', ["constant size", "exponential growth"],key="dem")                    
             
     
-        ################################################################             
+        ### GENERATE #############################################################             
         with tabGenerate:
             st.write("#### :checkered_flag: Check and save xml")        
             ################################################################                                                          
             fasta = fa.Fasta(fa_data,fa_dates)
             mcmc = mc.MCMC("name")        
-            xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock)
+            xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic)
             
             tst_xml = xmlwriter.get_xml()
             with st.expander("View generated xml"):

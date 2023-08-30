@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="beast" type="beastType"/>
+  <xs:complexType name="dateType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="value" use="optional"/>
+        <xs:attribute type="xs:string" name="direction" use="optional"/>
+        <xs:attribute type="xs:string" name="units" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="attrType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="name" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="taxonType" mixed="true">
+    <xs:sequence>
+      <xs:element type="dateType" name="date" minOccurs="0"/>
+      <xs:element type="attrType" name="attr" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="taxaType" mixed="true">
+    <xs:sequence>
+      <xs:element type="taxonType" name="taxon" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="stateType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="code" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ambiguityType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="code" use="optional"/>
+        <xs:attribute type="xs:string" name="states" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="generalDataTypeType">
+    <xs:sequence>
+      <xs:element type="stateType" name="state" maxOccurs="unbounded" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> Genotype: 0 ; Beast State: 0  Genotype: 1 ; Beast State: 1  Genotype: 2 ; Beast State: 2  Genotype: 3 ; Beast State: 3  Genotype: 4 ; Beast State: 4  Genotype: 5 ; Beast State: 5  Genotype: 6 ; Beast State: 6  Genotype: 7 ; Beast State: 7  Genotype: 8 ; Beast State: 8  Genotype: 9 ; Beast State: 9 </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="ambiguityType" name="ambiguity" maxOccurs="unbounded" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> Genotype: 10 ; Beast State: 10 </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id"/>
+  </xs:complexType>
+  <xs:complexType name="dataTypeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="idref" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="sequenceType" mixed="true">
+    <xs:sequence>
+      <xs:element type="taxonType" name="taxon"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="alignmentType" mixed="true">
+    <xs:sequence>
+      <xs:element type="dataTypeType" name="dataType" minOccurs="0"/>
+      <xs:element type="sequenceType" name="sequence" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="ascertainedCharacterPatternsType">
+    <xs:sequence>
+      <xs:element type="alignmentType" name="alignment"/>
+      <xs:element type="stateType" name="state"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id"/>
+  </xs:complexType>
+  <xs:complexType name="parameterType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id" use="optional"/>
+        <xs:attribute type="xs:string" name="value" use="optional"/>
+        <xs:attribute type="xs:string" name="lower" use="optional"/>
+        <xs:attribute type="xs:string" name="upper" use="optional"/>
+        <xs:attribute type="xs:string" name="idref" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="populationSizeType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="growthRateType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="exponentialGrowthType" mixed="true">
+    <xs:sequence>
+      <xs:element type="populationSizeType" name="populationSize" minOccurs="0"/>
+      <xs:element type="growthRateType" name="growthRate" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="units" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="coalescentSimulatorType">
+    <xs:sequence>
+      <xs:element type="taxaType" name="taxa"/>
+      <xs:element type="exponentialGrowthType" name="exponentialGrowth"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id"/>
+  </xs:complexType>
+  <xs:complexType name="coalescentTreeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="idref"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="rootHeightType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="nodeHeightsType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="internalNodes" use="optional"/>
+    <xs:attribute type="xs:string" name="rootNode" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="treeModelType" mixed="true">
+    <xs:sequence>
+      <xs:element type="coalescentTreeType" name="coalescentTree" minOccurs="0"/>
+      <xs:element type="rootHeightType" name="rootHeight" minOccurs="0"/>
+      <xs:element type="nodeHeightsType" name="nodeHeights" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="modelType">
+    <xs:sequence>
+      <xs:element type="exponentialGrowthType" name="exponentialGrowth"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="populationTreeType">
+    <xs:sequence>
+      <xs:element type="treeModelType" name="treeModel"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="coalescentLikelihoodType" mixed="true">
+    <xs:sequence>
+      <xs:element type="modelType" name="model" minOccurs="0"/>
+      <xs:element type="populationTreeType" name="populationTree" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="rateType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="strictClockCenancestorBranchRatesType" mixed="true">
+    <xs:sequence>
+      <xs:element type="rateType" name="rate" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="frequenciesType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter" minOccurs="0"/>
+      <xs:element type="frequencyModelType" name="frequencyModel" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="frequencyModelType" mixed="true">
+    <xs:sequence>
+      <xs:element type="dataTypeType" name="dataType" minOccurs="0"/>
+      <xs:element type="frequenciesType" name="frequencies" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="gain_rateType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="relative_loss_rateType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AbsoluteCNAModelType" mixed="true">
+    <xs:sequence>
+      <xs:element type="frequenciesType" name="frequencies" minOccurs="0"/>
+      <xs:element type="gain_rateType" name="gain_rate" minOccurs="0"/>
+      <xs:element type="relative_loss_rateType" name="relative_loss_rate" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="substitutionModelType">
+    <xs:sequence>
+      <xs:element type="AbsoluteCNAModelType" name="AbsoluteCNAModel"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="siteModelType" mixed="true">
+    <xs:sequence>
+      <xs:element type="substitutionModelType" name="substitutionModel" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="patternsType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="idref"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="cenancestorHeightType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cenancestorBranchType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cenancestorTreeLikelihoodType" mixed="true">
+    <xs:sequence>
+      <xs:element type="patternsType" name="patterns" minOccurs="0"/>
+      <xs:element type="treeModelType" name="treeModel" minOccurs="0"/>
+      <xs:element type="siteModelType" name="siteModel" minOccurs="0"/>
+      <xs:element type="cenancestorHeightType" name="cenancestorHeight" minOccurs="0"/>
+      <xs:element type="cenancestorBranchType" name="cenancestorBranch" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> Value 1 as a safe starting value </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="strictClockCenancestorBranchRatesType" name="strictClockCenancestorBranchRates" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="useAmbiguities" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="scaleOperatorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> We operate the branch since it is relative to the root. Operating luca_height is error prone, since it depends on the root </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="scaleFactor" use="optional"/>
+    <xs:attribute type="xs:string" name="weight" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="subtreeSlideType">
+    <xs:sequence>
+      <xs:element type="treeModelType" name="treeModel">
+        <xs:annotation>
+          <xs:documentation> 2.5 years. They will be automatically optimized by BEAST though </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="size"/>
+    <xs:attribute type="xs:string" name="gaussian"/>
+    <xs:attribute type="xs:string" name="weight"/>
+  </xs:complexType>
+  <xs:complexType name="narrowExchangeType">
+    <xs:sequence>
+      <xs:element type="treeModelType" name="treeModel"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="weight"/>
+  </xs:complexType>
+  <xs:complexType name="wideExchangeType">
+    <xs:sequence>
+      <xs:element type="treeModelType" name="treeModel"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="weight"/>
+  </xs:complexType>
+  <xs:complexType name="wilsonBaldingType">
+    <xs:sequence>
+      <xs:element type="treeModelType" name="treeModel" minOccurs="0"/>
+      <xs:element type="parameterType" name="parameter" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> We operate the branch since it is relative to the root. Operating luca_height is error prone, since it depends on the root </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="weight" use="optional"/>
+    <xs:attribute type="xs:string" name="scaleFactor" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="uniformOperatorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> We operate the branch since it is relative to the root. Operating luca_height is error prone, since it depends on the root </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="weight" use="optional"/>
+    <xs:attribute type="xs:string" name="scaleFactor" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="randomWalkOperatorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="windowSize"/>
+    <xs:attribute type="xs:string" name="weight"/>
+  </xs:complexType>
+  <xs:complexType name="upType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="downType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="upDownOperatorType">
+    <xs:sequence>
+      <xs:element type="upType" name="up"/>
+      <xs:element type="downType" name="down">
+        <xs:annotation>
+          <xs:documentation> &lt;parameter idref="luca_branch"/> </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="scaleFactor"/>
+    <xs:attribute type="xs:string" name="weight"/>
+  </xs:complexType>
+  <xs:complexType name="operatorsType" mixed="true">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="scaleOperatorType" name="scaleOperator" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="subtreeSlideType" name="subtreeSlide"/>
+      <xs:element type="narrowExchangeType" name="narrowExchange"/>
+      <xs:element type="wideExchangeType" name="wideExchange"/>
+      <xs:element type="wilsonBaldingType" name="wilsonBalding"/>
+      <xs:element type="uniformOperatorType" name="uniformOperator"/>
+      <xs:element type="randomWalkOperatorType" name="randomWalkOperator"/>
+      <xs:element type="upDownOperatorType" name="upDownOperator"/>
+    </xs:choice>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="optimizationSchedule" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="oneOnXPriorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="laplacePriorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="mean"/>
+    <xs:attribute type="xs:string" name="scale"/>
+  </xs:complexType>
+  <xs:complexType name="logNormalPriorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="mean"/>
+    <xs:attribute type="xs:string" name="stdev"/>
+    <xs:attribute type="xs:string" name="offset"/>
+    <xs:attribute type="xs:string" name="meanInRealSpace"/>
+  </xs:complexType>
+  <xs:complexType name="exponentialPriorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="mean"/>
+    <xs:attribute type="xs:string" name="offset"/>
+  </xs:complexType>
+  <xs:complexType name="uniformPriorType">
+    <xs:sequence>
+      <xs:element type="parameterType" name="parameter"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="lower"/>
+    <xs:attribute type="xs:string" name="upper"/>
+  </xs:complexType>
+  <xs:complexType name="priorType" mixed="true">
+    <xs:sequence>
+      <xs:element type="coalescentLikelihoodType" name="coalescentLikelihood" minOccurs="0"/>
+      <xs:element type="oneOnXPriorType" name="oneOnXPrior" minOccurs="0"/>
+      <xs:element type="laplacePriorType" name="laplacePrior" minOccurs="0"/>
+      <xs:element type="logNormalPriorType" name="logNormalPrior" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> Clock (gain) Rate Prior. </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="exponentialPriorType" name="exponentialPrior" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> Loss (relative to gain) rate priors</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="uniformPriorType" name="uniformPrior" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> I could also use a gammaPrior to spread the weight more  Cenancestor Prior on the height, since it is easier to have a meaningfull prior on it (time of the initial development of the BE fragment) </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="likelihoodType" mixed="true">
+    <xs:sequence>
+      <xs:element type="cenancestorTreeLikelihoodType" name="cenancestorTreeLikelihood" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="posteriorType" mixed="true">
+    <xs:sequence>
+      <xs:element type="priorType" name="prior" minOccurs="0"/>
+      <xs:element type="likelihoodType" name="likelihood" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="columnType">
+    <xs:sequence>
+      <xs:element type="posteriorType" name="posterior" minOccurs="0"/>
+      <xs:element type="priorType" name="prior" minOccurs="0"/>
+      <xs:element type="likelihoodType" name="likelihood" minOccurs="0"/>
+      <xs:element type="parameterType" name="parameter" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="label" use="optional"/>
+    <xs:attribute type="xs:string" name="dp" use="optional"/>
+    <xs:attribute type="xs:string" name="width" use="optional"/>
+    <xs:attribute type="xs:string" name="sf" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="logType">
+    <xs:sequence>
+      <xs:element type="columnType" name="column" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="posteriorType" name="posterior" minOccurs="0"/>
+      <xs:element type="priorType" name="prior" minOccurs="0"/>
+      <xs:element type="likelihoodType" name="likelihood" minOccurs="0"/>
+      <xs:element type="parameterType" name="parameter" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="coalescentLikelihoodType" name="coalescentLikelihood" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="logEvery" use="optional"/>
+    <xs:attribute type="xs:string" name="fileName" use="optional"/>
+    <xs:attribute type="xs:string" name="overwrite" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="traitType">
+    <xs:sequence>
+      <xs:element type="strictClockCenancestorBranchRatesType" name="strictClockCenancestorBranchRates"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name"/>
+    <xs:attribute type="xs:string" name="tag"/>
+  </xs:complexType>
+  <xs:complexType name="logTreeType">
+    <xs:sequence>
+      <xs:element type="treeModelType" name="treeModel"/>
+      <xs:element type="traitType" name="trait"/>
+      <xs:element type="posteriorType" name="posterior"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id"/>
+    <xs:attribute type="xs:string" name="logEvery"/>
+    <xs:attribute type="xs:string" name="nexusFormat"/>
+    <xs:attribute type="xs:string" name="fileName"/>
+    <xs:attribute type="xs:string" name="sortTranslationTable"/>
+  </xs:complexType>
+  <xs:complexType name="mcmcType" mixed="true">
+    <xs:sequence>
+      <xs:element type="posteriorType" name="posterior" minOccurs="0"/>
+      <xs:element type="operatorsType" name="operators" minOccurs="0"/>
+      <xs:element type="logType" name="log" maxOccurs="unbounded" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> write log to screen                                                      write log to file                                                       </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="logTreeType" name="logTree" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation> write tree log to file                                                  </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="chainLength" use="optional"/>
+    <xs:attribute type="xs:string" name="autoOptimize" use="optional"/>
+    <xs:attribute type="xs:string" name="operatorAnalysis" use="optional"/>
+    <xs:attribute type="xs:string" name="idref" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="propertyType">
+    <xs:sequence>
+      <xs:element type="mcmcType" name="mcmc"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name"/>
+  </xs:complexType>
+  <xs:complexType name="reportType">
+    <xs:sequence>
+      <xs:element type="propertyType" name="property"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="beastType">
+    <xs:sequence>
+      <xs:element type="taxaType" name="taxa"/>
+      <xs:element type="generalDataTypeType" name="generalDataType"/>
+      <xs:element type="alignmentType" name="alignment"/>
+      <xs:element type="ascertainedCharacterPatternsType" name="ascertainedCharacterPatterns"/>
+      <xs:element type="exponentialGrowthType" name="exponentialGrowth">
+        <xs:annotation>
+          <xs:documentation> A prior assumption that the population size has remained EXPO        throughout the time spanned by the genealogy.                           </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="coalescentSimulatorType" name="coalescentSimulator">
+        <xs:annotation>
+          <xs:documentation> Generate a random starting tree under the coalescent process            </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="treeModelType" name="treeModel">
+        <xs:annotation>
+          <xs:documentation> Generate a tree model                                  </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="coalescentLikelihoodType" name="coalescentLikelihood">
+        <xs:annotation>
+          <xs:documentation> Generate a coalescent likelihood                                        </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="strictClockCenancestorBranchRatesType" name="strictClockCenancestorBranchRates">
+        <xs:annotation>
+          <xs:documentation> The strict clock (Uniform rates across branches)                        </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="frequencyModelType" name="frequencyModel"/>
+      <xs:element type="AbsoluteCNAModelType" name="AbsoluteCNAModel"/>
+      <xs:element type="siteModelType" name="siteModel"/>
+      <xs:element type="cenancestorTreeLikelihoodType" name="cenancestorTreeLikelihood"/>
+      <xs:element type="operatorsType" name="operators"/>
+      <xs:element type="mcmcType" name="mcmc">
+        <xs:annotation>
+          <xs:documentation> Define MCMC                                                             </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element type="reportType" name="report"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

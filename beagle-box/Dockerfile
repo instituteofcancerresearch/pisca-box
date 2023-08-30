@@ -1,15 +1,31 @@
+
 # install operating sustem and java 
-FROM python:3.12-rc-slim-bookworm
-#FROM python:3.12-rc
+
+######################################################################
+### either ###
+######################################################################
+#https://forums.developer.nvidia.com/t/unable-to-locate-package-cuda-command-line-tools-10-2-with-apt-get-when-building-docker-image-for-jetpack-4-6/187839
+ARG CUDA=10.2
+FROM nvcr.io/nvidia/l4t-cuda:10.2.460-runtime
+ARG CUDA
+RUN apt-get update -y
+RUN apt-get install -y cuda
+######################################################################
+### or ###
+######################################################################
+#FROM python:3.12-rc-slim-bookworm
+######################################################################
 
 WORKDIR /project
 COPY . /project
 
 # Install software 
 RUN apt-get update -y
-RUN apt-get install -y openssh-client
-RUN apt-get install -y wget
-RUN apt-get install -y git
+RUN apt-get install -y openssh-client wget git software-properties-common cmake build-essential autoconf automake libtool pkg-config 
+RUN apt-get update -y
+RUN apt-get install -y  cuda
+RUN apt-get update -y
+
 
 ENV JAVA_HOME=/project/jdk-20.0.2
 ENV PATH=$JAVA_HOME/bin:$PATH
@@ -33,15 +49,16 @@ RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
 
 ## INSTALL CUDA GPU SUPPORT
 # https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Debian&target_version=10&target_type=deb_network
+RUN apt-get update -y
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/cuda-keyring_1.1-1_all.deb
 RUN dpkg -i cuda-keyring_1.1-1_all.deb
 RUN add-apt-repository contrib
-RUN apt-get update
-RUN apt-get -y install cuda
-
+#RUN apt-get install -y cuda
+#RUN apt-get update -y
 ## INSTALL BEAGLE
 #RUN apt-get install cmake build-essential autoconf automake libtool git pkg-config openjdk-11-jdk
-RUN apt-get install cmake build-essential autoconf automake libtool git pkg-config
+
+RUN apt-get update -y
 RUN git clone --depth=1 https://github.com/beagle-dev/beagle-lib.git
 RUN cd beagle-lib
 RUN mkdir build

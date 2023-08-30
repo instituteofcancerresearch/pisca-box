@@ -1,10 +1,11 @@
 
 class XmlWriter(object):
-    def __init__(self,fasta,mcmc,lucas,clock):        
+    def __init__(self,fasta,mcmc,lucas,clock,demographic):        
         self.fasta = fasta
         self.mcmc = mcmc
         self.lucas = lucas
         self.clock = clock
+        self.demographic = demographic
         
     ### PUBLIC INTERFACE #########
     def get_xml(self):
