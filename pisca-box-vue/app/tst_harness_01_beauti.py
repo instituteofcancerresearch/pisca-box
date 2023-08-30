@@ -51,12 +51,13 @@ import cls_mcmc as mc
 import pandas as pd
 
 csv_dates = pd.data = pd.read_csv("~/dev/beast-icr/xml/belle_dates.csv")
+lucas = (1,2,3,4,5,6)
+demographic = "constant size"
+clock = "random local clock"
 
 fasta = fa.Fasta(fasta_string,csv_dates)
-mcmc = mc.MCMC(fasta_string)
-lucas = (1,2,3,4,5,6)
-
-xmlwriter = xml.XmlWriter(fasta,mcmc,lucas)            
+mcmc = mc.MCMC("name",1002, 110,clock)                                    
+xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic)            
 
 tst_xml = xmlwriter.get_xml()
 print(tst_xml)

@@ -9,7 +9,7 @@ import streamlit.components.v1 as components
     #    mime='text/xml',
     #)
 
-def get_saveas(xml):
+def get_saveas(xml,nam):
     
             
     js = (
@@ -21,7 +21,9 @@ def get_saveas(xml):
             async function run() {
                 console.log("Running")
             const handle = await showSaveFilePicker({
-                suggestedName: 'my_xml.xml',
+                """
+                 + f"suggestedName: '{nam}.xml',"
+                 +"""
                 types: [{
                     description: 'CSV Data',
                     accept: {'text/plain': ['.xml']},

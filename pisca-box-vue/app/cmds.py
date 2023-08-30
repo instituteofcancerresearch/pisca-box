@@ -2,9 +2,28 @@ import subprocess
 import time
 import os
 
-DOCKER_SOURCE_DIR = "/project/xml"
-DOCKER_EXE = "/project/BEASTv1.8.4/bin/beast"
+#DOCKER_SOURCE_DIR = "/project/xml"
+#DOCKER_EXE = "/project/BEASTv1.8.4/bin/beast"
+VERSION = "0.0.2"
 
+def run_validation(dirs):
+    """Run validation command."""    
+    print("listing files...")
+    result01 = "Current: " + subprocess.run(["ls","-l"],stdout=subprocess.PIPE).stdout.decode('utf-8')
+    #result02 = ""
+    #for dir in dirs:
+    #    result = subprocess.run(["ls",dir,"-l"],stdout=subprocess.PIPE)
+    #    result02 = dir + ":" + result.stdout.decode('utf-8') + "\n"
+    #result03 = "java:" + subprocess.run(["java","-version"],stdout=subprocess.PIPE).stdout.decode('utf-8')
+    result04 = "pwd:" + subprocess.run(["pwd"],stdout=subprocess.PIPE).stdout.decode('utf-8')
+    
+    #return f"{result01}\n{result02}\n{result03}\n{result04}"
+    return f"{result01}\n{result04}"
+
+def get_logs(big_string):
+    
+    return "validation.log","validation.ops", "validation.trees"
+            
 def rename_logs(working_dir):
     #copy everything in tmp to pisca    
     try:        
@@ -17,6 +36,7 @@ def rename_logs(working_dir):
     
                 
 def run_beast(params):    
+    print("Welcome to pisca-box version " + VERSION)
     print("starting pisca-box call to beast...")    
     #if not TEST_MODE:
     #rename_logs(working_dir)
@@ -57,9 +77,10 @@ def run_beast(params):
         rc = result.poll()             
         print("##########################################")
         print("...completed pisca-box")
-        return ""
+        return "done"
     except Exception as e:
         print(str(e))
+        return "failed"
     
 
 

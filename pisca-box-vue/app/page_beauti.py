@@ -16,45 +16,46 @@ def add_widgets():
     
     #cfa = st.container()
     fa_dates = None
+    uploaded_dates = None
     fa_data = ""   
     with st.container():
         st.subheader("Alignment")
-        #col1, col2 = st.columns(2)
-        with st.container():
-        #with col1:            
+        col1, col2 = st.columns(2)
+        #with st.container():
+        with col1:            
             uploaded_file = st.file_uploader("Select fasta file",type=['fasta','fa'])                            
             if uploaded_file is not None:
                 fa_data = StringIO(uploaded_file.getvalue().decode("utf-8")).read()        
-                #with st.expander("expand fasta file to view"):
-                #    st.code(fa_data)                
+                with st.expander("expand fasta file to view"):
+                    st.code(fa_data)                
         #with st.container():
-        #with col2:
-            #if uploaded_file is not None:
-            #    uploaded_dates = st.file_uploader("Select dates file",type=['csv'])                            
-            #    if uploaded_dates is not None:
-            #        fa_dates = pd.read_csv(uploaded_dates)
-            #        #fa_dates = StringIO(uploaded_dates.getvalue().decode("utf-8")).read()
-            #        with st.expander("expand dates file to view"):
-            #            st.write(fa_dates)
+        with col2:
+            if uploaded_file is not None:
+                uploaded_dates = st.file_uploader("Select dates file",type=['csv'])                            
+                if uploaded_dates is not None:
+                    fa_dates = pd.read_csv(uploaded_dates)
+                    #fa_dates = StringIO(uploaded_dates.getvalue().decode("utf-8")).read()
+                    with st.expander("expand dates file to view"):
+                        st.write(fa_dates)
     
-    if uploaded_file is not None:
+    if uploaded_dates is not None:
         
-        tabAlign,tabDates, tabClock, tabLuca, tabTrees, tabGenerate = st.tabs(["alignment","dates","clock","luca","trees","generate xml"])
-        
-        ### ALIGN ########################################################
-        with tabAlign:
-            st.subheader("Alignment file viewer")        
-            with st.expander("expand fasta file to view"):
-                st.code(fa_data)                
+        ### ALIGN ########################################################        
+        #st.subheader("Alignment file viewer")        
+        #with st.expander("expand fasta file to view"):
+        #    st.code(fa_data)                
                 
-        ### DATES ########################################################
-        with tabDates:
-            st.subheader("Alignment dates")        
-            uploaded_dates = st.file_uploader("Select dates file",type=['csv'])                            
-            if uploaded_dates is not None:
-                fa_dates = pd.read_csv(uploaded_dates)                    
-                with st.expander("expand dates file to view"):
-                    st.write(fa_dates)
+        ### DATES ########################################################        
+        #st.subheader("Alignment dates")        
+        #uploaded_dates = st.file_uploader("Select dates file",type=['csv'])                            
+        #if uploaded_dates is not None:
+        #    fa_dates = pd.read_csv(uploaded_dates)                    
+        #    with st.expander("expand dates file to view"):
+        #        st.write(fa_dates)
+        
+        
+        tabClock, tabLuca, tabTrees, tabMcmc,tabPisca,tabGenerate = st.tabs(["clock","luca","trees","mcmc","pisca","generate xml"])
+        
                                                             
         ### CLOCK ########################################################
         with tabClock:
@@ -88,22 +89,35 @@ def add_widgets():
             st.subheader("Demographic model")
             demographic = st.radio('Select demographic model:', ["constant size", "exponential growth"],key="dem")                    
             
+        with tabMcmc:
+            st.subheader("MCMC model")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                name = st.text_input("Enter name",value="my_pisca")
+            with col2:
+                chain_length = st.number_input(label="Chain length",value=2500)
+            with col3:
+                log_every = st.number_input(label="Log every",value=250)
+                
+        with tabPisca:
+            datatype = st.radio('Select pisca datatype:', ["cnv", "acna"],key="pisca")
+            
     
         ### GENERATE #############################################################             
         with tabGenerate:
             st.write("#### :checkered_flag: Check and save xml")        
             ################################################################                                                          
             fasta = fa.Fasta(fa_data,fa_dates)
-            mcmc = mc.MCMC("name")        
-            xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic)
+            mcmc = mc.MCMC(name,chain_length, log_every,clock)        
+            xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic,datatype)
             
-            tst_xml = xmlwriter.get_xml()
+            my_xml = xmlwriter.get_xml()            
             with st.expander("View generated xml"):
-                st.code(tst_xml)        
-            my_xml = xg.get_base_xml("","")
-            with st.expander("View fixed xml to save"):
                 st.code(my_xml)        
+            tst_xml = xg.get_base_xml("","")
+            with st.expander("View fixed xml"):
+                st.code(tst_xml)        
             ################################################################                                                          
-            js = widgets.get_saveas(my_xml)
+            js = widgets.get_saveas(my_xml,name)
             components.html(js, height=30)
                 

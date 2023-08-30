@@ -52,7 +52,27 @@ def add_widgets():
                     if pm not in params and len(pm) > 2:
                         params.append(pm)
                 with st_capture(output.code):
-                    cmd.run_beast(params)
+                    ret  = cmd.run_beast(params)
+                    str = cmd.run_validation(["/project","/project/xml","/mnt"])
+                    print(str)                    
+                    if ret == "done":
+                        flog,fops,ftree = cmd.get_logs()
+                        print(flog,fops,ftree)
+                        with open(fops) as f:
+                            ops_str = f.read()
+                        with open(ftree) as f:
+                            tree_str = f.read()
+                        with open(flog) as f:
+                            log_str = f.read()
+                    with st.expander("view ops file"):
+                        st.code(ops_str)                
+                    with st.expander("view tree file"):
+                        st.code(tree_str)                
+                    with st.expander("view log file"):
+                        st.code(log_str)                
+                    
+                        
+                        
         else:
             st.error(f"{full_file_name} is not a valid file, please check the working directory")
             result = subprocess.run(["ls","-l"],stdout=subprocess.PIPE)

@@ -14,14 +14,15 @@ class Fasta(object):
     def get_fasta_taxa(self):
         return self._make_taxa()
     
-    def get_fasta_alignment(self):
-        return self._make_alignment()
+    def get_fasta_alignment(self,datatype):
+        return self._make_alignment(datatype)
     
     ### PRIVATE HELPERS ######### 
     
     def _convert_to_dict(self):
-        self.dic_id_seq = {}
+        self.dic_id_seq = {}        
         self.dic_id_dates = {}
+        self.dic_id_tips = {}
         
         ls_string = self.big_string.split(">")
         for id_seq in ls_string:
@@ -41,8 +42,10 @@ class Fasta(object):
                 tip = row[cols[3]]  
                 loc = row[cols[4]]
                 cpt = row[cols[5]]
-                if id in self.dic_id_seq:
-                    self.dic_id_dates[id] = (dat,dec,tip,loc,cpt)
+                #if id in self.dic_id_seq:
+                self.dic_id_dates[id] = (dat,dec,tip,loc,cpt)
+                self.dic_id_tips[tip] = (dat,dec,id,loc,cpt)
+                    
             
             #print(self.dic_id_dates)
                 
@@ -63,7 +66,11 @@ class Fasta(object):
         for id,seq in self.dic_id_seq.items():
             dat,dec,tip,loc,cpt = "?","?","?","?","?"
             if id in self.dic_id_dates:
-                dat,dec,tip,loc,cpt = self.dic_id_dates[id]                
+                dat,dec,tip,loc,cpt = self.dic_id_dates[id]        
+            elif id in self.dic_id_tips:
+                dat,dec,id2,loc,cpt = self.dic_id_tips[id]        
+            else:
+                print(f"Warning: {id} not found in dates file")
             taxa += self._make_a_taxon(id,dec,cpt)
         taxa += '</taxa>\n'
         return taxa
@@ -76,10 +83,11 @@ class Fasta(object):
         return seqstr
      
     
-    def _make_alignment(self):
+    def _make_alignment(self,datatype):
         #<alignment id="alignment">
 	    #<dataType idref="cnv"/>
         algn = '<alignment id="alignment">\n'
+        algn += f'\t<dataType idref="{datatype}"/>\n'
         for id,seq in self.dic_id_seq.items():
             algn += self._make_a_sequence(id,seq)
         algn += '</alignment>\n'
