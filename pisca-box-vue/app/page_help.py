@@ -28,7 +28,7 @@ def add_widgets():
     st.code("""
             docker pull rachelicr/pisca-box
             docker run rachelicr/pisca-box validate            
-            docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box testStrictClock.xml
+            docker run -v ~/dev/beast-icr/xml:/mnt rachelicr/pisca-box testStrictClock.xml
             """)
     
     
@@ -36,7 +36,7 @@ def add_widgets():
     st.code("""
             singularity pull docker://rachelicr/pisca-box
             singularity run docker://rachelicr/pisca-box validate            
-            singularity run -B ~/dev/beast-icr/xml:/project/xml docker://rachelicr/pisca-box testStrictClock.xml
+            singularity run -B ~/dev/beast-icr/xml:/mnt docker://rachelicr/pisca-box testStrictClock.xml
             """)
     
     with st.expander("All the beast command-line inputs"):
