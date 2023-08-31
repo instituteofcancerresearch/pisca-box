@@ -6,6 +6,9 @@ from io import StringIO
 from time import sleep
 #import cmds_tst as cmd
 import cmds as cmd
+import pandas as pd
+import widgets
+import streamlit.components.v1 as components
 
 IS_TEST = False
 
@@ -51,25 +54,45 @@ def add_widgets():
                 for pm in params2:
                     if pm not in params and len(pm) > 2:
                         params.append(pm)
+                ret = ""
+                
                 with st_capture(output.code):
                     ret  = cmd.run_beast(params)
-                    str = cmd.run_validation(["/project","/project/xml","/mnt"])
-                    print(str)                    
-                    if ret == "done":
-                        flog,fops,ftree = cmd.get_logs()
-                        print(flog,fops,ftree)
+                    #str = cmd.run_validation(["/project","/project/xml","/mnt"])
+                    #print(str)                    
+                if ret == "done":                        
+                    flog = cmd.get_logs(string_data,".log")
+                    fops = cmd.get_logs(string_data,".ops")
+                    ftree = cmd.get_logs(string_data,".trees")
+                    
+                    if os.path.isfile(fops):
                         with open(fops) as f:
                             ops_str = f.read()
+                    if os.path.isfile(ftree):
                         with open(ftree) as f:
                             tree_str = f.read()
+                    if os.path.isfile(flog):
                         with open(flog) as f:
                             log_str = f.read()
-                    with st.expander("view ops file"):
-                        st.code(ops_str)                
-                    with st.expander("view tree file"):
-                        st.code(tree_str)                
-                    with st.expander("view log file"):
-                        st.code(log_str)                
+                    log_csv = pd.read_csv(flog,sep="\t",header=3)
+                                                                
+                nm,ext = fops.split(".")
+                js = widgets.get_saveas(ops_str,nm,ext,"Save ops")
+                components.html(js, height=30)                                                                            
+                with st.expander(f"view ops file {fops}"):                                        
+                    st.code(ops_str)
+                
+                nm,ext = ftree.split(".")
+                js = widgets.get_saveas(tree_str,nm,ext,"Save tree")
+                components.html(js, height=30)                
+                with st.expander(f"view tree file {ftree}"):                                        
+                    st.code(tree_str)
+                
+                nm,ext = flog.split(".")
+                js = widgets.get_saveas(log_str,nm,ext,"Save log")
+                components.html(js, height=30)   
+                with st.expander(f"view log file {flog}"):                                        
+                    st.write(log_csv)
                     
                         
                         
