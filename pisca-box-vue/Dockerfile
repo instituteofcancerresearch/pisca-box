@@ -48,15 +48,25 @@ RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
 # make a dir for the tmp files
 RUN mkdir /project/xml
 
-#RUN --mount=type=cache,target=/root/.cache/pip \
-#    --mount=type=bind,source=requirements.txt,target=requirements.txt \
+
+# install R packages
+#https://support.bioconductor.org/p/p134101/
+#https://stackoverflow.com/questions/45244387/install-r-in-docker-image
+#RUN apt-get update -y && apt-get install -y r-base
+# Docker inheritance
+#FROM bioconductor/bioconductor_docker:devel
+#RUN R -e 'install.packages("BiocManager")'
+#RUN R -e 'BiocManager::install(version="devel")''
+#RUN R -e 'BiocManager::install(ask = F)' && R -e 'BiocManager::install(c("treeio","ggtree", "HDInterval", "lubridate", ask = F))'
+# install renv & restore packages
+#RUN R -e "install.packages('data.table',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+#RUN R -e "install.packages('ggplot2',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+#RUN R -e "install.packages('cowplot',dependencies=TRUE, repos='http://cran.rstudio.com/')" 
+
+# install python packages
+RUN apt-get update -y
 RUN python -m pip install -r requirements.txt
 
-# Switch to the non-privileged user to run the application.
-#USER appuser
-# Copy the source code into the container.
-#COPY . .
-# Expose the port that the application listens on.
 EXPOSE 8501
 COPY . .
 ####### Commands to run python application #######################

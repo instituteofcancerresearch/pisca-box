@@ -10,6 +10,8 @@ import cls_fasta as fa
 import cls_mcmc as mc
 from contextlib import contextmanager, redirect_stdout, redirect_stderr
 import cmds as cmd
+from plotnine import *
+from plotnine.data import mtcars
 
 #https://dev.to/chrisgreening/complete-list-of-markdown-emojis-for-your-blog-posts-and-readme-s-164j
 
@@ -31,7 +33,7 @@ def add_widgets():
     log_out = None
     tree_out = None
                 
-    st.subheader("Phylogenetic tree")
+    st.subheader("Pisca outputs -> tree visualisation")
     col1, col2 = st.columns(2)    
     with col1:            
         uploaded_file = st.file_uploader("Select log file",type=['log','log'])                            
@@ -46,10 +48,10 @@ def add_widgets():
             with st.expander("expand tree file to view"):
                 st.code(tree_out)
     
+    ret = ""
     if log_out is not None and tree_out is not None:
-        st.subheader("Plot phylogenetic tree")
-        burnin = st.number_input(label="burnin",value=100)
-        ret = ""
+        st.subheader("Annotate tree")
+        burnin = st.number_input(label="burnin",value=100)        
         if st.button('run tree-annotation'):                        
             output = st.empty()            
             with st_capture(output.code):
@@ -63,7 +65,18 @@ def add_widgets():
                     st.code(new_tree)
                 
                 with open("tmp.log", "w") as text_file:
-                    text_file.write(log_out)
-                log_csv = pd.read_csv("tmp.log",sep="\t",header=3)
+                    text_file.write(log_out)                
+                
+                #log_csv = pd.read_csv("tmp.log",sep="\t",header=3)
+                js = widgets.get_saveas(log_out,"annotated","trees","Save annotated tree")
+                components.html(js, height=30)                
+                
+                
+    
+        st.subheader("Plot phylogenetic tree")
+        #if st.button('plot tree',disabled=ret!="done"):
+        #    output2 = st.empty()
+        #    with st_capture(output2.code):
+        #        ret2 = cmd.run_r_script()
                                 
         

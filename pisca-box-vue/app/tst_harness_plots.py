@@ -10,7 +10,7 @@ import re
 import numpy as np
 #import networkx as nx
 import matplotlib.pyplot as plt
-from graph_tool.all import *
+#from graph_tool.all import *
 
 
 parser = argparse.ArgumentParser()
@@ -32,6 +32,9 @@ parser.add_argument('--noRootInfo', '-nRI', dest='plotRoot', action='store_false
 parser.set_defaults(plotRoot=True)
 
 args = parser.parse_args()
+args.inputF = "/home/ralcraft/dev/beast-icr/plot/validation.anno.trees"
+args.outputF = "/home/ralcraft/dev/beast-icr/plot/out.trees"
+
 
 
 if(args.inputF=="" or args.outputF==""):

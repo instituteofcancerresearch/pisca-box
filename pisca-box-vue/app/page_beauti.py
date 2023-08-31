@@ -114,9 +114,9 @@ def add_widgets():
             my_xml = xmlwriter.get_xml()            
             with st.expander("View generated xml"):
                 st.code(my_xml)        
-            tst_xml = xg.get_base_xml("","")
-            with st.expander("View fixed xml"):
-                st.code(tst_xml)        
+            #tst_xml = xg.get_base_xml("","")
+            #with st.expander("View fixed xml"):
+            #    st.code(tst_xml)        
             ################################################################                                                          
             js = widgets.get_saveas(my_xml,name)
             components.html(js, height=30)

@@ -6,6 +6,45 @@ import os
 #DOCKER_EXE = "/project/BEASTv1.8.4/bin/beast"
 VERSION = "0.0.2"
 
+def cmd_runner_with_wait(params):
+    result = subprocess.Popen(params,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=False)
+    error_msg = False                      
+    # Wait until process terminates
+    while result.poll() is None:                    
+        output = result.stdout.readline()            
+        if not output :
+            print("...waiting for beast to finish...")
+        else:
+            while output:
+                print(output.strip().decode('utf-8'))
+                output  = result.stdout.readline()                                                                                
+        
+        error = result.stderr.readline()
+        while error:
+                if not error_msg:
+                    print("##########################################")
+                    print("Additional messages found:")
+                    error_msg = True                                        
+                print("#",error.strip().decode('utf-8'))
+                error  = result.stderr.readline()                                                                                
+        time.sleep(0.1)    
+    output  = result.stdout.readline()            
+    if output :
+        print(output.strip().decode('utf-8'))                                        
+    rc = result.poll()             
+    print("##########################################")
+    print("...completed pisca-box")
+    return "done"
+
+
+def run_r_script():
+    #script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_test.R"
+    script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_plot_tree.R"
+    ret= cmd_runner_with_wait(["chmod","+x",script])
+    params = [script]
+    return cmd_runner_with_wait(params)
+    
+
 def run_validation(dirs):
     """Run validation command."""    
     print("listing files...")
@@ -49,47 +88,11 @@ def rename_logs(working_dir):
                 
 def run_beast(params):    
     print("Welcome to pisca-box version " + VERSION)
-    print("starting pisca-box call to beast...")    
-    #if not TEST_MODE:
-    #rename_logs(working_dir)
-    try:                        
-        #docker = not TEST_MODE
-        #if docker:# DOCKER VERSION
-        #    params.insert(0,DOCKER_EXE)            
-        #    result = subprocess.Popen(params,stdout=subprocess.PIPE,shell=False)                
-        #else: # LOCAL VERSION for testing
+    print("starting pisca-box call to beast...")        
+    try:                                
         params.insert(0,"beast")                                             
         print(params)
-        result = subprocess.Popen(params,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=False)
-        error_msg = False                  
-        
-        # Wait until process terminates
-        while result.poll() is None:                    
-            output = result.stdout.readline()            
-            if not output :
-                print("...waiting for beast to finish...")
-            else:
-                while output:
-                    print(output.strip().decode('utf-8'))
-                    output  = result.stdout.readline()                                                                                
-            
-            error = result.stderr.readline()
-            while error:
-                    if not error_msg:
-                        print("##########################################")
-                        print("Additional messages found:")
-                        error_msg = True                                        
-                    print("#",error.strip().decode('utf-8'))
-                    error  = result.stderr.readline()                                                                                
-            time.sleep(0.1)
-        
-        output  = result.stdout.readline()            
-        if output :
-            print(output.strip().decode('utf-8'))                                        
-        rc = result.poll()             
-        print("##########################################")
-        print("...completed pisca-box")
-        return "done"
+        return cmd_runner_with_wait(params)                
     except Exception as e:
         print(str(e))
         return "failed"
@@ -101,43 +104,12 @@ def run_tree(log_str, tree_str, burnin,output_file):
     try:                                
         #treeannotator -burnin 5000000 pisca.run.trees output.mcc.tree
         with open("pisca.run.trees", "w") as text_file:
-            text_file.write(tree_str)
-            
+            text_file.write(tree_str)            
         with open(output_file, "w") as text_file:
-            text_file.write("")
-            
+            text_file.write("")            
         params = ["treeannotator","-burnin",str(burnin), "pisca.run.trees",output_file]        
         print(params)
-        result = subprocess.Popen(params,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=False)
-        error_msg = False                  
-        
-        # Wait until process terminates
-        while result.poll() is None:                    
-            output = result.stdout.readline()            
-            if not output :
-                print("...waiting for beast to finish...")
-            else:
-                while output:
-                    print(output.strip().decode('utf-8'))
-                    output  = result.stdout.readline()                                                                                
-            
-            error = result.stderr.readline()
-            while error:
-                    if not error_msg:
-                        print("##########################################")
-                        print("Additional messages found:")
-                        error_msg = True                                        
-                    print("#",error.strip().decode('utf-8'))
-                    error  = result.stderr.readline()                                                                                
-            time.sleep(0.1)
-        
-        output  = result.stdout.readline()            
-        if output :
-            print(output.strip().decode('utf-8'))                                        
-        rc = result.poll()             
-        print("##########################################")
-        print("...completed pisca-box")
-        return "done"
+        return cmd_runner_with_wait(params)        
     except Exception as e:
         print(str(e))
         return "failed"

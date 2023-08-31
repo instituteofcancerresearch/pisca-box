@@ -93,9 +93,7 @@ def add_widgets():
                 components.html(js, height=30)   
                 with st.expander(f"view log file {flog}"):                                        
                     st.write(log_csv)
-                    
-                        
-                        
+                                                                    
         else:
             st.error(f"{full_file_name} is not a valid file, please check the working directory")
             result = subprocess.run(["ls","-l"],stdout=subprocess.PIPE)
