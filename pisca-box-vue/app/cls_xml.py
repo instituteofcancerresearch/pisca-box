@@ -15,7 +15,7 @@ class XmlWriter(object):
         xml += self.fasta.get_fasta_taxa()        
         xml += self._get_general_datatype(self.datatype)
         xml += self.fasta.get_fasta_alignment(self.datatype)
-        xml += self._get_character_patterns()
+        xml += self._get_character_patterns(self.datatype)
         if self.demographic == "constant size":
             xml += self._get_constant_size()
             xml += self._get_coalescent_simulator("constant")
@@ -107,11 +107,14 @@ class XmlWriter(object):
         ftr += "</beast>"        
         return ftr
     #----------------------------------
-    def _get_character_patterns(self):
+    def _get_character_patterns(self,datatype):
+        state = "H"
+        if datatype == "acna":
+            state = "B"
         pat = ""
         pat += '<ascertainedCharacterPatterns id="patterns">\n'
         pat += '\t<alignment idref="alignment"/>\n'
-        pat += '\t<state code="H"/>\n'
+        pat += f'\t<state code="{state}"/>\n'
         pat += '</ascertainedCharacterPatterns>\n'
         return pat
     #----------------------------------

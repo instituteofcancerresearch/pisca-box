@@ -52,12 +52,13 @@ RUN mkdir /project/xml
 # install R packages
 #https://support.bioconductor.org/p/p134101/
 #https://stackoverflow.com/questions/45244387/install-r-in-docker-image
-#RUN apt-get update -y && apt-get install -y r-base
+#RUN apt-get update -y 
+#RUN apt-get install -y r-base
 # Docker inheritance
-#FROM bioconductor/bioconductor_docker:devel
+#FROM bioconductor/bioconductor_docker:devel as dev
 #RUN R -e 'install.packages("BiocManager")'
-#RUN R -e 'BiocManager::install(version="devel")''
-#RUN R -e 'BiocManager::install(ask = F)' && R -e 'BiocManager::install(c("treeio","ggtree", "HDInterval", "lubridate", ask = F))'
+#RUN R -e "BiocManager::install(version='devel')"
+#RUN R -e 'BiocManager::install(c("treeio","ggtree", "HDInterval", "lubridate", ask = F))'
 # install renv & restore packages
 #RUN R -e "install.packages('data.table',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 #RUN R -e "install.packages('ggplot2',dependencies=TRUE, repos='http://cran.rstudio.com/')"

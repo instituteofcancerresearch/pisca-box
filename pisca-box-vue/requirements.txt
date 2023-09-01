@@ -1,3 +1,6 @@
 streamlit
 matplotlib
-plotnine
+biopython
+Graphviz
+pydot
+NetworkX

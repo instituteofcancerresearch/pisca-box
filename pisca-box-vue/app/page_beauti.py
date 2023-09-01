@@ -120,4 +120,6 @@ def add_widgets():
             ################################################################                                                          
             js = widgets.get_saveas(my_xml,name)
             components.html(js, height=30)
+            
+            #st.download_button(label="Save xml file",data=my_xml,file_name=f"{name}.xml",mime='text/xml')
                 

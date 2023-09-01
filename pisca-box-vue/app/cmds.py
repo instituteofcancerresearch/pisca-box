@@ -98,7 +98,7 @@ def run_beast(params):
         return "failed"
     
 
-def run_tree(log_str, tree_str, burnin,output_file):
+def run_tree(tree_str, burnin,output_file):
     print("Welcome to pisca-box version " + VERSION)
     print("starting pisca-box call to treeannotator...")        
     try:                                
