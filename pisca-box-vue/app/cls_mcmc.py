@@ -94,17 +94,20 @@ class MCMC(object):
         mcmc += f'{tab3}<parameter idref="luca_branch"/>\n'                
         mcmc += f'{tab3}<parameter idref="clock.rate"/>\n'
         mcmc += f'{tab3}<coalescentLikelihood idref="coalescent"/>\n'        
-        if self.clock == "random local clock":
+        if demographic == "exponential growth":
             mcmc += f'{tab3}<parameter idref="exponential.popSize"/>\n'
             mcmc += f'{tab3}<parameter idref="exponential.growthRate"/>\n'
+        elif demographic == "constant size":
+            mcmc += f'{tab3}<parameter idref="constant.popSize"/>\n'
+        if self.clock == "random local clock":            
             mcmc += f'{tab3}<parameter idref="localClock.relativeRates"/>\n'
             mcmc += f'{tab3}<parameter idref="localClock.changes"/>\n'
             mcmc += f'{tab3}<statistic idref="rateChanges"/>\n'
             mcmc += f'{tab3}<rateStatisticCenancestor idref="coefficientOfVariation"/>\n'
             mcmc += f'{tab3}<rateCovarianceStatistic idref="covariance"/>\n'
             mcmc += f'{tab3}<rateStatisticCenancestor idref="cenancestorRate"/>\n'
-        elif self.clock == "strict clock":
-            mcmc += f'{tab3}<parameter idref="constant.popSize"/>\n'
+        
+            
         mcmc += f'{tab2}</log>\n'
 
         mcmc += f'{tab2}<!-- write tree log to file   -->\n'
