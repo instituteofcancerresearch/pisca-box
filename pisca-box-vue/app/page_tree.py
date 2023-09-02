@@ -28,82 +28,216 @@ def st_capture(output_func):
         stdout.write = new_write
         yield
         
-def add_widgets():            
+
+def do_plot(internal_tree_file,opts):    
+    tree = Phylo.read(internal_tree_file, "phyloxml")                                    
+    if opts == "Pink":                           
+        tree.get_nonterminals()[0].color = '#D71AB9'
+        for clade in tree.get_terminals():
+            if clade.branch_length < 0.3:
+                clade.color = '#A571CC'
+            elif clade.branch_length < 0.6:
+                clade.color = '#EFA6C6'
+            else:
+                clade.color = '#D71A6F'                                                            
+    tree.ladderize()  # Flip branches so deeper clades are displayed at top
+    st.set_option('deprecation.showPyplotGlobalUse', False)                                
+    fig = plt.figure(figsize=(10, 20), dpi=100)
+    axes = fig.add_subplot(1, 1, 1)    
+    #axes.set_title("Phylogenetic tree from pisca-box")
+    #axes.text(0.5, 0.99, "Phylogenetic tree from pisca-box", horizontalalignment='center', verticalalignment='center', transform=axes.transAxes, fontsize=12)
+    st.pyplot(Phylo.draw(tree,axes=axes,show_confidence=True))
     
-    tree_out = None
-    uploaded_file_ano = None
-    uploaded_file = None
-                
-    st.subheader("Pisca outputs -> tree visualisation")
-    tab1,tab2 = st.tabs(["Load annotated tree","Annotate tree"])
-    with tab1:
-        uploaded_file_ano = st.file_uploader("Select annotated tree file",type=['anotated trees','trees'])                            
-        if uploaded_file_ano is not None:            
-            tree_out = StringIO(uploaded_file_ano.getvalue().decode("utf-8")).read()
-            #print(tree_out)
-            with open("out.trees","w") as fw:
-                fw.write(tree_out)
-          
-    with tab2:                        
-        uploaded_file = st.file_uploader("Select tree file",type=['trees','trees'])                            
-        if uploaded_file is not None:            
-            tree_in = StringIO(uploaded_file.getvalue().decode("utf-8")).read()            
-            with open("in.trees","w") as fw:
-                fw.write(tree_in)
-            burnin = st.number_input(label="burnin",value=100)        
-            if st.button('run tree-annotation'):
-                output = st.empty()            
-                with st_capture(output.code):
-                    ret  = cmd.run_tree(tree_in,burnin,"out.trees")                    
-                    if os.path.isfile("out.trees"):
-                        with open("out.trees") as f:
-                            tree_out = f.read()                
-                                                                                                                      
-    if os.path.isfile("out.trees") and (uploaded_file_ano is not None or uploaded_file is not None):
+def remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig):    
+    if os.path.isfile(internal_tree_file_xml):
+        os.remove(internal_tree_file_xml)
+    if os.path.isfile(internal_out_file_ano):
+        os.remove(internal_out_file_ano)
+    if os.path.isfile(internal_in_file):
+        os.remove(internal_in_file)
+    if os.path.isfile(internal_tree_file_orig):
+        os.remove(internal_tree_file_orig)
+    if os.path.isfile(internal_out_file_orig):
+        os.remove(internal_out_file_orig)
+    
+
+def show_b4_plot(file_type,tree_xml,tree_out,tree_in,tree_xml_orig,tree_out_orig):
+    
+    if file_type == "tree":
+        if tree_in is not None:
+            with st.expander("original tree file - expand to view"):
+                st.code(tree_in)
+        if tree_out_orig is not None:
+            with st.expander("annotated tree file - expand to view"):
+                st.code(tree_out_orig)
+        if tree_xml_orig is not None:
+            with st.expander("phyloxml conversion - expand to view"):
+                st.code(tree_xml_orig)
+    if file_type != "phyloxml" and tree_out is not None :
         with st.expander("annotated tree file - expand to view"):
-            st.code(tree_out)
-        
-        try:
-            Phylo.convert("out.trees", "nexus", "trees.xml", "phyloxml")
-            if os.path.isfile("trees.xml"):
-                with open("trees.xml") as f:
-                    tree_xml = f.read()                
-                with st.expander("phyloxml conversion - expand to view"):
-                    st.code(tree_xml)
-        except Exception as e:            
-            st.error("Error converting to phyloxml, did you give a valid annotated tree file?")
-            st.error(str(e))
-        
+            st.code(tree_out)                                
+    if tree_xml is not None and file_type != "tree":
+        with st.expander("phyloxml conversion - expand to view"):
+            st.code(tree_xml)
+
+
+def show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig):
+    
+    tree_xml,tree_out,tree_in,tree_xml_orig,tree_out_orig = None,None,None,None,None
+    
+    if os.path.isfile(internal_tree_file_xml):
+        with open(internal_tree_file_xml) as f:
+            tree_xml = f.read()
+    if os.path.isfile(internal_out_file_ano):
+        with open(internal_out_file_ano) as f:
+            tree_out = f.read()                                    
+            
+    if os.path.isfile(internal_tree_file_orig):
+        with open(internal_tree_file_orig) as f:
+            tree_xml_orig = f.read()                                    
+    if os.path.isfile(internal_out_file_orig):
+        with open(internal_out_file_orig) as f:
+            tree_out_orig = f.read()        
+            
+    if os.path.isfile(internal_in_file):
+        with open(internal_in_file) as f:
+            tree_in = f.read()                            
+                                            
+    show_b4_plot(file_type,tree_xml,tree_out,tree_in,tree_xml_orig,tree_out_orig)
+                    
+    if tree_xml is not None:
         st.subheader("Plot phylogenetic tree")
+        opts = st.radio('Colour scheme:', ["Black", "Pink"],key="clr")                            
         try:
-            if st.button('plot tree'):            
-                output2 = st.empty()
-                tree = Phylo.read("trees.xml", "phyloxml")                    
-                #tree = Phylo.read("out.trees", "nexus")
-                #st.write(tree.get_terminals())
-                #tree.root.color = '#D71AB9'
-                tree.get_nonterminals()[0].color = '#D71AB9'
-                for clade in tree.get_terminals():
-                    if clade.branch_length < 0.3:
-                        clade.color = '#A571CC'
-                    elif clade.branch_length < 0.6:
-                        clade.color = '#EFA6C6'
-                    else:
-                        clade.color = '#D71A6F'
-                                                            
-                tree.ladderize()  # Flip branches so deeper clades are displayed at top
-                st.set_option('deprecation.showPyplotGlobalUse', False)
-                
-                
-                fig = plt.figure(figsize=(10, 20), dpi=100)
-                axes = fig.add_subplot(1, 1, 1)    
-                #axes.set_title("Phylogenetic tree from pisca-box")
-                axes.text(0.5, 0.99, "Phylogenetic tree from pisca-box", horizontalalignment='center', verticalalignment='center', transform=axes.transAxes, fontsize=12)
-                st.pyplot(Phylo.draw(tree,axes=axes,show_confidence=True))
+            if st.button('plot tree'):                                                        
+                do_plot(internal_tree_file_xml,opts)            
         except Exception as e:
             st.error("Error plotting to Bio.Phylo, did you give a valid annotated tree file?")
             st.error(str(e))
+    
+
+
+def add_widgets():            
             
+    tree_xml = None
+    tree_out = None
+    tree_xml_orig = None
+    tree_out_orig = None
+    tree_in = None        
+    uploaded_file = None
+    
+    internal_tree_file_xml = "trees.xml"
+    internal_tree_file_orig = "trees_orig.xml"
+    internal_out_file_ano = "out.trees"
+    internal_out_file_orig = "out_orig.trees"
+    internal_in_file = "in.trees"
+                                    
+    st.subheader("Pisca outputs -> tree visualisation")
+            
+    file_type = st.radio("Select tree file type",("phyloxml","annotated","tree"))
+    st.divider()
+    
+    if file_type == "phyloxml":    
+        #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        
+        uploaded_file = st.file_uploader("Upload phloxml tree file",type=['phyloxml tree','xml'])                            
+        if uploaded_file is not None:                        
+            tree_xml = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
+            tree_xml = tree_xml.replace("<name>tree1</name>", "<name>pisca-box phylogenetic tree</name>") 
+            tree_xml = tree_xml.replace("<name>Tree1</name>", "<name>pisca-box phylogenetic tree</name>") 
+            tree_xml = tree_xml.replace("<name>TREE1</name>", "<name>pisca-box phylogenetic tree</name>") 
+            with open(internal_tree_file_xml,"w") as fw:
+                fw.write(tree_xml)                                                           
+    elif file_type == "annotated":
+        #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        
+        uploaded_file = st.file_uploader("Upload annotated tree file",type=['anotated trees','trees'])                            
+        if uploaded_file is not None:                            
+            tree_out = StringIO(uploaded_file.getvalue().decode("utf-8")).read()            
+            with open(internal_out_file_ano,"w") as fw:
+                fw.write(tree_out)              
+            try:
+                Phylo.convert(internal_out_file_ano, "nexus", internal_tree_file_xml, "phyloxml")
+                if os.path.isfile(internal_tree_file_xml):
+                    with open(internal_tree_file_xml) as f:
+                        tree_xml = f.read()
+                    tree_xml = tree_xml.replace("<name>tree1</name>", "<name>pisca-box phylogenetic tree</name>") 
+                    tree_xml = tree_xml.replace("<name>Tree1</name>", "<name>pisca-box phylogenetic tree</name>") 
+                    tree_xml = tree_xml.replace("<name>TREE1</name>", "<name>pisca-box phylogenetic tree</name>") 
+                    with open(internal_tree_file_xml,"w") as fw:
+                        fw.write(tree_xml)                                                                                               
+            except Exception as e:            
+                st.error("Error converting to phyloxml, did you give a valid annotated tree file?")
+                st.error(str(e))                    
+    else:        
+        uploaded_file = st.file_uploader("Upload tree file to be annotated",type=['trees','trees'])                            
+        if uploaded_file is not None:            
+            file_type = "tree"            
+            #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        
+            tree_in = StringIO(uploaded_file.getvalue().decode("utf-8")).read()            
+            with open(internal_in_file,"w") as fw:
+                fw.write(tree_in)
+            burnin = st.number_input(label="burnin",value=100)        
+            if st.button('run tree-annotation'):
+                #remove_internal_files(internal_tree_file_orig,internal_out_file_orig,internal_in_file) 
+                output = st.empty()            
+                with st_capture(output.code):
+                    ret  = cmd.run_tree(tree_in,burnin,internal_out_file_orig)                    
+                if os.path.isfile(internal_out_file_orig):
+                    with open(internal_out_file_orig) as f:
+                        tree_out = f.read()
+                try:
+                    Phylo.convert(internal_out_file_orig, "nexus", internal_tree_file_orig, "phyloxml")                    
+                    Phylo.convert(internal_out_file_orig, "nexus", internal_tree_file_xml, "phyloxml")
+                    if os.path.isfile(internal_tree_file_xml):
+                        with open(internal_tree_file_xml) as f:
+                            tree_xml = f.read()
+                        tree_xml = tree_xml.replace("<name>tree1</name>", "<name>pisca-box phylogenetic tree</name>") 
+                        tree_xml = tree_xml.replace("<name>Tree1</name>", "<name>pisca-box phylogenetic tree</name>") 
+                        tree_xml = tree_xml.replace("<name>TREE1</name>", "<name>pisca-box phylogenetic tree</name>") 
+                        with open(internal_tree_file_xml,"w") as fw:
+                            fw.write(tree_xml)                                                                                                                                   
+                    if os.path.isfile(internal_tree_file_xml):
+                        with open(internal_tree_file_xml) as f:
+                            tree_xml_orig = f.read()                                    
+                except Exception as e:            
+                    st.error("Error converting to phyloxml, did you give a valid annotated tree file?")
+                    st.error(str(e))
+                
+        
+                                    
+    # Now load the files again as there can be instatiation erros from embedded buttons
+    if uploaded_file is not None:         
+    #    if os.path.isfile(internal_in_file):
+    #        with open(internal_in_file) as f:
+    #            tree_in = f.read()                                    
+    
+        show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)
+    else:
+        remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)
+
+                                                                                                                      
+    
+    #if uploaded_file is not None: #phyloxml","annotated","tree
+    #    show_and_plot(file_type,tree_xml,tree_out,tree_in,internal_tree_file)
+"""                                        
+        if file_type == "tree" and tree_in is not None:
+            with st.expander("original tree file - expand to view"):
+                st.code(tree_in)
+        if file_type != "phyloxml" and tree_out is not None :
+            with st.expander("annotated tree file - expand to view"):
+                st.code(tree_out)                                
+        if tree_xml is not None:
+            with st.expander("phyloxml conversion - expand to view"):
+                st.code(tree_xml)
+        
+        st.subheader("Plot phylogenetic tree")
+        try:
+            if st.button('plot tree'):                                            
+                do_plot(internal_tree_file)
+        except Exception as e:
+            st.error("Error plotting to Bio.Phylo, did you give a valid annotated tree file?")
+            st.error(str(e))
+    
+"""         
             
 
             

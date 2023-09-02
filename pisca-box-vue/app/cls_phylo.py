@@ -16,6 +16,14 @@ class PhyloTree(object):
         """_summary_
         Converts nexus string to xml string
         But is currently hardcoded
-        """
+        """        
+        #Phylo.draw_ascii(tree)                    
+        #netx = Phylo.to_networkx(tree)
+        #print(netx)
+        #import networkx as nx
+        #from networkx.drawing.nx_pydot import graphviz_layout            
+        #pos = graphviz_layout(netx, prog="dot")
+        #st.pyplot(nx.draw(netx, pos))
+            
         
         

@@ -1,146 +1,76 @@
 <phyloxml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.phyloxml.org" xsi:schemaLocation="http://www.phyloxml.org http://www.phyloxml.org/1.10/phyloxml.xsd">
   <phylogeny rooted="true">
-    <name>TREE1</name>
+    <name>My tree ano</name>
     <clade>
       <branch_length>0.0</branch_length>
       <clade>
-        <branch_length>0.27539855992272644</branch_length>
+        <branch_length>1.1308207736114007</branch_length>
         <clade>
-          <branch_length>0.4599571170344282</branch_length>
+          <branch_length>0.9043061299621744</branch_length>
           <clade>
-            <name>IBD002_036E</name>
-            <branch_length>0.1610670955823186</branch_length>
+            <name>seq00006</name>
+            <branch_length>7.331020985285905</branch_length>
           </clade>
           <clade>
-            <branch_length>0.05282754304051504</branch_length>
+            <branch_length>1.5981724259349495</branch_length>
             <clade>
-              <branch_length>0.08280539381498143</branch_length>
-              <clade>
-                <name>IBD002_006E</name>
-                <branch_length>0.02543415872682213</branch_length>
-              </clade>
-              <clade>
-                <name>IBD002_083E_S18</name>
-                <branch_length>0.02543415872682213</branch_length>
-              </clade>
+              <name>seq00009</name>
+              <branch_length>0.7328485593509555</branch_length>
             </clade>
             <clade>
-              <branch_length>0.0014533432306366167</branch_length>
-              <clade>
-                <name>IBD002_060E</name>
-                <branch_length>0.10678620931116695</branch_length>
-              </clade>
-              <clade>
-                <branch_length>0.06304253598665421</branch_length>
-                <clade>
-                  <name>IBD002_055E</name>
-                  <branch_length>0.043743673324512726</branch_length>
-                </clade>
-                <clade>
-                  <name>IBD002_035E</name>
-                  <branch_length>0.043743673324512726</branch_length>
-                </clade>
-              </clade>
+              <name>seq00007</name>
+              <branch_length>0.7328485593509555</branch_length>
             </clade>
           </clade>
         </clade>
         <clade>
-          <name>IBD002_009E</name>
-          <branch_length>0.6210242126167468</branch_length>
+          <name>seq00011</name>
+          <branch_length>3.2353271152480794</branch_length>
         </clade>
       </clade>
       <clade>
-        <branch_length>0.33793633544448953</branch_length>
+        <branch_length>0.590728398758527</branch_length>
         <clade>
-          <branch_length>0.12663181797405604</branch_length>
+          <branch_length>3.6677171302141103</branch_length>
           <clade>
-            <name>IBD002_056E</name>
-            <branch_length>0.43185461912092765</branch_length>
+            <name>seq00010</name>
+            <branch_length>0.10770235988684274</branch_length>
           </clade>
           <clade>
-            <branch_length>0.07571511447983714</branch_length>
+            <branch_length>0.5724073983374103</branch_length>
             <clade>
-              <branch_length>0.03508060337943053</branch_length>
+              <branch_length>3.98828488841995</branch_length>
               <clade>
-                <name>IBD002_047E</name>
-                <branch_length>0.32105890126166</branch_length>
+                <name>seq00005</name>
+                <branch_length>0.5470100731294822</branch_length>
               </clade>
               <clade>
-                <branch_length>0.00011290264346586198</branch_length>
-                <clade>
-                  <name>IBD002_048E</name>
-                  <branch_length>0.3209459986181941</branch_length>
-                </clade>
-                <clade>
-                  <branch_length>0.07226297452392405</branch_length>
-                  <clade>
-                    <name>IBD002_051E</name>
-                    <branch_length>0.24868302409427007</branch_length>
-                  </clade>
-                  <clade>
-                    <name>IBD002_046E</name>
-                    <branch_length>0.24868302409427007</branch_length>
-                  </clade>
-                </clade>
+                <name>seq00004</name>
+                <branch_length>0.5470100731294822</branch_length>
               </clade>
             </clade>
             <clade>
-              <branch_length>0.06147356889365174</branch_length>
+              <branch_length>1.387789971530598</branch_length>
               <clade>
-                <name>IBD002_114E_S19</name>
-                <branch_length>0.29466593574743877</branch_length>
+                <name>seq00001</name>
+                <branch_length>3.1475049900188345</branch_length>
               </clade>
               <clade>
-                <branch_length>0.11960713869528114</branch_length>
-                <clade>
-                  <branch_length>0.03308702007173475</branch_length>
-                  <clade>
-                    <name>IBD002_044E</name>
-                    <branch_length>0.14197177698042288</branch_length>
-                  </clade>
-                  <clade>
-                    <branch_length>0.009756424470865582</branch_length>
-                    <clade>
-                      <branch_length>0.118391069782155</branch_length>
-                      <clade>
-                        <name>IBD002_024E</name>
-                        <branch_length>0.013824282727402297</branch_length>
-                      </clade>
-                      <clade>
-                        <name>IBD002_027E</name>
-                        <branch_length>0.013824282727402297</branch_length>
-                      </clade>
-                    </clade>
-                    <clade>
-                      <name>IBD002_043E</name>
-                      <branch_length>0.1322153525095573</branch_length>
-                    </clade>
-                  </clade>
-                </clade>
-                <clade>
-                  <name>IBD002_078E_S34</name>
-                  <branch_length>0.17505879705215763</branch_length>
-                </clade>
+                <name>seq00003</name>
+                <branch_length>3.1475049900188345</branch_length>
               </clade>
             </clade>
           </clade>
         </clade>
         <clade>
-          <branch_length>0.08270759344752432</branch_length>
+          <branch_length>3.528218254552046</branch_length>
           <clade>
-            <name>IBD002_016E</name>
-            <branch_length>0.47577884364745937</branch_length>
+            <name>seq00002</name>
+            <branch_length>5.247201235548907</branch_length>
           </clade>
           <clade>
-            <branch_length>0.10763648282991406</branch_length>
-            <clade>
-              <name>IBD002_012E</name>
-              <branch_length>0.3681423608175453</branch_length>
-            </clade>
-            <clade>
-              <name>IBD002_014E</name>
-              <branch_length>0.3681423608175453</branch_length>
-            </clade>
+            <name>seq00008</name>
+            <branch_length>0.24720123554890705</branch_length>
           </clade>
         </clade>
       </clade>

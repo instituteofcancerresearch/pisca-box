@@ -9,6 +9,7 @@ import cmds as cmd
 import pandas as pd
 import widgets
 import streamlit.components.v1 as components
+from Bio import Phylo
 
 IS_TEST = False
 
@@ -83,6 +84,7 @@ def add_widgets():
                         
                         nm,ext = ftree.split(".")
                         fano = nm + "_annotated." + ext
+                        fxml = nm + "_anno_tree.xml"
                         ret  = cmd.run_tree(tree_str,burnin,fano)
                         if os.path.isfile(fano):
                             with open(fano) as f:
@@ -90,6 +92,8 @@ def add_widgets():
                                                                 
                 
                 
+                st.divider()
+                st.write("Save output logs")
                 col1,col2 = st.columns(2)
                 with col1:
                     nm,ext = fops.split(".")
@@ -102,23 +106,40 @@ def add_widgets():
                     nm,ext = flog.split(".")
                     js = widgets.get_saveas(log_str,nm,ext,"Save log")
                     components.html(js, height=30)   
-                    with st.expander(f"view log file {flog}"):                                        
+                    with st.expander(f"expand {flog}"):
                         st.write(log_csv)
                 
-                col3,col4 = st.columns(2)
+                st.divider()
+                st.write("Save output trees")
+                col3,col4,col5 = st.columns(3)                
                 with col3:        
                     nm,ext = ftree.split(".")
                     js = widgets.get_saveas(tree_str,nm,ext,"Save tree")
                     components.html(js, height=30)                
-                    with st.expander(f"view tree file {ftree}"):                                        
+                    with st.expander(f"expand {ftree}"):
                         st.code(tree_str)
                                         
                 with col4:        
                     nm,ext = fano.split(".")
                     js = widgets.get_saveas(ano_str,nm,ext,"Save annotated tree")
                     components.html(js, height=30)   
-                    with st.expander(f"view annotated tree {fano}"):                                        
+                    with st.expander(f"expand {fano}"):
                         st.code(ano_str)
+                        
+                with col5:
+                    try:
+                        Phylo.convert(fano, "nexus", fxml, "phyloxml")
+                        if os.path.isfile(fxml):
+                            with open(fxml) as f:
+                                tree_xml = f.read()
+                            nm,ext = fxml.split(".")
+                            js = widgets.get_saveas(tree_xml,nm,ext,"Save phyloxml")
+                            components.html(js, height=30)                                                                            
+                            with st.expander(f"expand {fxml}"):
+                                st.code(tree_xml)
+                    except Exception as e:            
+                        st.error("Error converting to phyloxml, did you give a valid annotated tree file?")
+                        st.error(str(e))
                                                                     
         else:
             st.error(f"{full_file_name} is not a valid file, please check the working directory")
