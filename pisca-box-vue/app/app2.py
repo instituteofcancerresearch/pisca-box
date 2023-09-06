@@ -9,6 +9,10 @@ import neatbio.sequtils as utils
 import numpy as np 
 from PIL import Image 
 
+from streamlit_option_menu import option_menu
+from streamlit_extras.switch_page_button import switch_page
+
+
 def delta(x,y):
     return 0 if x == y else 1
 
@@ -55,9 +59,31 @@ def at_content(seq):
 	return result
 
 
+def navigation_bar():
+    with st.container():
+        selected = option_menu(
+            menu_title=None,
+            options=["Home", "Upload", "Analytics", 'Settings', 'Contact'],
+            icons=['house', 'cloud-upload', "graph-up-arrow", 'gear', 'phone'],
+            menu_icon="cast",
+            orientation="horizontal",
+            styles={
+                "nav-link": {
+                    "text-align": "left",
+                    "--hover-color": "#eee",
+                }
+            }
+        )
+        if selected == "Analytics":
+            switch_page("app")
+        if selected == "Contact":
+            switch_page("app")
+
+
 
 def main():
     """A Simple Streamlit App """
+    navigation_bar()
     st.title("BioInformatics App")
     activity = ['Intro','DNA','DotPlot',"About"]
     choice = st.sidebar.selectbox("Select Activity",activity)
