@@ -1,0 +1,6 @@
+# Ignore files generated during testing
+*.trees
+*.tree
+*.xml
+*.log
+*.ops

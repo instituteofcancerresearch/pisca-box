@@ -101,13 +101,14 @@ def add_widgets():
                 
         with tabPisca:
             datatype = st.radio('Select pisca datatype:', ["cnv", "acna"],key="pisca")
+            seq_conversion = st.checkbox("Convert to letters",value=True,help="If the sequence is entered as numbers, do you want to convert it to A-J?")
             
     
         ### GENERATE #############################################################             
         with tabGenerate:
             st.write("#### :checkered_flag: Check and save xml")        
             ################################################################                                                          
-            fasta = fa.Fasta(fa_data,fa_dates)
+            fasta = fa.Fasta(fa_data,fa_dates,seq_conversion)
             mcmc = mc.MCMC(name,chain_length, log_every,clock)        
             xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic,datatype)
             

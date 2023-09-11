@@ -2,9 +2,10 @@
 
 
 class Fasta(object):
-    def __init__(self, big_string,dates_csv):
+    def __init__(self, big_string,dates_csv,seq_conversion):
         self.big_string = big_string
         self.dates_csv = dates_csv
+        self.seq_conversion = seq_conversion
         self._convert_to_dict()
         
     ### PUBLIC INTERFACE ######### 
@@ -31,6 +32,17 @@ class Fasta(object):
                 continue
             id = idseq[0].strip()
             seq = idseq[1].strip()
+            if self.seq_conversion:
+                seq = seq.replace("0","A")
+                seq = seq.replace("1","B")
+                seq = seq.replace("2","C")
+                seq = seq.replace("3","D")
+                seq = seq.replace("4","E")
+                seq = seq.replace("5","F")
+                seq = seq.replace("6","G")
+                seq = seq.replace("7","H")
+                seq = seq.replace("8","I")
+                seq = seq.replace("9","J")
             self.dic_id_seq[id] = seq
         
         if self.dates_csv is not None:

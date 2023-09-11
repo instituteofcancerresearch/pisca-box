@@ -31,29 +31,20 @@ http://localhost:8000/
 ### Pushing the docker image to docker hub
 ```
 docker tag pisca-vue rachelicr/pisca-vue
-docker tag pisca-vue rachelicr/pisca-vue:v05
+docker tag pisca-vue rachelicr/pisca-vue:v06
 
 docker push rachelicr/pisca-vue
-docker push rachelicr/pisca-vue:v05
+docker push rachelicr/pisca-vue:v06
 ```
 
 ### Running the docker image from docker hub
 ```
-docker pull rachelicr/pisca-box
-
-docker run rachelicr/pisca-box validate
-docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box validation.xml
-docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box testStrictClock.xml
+docker pull rachelicr/pisca-vue
+docker run --name pisca-vue -p 8000:8501 rachelicr/pisca-vue
+docker start pisca-vue
 ```
 
-### Running the docker image from singularity hub
-```
-singularity pull docker://rachelicr/pisca-box
 
-singularity run docker://rachelicr/pisca-box validate
-singularity run -B ~/dev/beast-icr/xml:/project/xml docker://rachelicr/pisca-box validation.xml 
-singularity run -B ~/dev/beast-icr/xml:/project/xml docker://rachelicr/pisca-box testStrictClock.xml 
-```
 
 
 
