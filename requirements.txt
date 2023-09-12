@@ -1,0 +1,10 @@
+streamlit
+matplotlib
+biopython
+Graphviz
+pydot
+NetworkX
+streamlit_option_menu
+streamlit_extras
+pytest
+ruff
