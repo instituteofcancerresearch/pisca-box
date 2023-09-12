@@ -3,7 +3,6 @@ import libs.cls_xml as xml
 import libs.cls_fasta as fa
 import libs.cls_mcmc as mc
 import pandas as pd
-import os
 
 this_dir = "/".join(__file__.split('/')[:-1])
 
