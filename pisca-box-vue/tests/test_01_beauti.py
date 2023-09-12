@@ -63,5 +63,5 @@ def test_01():
     mcmc = mc.MCMC("name",1002, 110,clock)                                    
     xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic,"acna")
 
-    tst_xml = xmlwriter.get_xml()
+    xmlwriter.get_xml()
     #print(tst_xml)
