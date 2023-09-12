@@ -12,6 +12,7 @@ pip install -r requirements.txt
 ```
 streamlit run app/app.py
 ```
+It is then available (usually) on http://localhost:8501/
 
 ### Running the test suit
 TODO
@@ -24,8 +25,8 @@ docker build -t pisca-vue .
 
 ### Testing the docker image
 ```
-docker run --name pisca-vue -p 8000:8501 pisca-vue
-http://localhost:8000/
+docker run --name pisca-vue-dev -p 8002:8501 pisca-vue
+http://localhost:8002/
 ```
 
 ### Pushing the docker image to docker hub
@@ -40,7 +41,7 @@ docker push rachelicr/pisca-vue:v06
 ### Running the docker image from docker hub
 ```
 docker pull rachelicr/pisca-vue
-docker run --name pisca-vue -p 8000:8501 rachelicr/pisca-vue
+docker run --name pisca-vue -p 8001:8501 rachelicr/pisca-vue
 docker start pisca-vue
 ```
 
