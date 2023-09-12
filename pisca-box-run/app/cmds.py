@@ -24,7 +24,7 @@ def rename_logs():
     try:        
         files=os.listdir(DOCKER_SOURCE_DIR)   
         for fname in files:            
-            if not ".xml" in fname and (".log" in fname or ".ops" in fname or ".trees" in fname):
+            if ".xml" not in fname and (".log" in fname or ".ops" in fname or ".trees" in fname):
                 os.rename(os.path.join(DOCKER_SOURCE_DIR,fname), os.path.join(DOCKER_SOURCE_DIR,"_" + fname))
     except Exception as e:
         print(str(e))
@@ -60,7 +60,7 @@ def run_beast(which_xml,params,TEST_MODE):
         output  = result.stdout.readline()            
         if output :
             print(output.strip().decode('utf-8'))                                        
-        rc = result.poll()        
+        result.poll()        
         return ""
     except Exception as e:
         return str(e)
