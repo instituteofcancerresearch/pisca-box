@@ -5,9 +5,11 @@ The containerised app does not necessarily run on a workstation.
 
 ### Before checkin
 from pisca-box$
-pytest
+```
 ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
 ruff --format=github --target-version=py37 .
+pytest
+```
 
 ### Github Actions
 - ruff is used as a linter and the tests created in tests directory are run when a push is made to github
@@ -17,3 +19,6 @@ ruff --format=github --target-version=py37 .
 - Only succesful tests can be merged into main
 - No pushes can be made directly to the main branch
 - A reviewer is required to merge
+
+### resources
+https://docs.pytest.org/en/7.1.x/explanation/goodpractices.html#test-discovery

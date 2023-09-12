@@ -3,6 +3,7 @@ import streamlit as st
 
 def add_widgets():                            
     st.markdown("""
+                
                 Welcome to **pisca-box-vue**. This application is a user-friendly interface to the pisca-beast plug-in for
                 [BEAST](http://beast.community/) (Bayesian Evolutionary Anaylsis Sampling Trees).
                 
@@ -26,11 +27,9 @@ def add_widgets():
     
                             
     st.divider()
-    st.write("References:")
-    cite1 = """
-    
-    """    
+    st.write("References:")    
     st.caption("""
+                
                 Suchard MA, Lemey P, Baele G, Ayres DL, Drummond AJ & Rambaut A (2018)
                 Bayesian phylogenetic and phylodynamic data integration using 
                 BEAST 1.10 Virus Evolution 4, vey016. DOI:10.1093/ve/vey016
