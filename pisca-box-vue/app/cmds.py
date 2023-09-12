@@ -31,7 +31,7 @@ def cmd_runner_with_wait(params):
     output  = result.stdout.readline()            
     if output :
         print(output.strip().decode('utf-8'))                                        
-    rc = result.poll()             
+    result.poll()             
     print("##########################################")
     print("...completed pisca-box")
     return "done"
@@ -40,7 +40,7 @@ def cmd_runner_with_wait(params):
 def run_r_script():
     #script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_test.R"
     script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_plot_tree.R"
-    ret= cmd_runner_with_wait(["chmod","+x",script])
+    cmd_runner_with_wait(["chmod","+x",script])
     params = [script]
     return cmd_runner_with_wait(params)
     
@@ -80,7 +80,7 @@ def rename_logs(working_dir):
     try:        
         files=os.listdir(working_dir)   
         for fname in files:
-            if not ".xml" in fname and (".log" in fname or ".ops" in fname or ".trees" in fname):
+            if ".xml" not in fname and (".log" in fname or ".ops" in fname or ".trees" in fname):
                 os.rename(os.path.join(working_dir,fname), os.path.join(working_dir,"_" + fname))
     except Exception as e:
         print(str(e))

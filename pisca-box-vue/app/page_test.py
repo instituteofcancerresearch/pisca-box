@@ -1,6 +1,5 @@
 import streamlit as st
-import os
-from contextlib import contextmanager, redirect_stdout, redirect_stderr
+from contextlib import contextmanager, redirect_stdout
 from io import StringIO
 import subprocess
 

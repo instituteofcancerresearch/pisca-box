@@ -1,9 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import widgets
-import os
 import pandas as pd
-import gen_xml as xg
 from io import StringIO
 import cls_xml as xml
 import cls_fasta as fa
@@ -114,10 +112,7 @@ def add_widgets():
             
             my_xml = xmlwriter.get_xml()            
             with st.expander("View generated xml"):
-                st.code(my_xml)        
-            #tst_xml = xg.get_base_xml("","")
-            #with st.expander("View fixed xml"):
-            #    st.code(tst_xml)        
+                st.code(my_xml)                    
             ################################################################                                                          
             js = widgets.get_saveas(my_xml,name)
             components.html(js, height=30)

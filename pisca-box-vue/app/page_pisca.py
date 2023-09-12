@@ -1,9 +1,8 @@
 import streamlit as st
 import subprocess
 import os
-from contextlib import contextmanager, redirect_stdout, redirect_stderr
+from contextlib import contextmanager, redirect_stdout
 from io import StringIO
-from time import sleep
 #import cmds_tst as cmd
 import cmds as cmd
 import pandas as pd

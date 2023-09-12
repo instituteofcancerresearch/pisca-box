@@ -1,14 +1,7 @@
 import streamlit as st
-import streamlit.components.v1 as components
-import widgets
 import os
-import pandas as pd
-import gen_xml as xg
 from io import StringIO
-import cls_xml as xml
-import cls_fasta as fa
-import cls_mcmc as mc
-from contextlib import contextmanager, redirect_stdout, redirect_stderr
+from contextlib import contextmanager, redirect_stdout
 import cmds as cmd
 from Bio import Phylo
 from matplotlib import pyplot as plt
@@ -69,7 +62,7 @@ def add_widgets():
             if st.button('run tree-annotation'):
                 output = st.empty()            
                 with st_capture(output.code):
-                    ret  = cmd.run_tree(tree_in,burnin,"out.trees")                    
+                    cmd.run_tree(tree_in,burnin,"out.trees")                    
                     if os.path.isfile("out.trees"):
                         with open("out.trees") as f:
                             tree_out = f.read()                
