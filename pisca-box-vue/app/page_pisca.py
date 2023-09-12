@@ -1,10 +1,11 @@
+import __init__
 import streamlit as st
 import subprocess
 import os
 from contextlib import contextmanager, redirect_stdout
 from io import StringIO
 #import cmds_tst as cmd
-import cmds as cmd
+import libs.cmds as cmd
 import pandas as pd
 import widgets
 import streamlit.components.v1 as components

@@ -1,8 +1,9 @@
+import __init__
 import streamlit as st
 import os
 from io import StringIO
 from contextlib import contextmanager, redirect_stdout
-import cmds as cmd
+import libs.cmds as cmd
 from Bio import Phylo
 from matplotlib import pyplot as plt
 

@@ -2,9 +2,13 @@
 
 ### Correctness
 
-The containerised app does not necesdsarily run on a workstation.
+The containerised app does not necessarily run on a workstation.
 
 
+### Before checkin
+pytest
+ruff --format=github --select=E9,F63,F7,F82 --target-version=py37 .
+ruff --format=github --target-version=py37 .
 
 ### Github Actions
 - ruff is used as a linter and the tests created in tests directory are run when a push is made to github

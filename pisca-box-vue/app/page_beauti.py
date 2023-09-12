@@ -1,11 +1,12 @@
+import __init__
 import streamlit as st
 import streamlit.components.v1 as components
-import widgets
+import libs.widgets as widge
 import pandas as pd
 from io import StringIO
-import cls_xml as xml
-import cls_fasta as fa
-import cls_mcmc as mc
+import libs.cls_xml as xml
+import libs.cls_fasta as fa
+import libs.cls_mcmc as mc
 
 #https://dev.to/chrisgreening/complete-list-of-markdown-emojis-for-your-blog-posts-and-readme-s-164j
 
@@ -114,7 +115,7 @@ def add_widgets():
             with st.expander("View generated xml"):
                 st.code(my_xml)                    
             ################################################################                                                          
-            js = widgets.get_saveas(my_xml,name)
+            js = widge.get_saveas(my_xml,name)
             components.html(js, height=30)
             
             #st.download_button(label="Save xml file",data=my_xml,file_name=f"{name}.xml",mime='text/xml')

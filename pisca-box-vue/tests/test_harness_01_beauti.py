@@ -1,6 +1,7 @@
-import app.cls_xml as xml
-import app.cls_fasta as fa
-import app.cls_mcmc as mc
+import __init__
+import libs.cls_xml as xml
+import libs.cls_fasta as fa
+import libs.cls_mcmc as mc
 import pandas as pd
 
 fasta_string = """>IBD002_078E_S34
@@ -54,9 +55,9 @@ lucas = (1,2,3,4,5,6)
 demographic = "constant size"
 clock = "random local clock"
 
-fasta = fa.Fasta(fasta_string,csv_dates)
+fasta = fa.Fasta(fasta_string,csv_dates,True)
 mcmc = mc.MCMC("name",1002, 110,clock)                                    
-xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic)            
+xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic,"acna")
 
 tst_xml = xmlwriter.get_xml()
-print(tst_xml)
+#print(tst_xml)

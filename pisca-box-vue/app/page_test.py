@@ -1,3 +1,4 @@
+import __init__
 import streamlit as st
 from contextlib import contextmanager, redirect_stdout
 from io import StringIO
