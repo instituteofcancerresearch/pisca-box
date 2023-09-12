@@ -1,6 +1,5 @@
+import __init__ # noqa: F401
 import streamlit as st
-
-
 
 def add_widgets():   
     st.write("The containerisation and adaption of pisca-beast is a collaboration between the Institute of Cancer Research and Arizona State University.")

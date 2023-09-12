@@ -1,15 +1,9 @@
+import __init__ # noqa: F401
 import streamlit as st
-import streamlit.components.v1 as components
-import widgets
 import os
-import pandas as pd
-import gen_xml as xg
 from io import StringIO
-import cls_xml as xml
-import cls_fasta as fa
-import cls_mcmc as mc
-from contextlib import contextmanager, redirect_stdout, redirect_stderr
-import cmds as cmd
+from contextlib import contextmanager, redirect_stdout
+import libs.cmds as cmd
 from Bio import Phylo
 from matplotlib import pyplot as plt
 
@@ -121,8 +115,6 @@ def add_widgets():
             
     tree_xml = None
     tree_out = None
-    tree_xml_orig = None
-    tree_out_orig = None
     tree_in = None        
     uploaded_file = None
     
@@ -180,7 +172,7 @@ def add_widgets():
                 #remove_internal_files(internal_tree_file_orig,internal_out_file_orig,internal_in_file) 
                 output = st.empty()            
                 with st_capture(output.code):
-                    ret  = cmd.run_tree(tree_in,burnin,internal_out_file_orig)                    
+                    cmd.run_tree(tree_in,burnin,internal_out_file_orig)                    
                 if os.path.isfile(internal_out_file_orig):
                     with open(internal_out_file_orig) as f:
                         tree_out = f.read()
@@ -197,9 +189,10 @@ def add_widgets():
                             fw.write(tree_xml)                                                                                                                                   
                     if os.path.isfile(internal_tree_file_xml):
                         with open(internal_tree_file_xml) as f:
-                            tree_xml_orig = f.read()                                    
+                            f.read()                                    
                 except Exception as e:            
-                    st.error("Error converting to phyloxml, did you give a valid annotated tree file?")
+                    st.error("Error converting to phyloxml, \
+                             did you give a valid annotated tree file?")
                     st.error(str(e))
                 
         
@@ -216,43 +209,4 @@ def add_widgets():
 
                                                                                                                       
     
-    #if uploaded_file is not None: #phyloxml","annotated","tree
-    #    show_and_plot(file_type,tree_xml,tree_out,tree_in,internal_tree_file)
-"""                                        
-        if file_type == "tree" and tree_in is not None:
-            with st.expander("original tree file - expand to view"):
-                st.code(tree_in)
-        if file_type != "phyloxml" and tree_out is not None :
-            with st.expander("annotated tree file - expand to view"):
-                st.code(tree_out)                                
-        if tree_xml is not None:
-            with st.expander("phyloxml conversion - expand to view"):
-                st.code(tree_xml)
-        
-        st.subheader("Plot phylogenetic tree")
-        try:
-            if st.button('plot tree'):                                            
-                do_plot(internal_tree_file)
-        except Exception as e:
-            st.error("Error plotting to Bio.Phylo, did you give a valid annotated tree file?")
-            st.error(str(e))
-    
-"""         
-            
-
-            
-            
-            #netx = Phylo.to_networkx(tree)
-            #print(netx)
-            #import networkx as nx
-            #from networkx.drawing.nx_pydot import graphviz_layout            
-            #pos = graphviz_layout(netx, prog="dot")
-            #st.pyplot(nx.draw(netx, pos))
-            
-                
-            #with st_capture(output2.text):                
-                #Phylo.draw_ascii(tree)                
-                
-        
-                            
     

@@ -67,12 +67,12 @@ class Fasta(object):
         taxon += f'\t<taxon id="{id}">\n'
         taxon += f'\t\t<date value="{date}" direction="forwards" units="years"/>\n'
         if compartment != "?":
-            taxon += f'\t\t<attr name="compartment">\n'
+            taxon += '\t\t<attr name="compartment">\n'
             taxon += f'\t\t\t{compartment}"\n'
-            taxon += f'\t\t</attr>\n'            
-        taxon += f'\t</taxon>\n'
+            taxon += '\t\t</attr>\n'            
+        taxon += '\t</taxon>\n'
         return taxon
-			    
+
     def _make_taxa(self):
         taxa = '<taxa id="taxa">\n'
         for id,seq in self.dic_id_seq.items():
@@ -95,9 +95,7 @@ class Fasta(object):
         return seqstr
      
     
-    def _make_alignment(self,datatype):
-        #<alignment id="alignment">
-	    #<dataType idref="cnv"/>
+    def _make_alignment(self,datatype):        
         algn = '<alignment id="alignment">\n'
         algn += f'\t<dataType idref="{datatype}"/>\n'
         for id,seq in self.dic_id_seq.items():

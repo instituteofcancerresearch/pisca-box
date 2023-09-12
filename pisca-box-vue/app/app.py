@@ -1,10 +1,4 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import os
-from contextlib import contextmanager, redirect_stdout, redirect_stderr
-from io import StringIO
-from time import sleep
 import page_beauti as pageBe
 import page_about as pageAb
 import page_home as pageHm
@@ -12,7 +6,8 @@ import page_help as pageHe
 import page_pisca as pagePi
 import page_tree as pageTv
 
-st.set_page_config(page_title='pisca-vue', page_icon = None, layout = 'wide', initial_sidebar_state = 'auto')
+st.set_page_config(page_title='pisca-vue', page_icon = None, 
+                   layout = 'wide', initial_sidebar_state = 'auto')
 # favicon being an object of the same kind as the one you should provide st.image() with (ie. a PIL array for example) or a string (url or local file path)
 st.title(':gift: Pisca-Box-Vue')
 

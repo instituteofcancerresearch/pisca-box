@@ -1,4 +1,6 @@
 
+# ruff: noqa: E501
+
 class XmlWriter(object):
     def __init__(self,fasta,mcmc,lucas,clock,demographic,datatype):        
         self.fasta = fasta
@@ -22,7 +24,7 @@ class XmlWriter(object):
             xml += self._get_tree_model()
             xml += self._get_coalescent_likelihood("constant")
         elif self.demographic == "exponential growth":
-            xml += self._get_exponential_growth("assumption that the population size has remained EXPO throughout the time spanned by the geneology")
+            xml += self._get_exponential_growth("assumption that pop size remained EXPO over time spanned by the geneology")
             xml += self._get_coalescent_simulator("exponential")
             xml += self._get_tree_model()
             xml += self._get_coalescent_likelihood("exponential")                            
@@ -189,27 +191,27 @@ class XmlWriter(object):
     #----------------------------------
     def _get_strict_clock(self):
         cl = ""
-        cl += f'<strictClockCenancestorBranchRates id="branchRates">\n'
-        cl += f'\t<rate>\n'
-        cl += f'\t\t<parameter id="clock.rate" value="1"/>\n'
-        cl += f'\t</rate>\n'
-        cl += f'</strictClockCenancestorBranchRates>\n'
+        cl += '<strictClockCenancestorBranchRates id="branchRates">\n'
+        cl += '\t<rate>\n'
+        cl += '\t\t<parameter id="clock.rate" value="1"/>\n'
+        cl += '\t</rate>\n'
+        cl += '</strictClockCenancestorBranchRates>\n'
         return cl            
     #----------------------------------    
     def _get_random_clock(self):
         cl = ""
-        cl += f'<randomLocalClockModelCenancestor id="branchRates" ratesAreMultipliers="false">\n'
-        cl += f'\t<treeModel idref="treeModel"/>\n'
-        cl += f'\t<rates>\n'
-        cl += f'\t\t<parameter id="localClock.relativeRates"/>\n'
-        cl += f'\t</rates>\n'
-        cl += f'\t<rateIndicator>\n'
-        cl += f'\t\t<parameter id="localClock.changes"/>\n'
-        cl += f'\t</rateIndicator>\n'
-        cl += f'\t<clockRate>\n'
-        cl += f'\t\t<parameter id="clock.rate" value="1.0" lower="0.0"/>\n'
-        cl += f'\t</clockRate>\n'
-        cl += f'</randomLocalClockModelCenancestor>\n'
+        cl += '<randomLocalClockModelCenancestor id="branchRates" ratesAreMultipliers="false">\n'
+        cl += '\t<treeModel idref="treeModel"/>\n'
+        cl += '\t<rates>\n'
+        cl += '\t\t<parameter id="localClock.relativeRates"/>\n'
+        cl += '\t</rates>\n'
+        cl += '\t<rateIndicator>\n'
+        cl += '\t\t<parameter id="localClock.changes"/>\n'
+        cl += '\t</rateIndicator>\n'
+        cl += '\t<clockRate>\n'
+        cl += '\t\t<parameter id="clock.rate" value="1.0" lower="0.0"/>\n'
+        cl += '\t</clockRate>\n'
+        cl += '</randomLocalClockModelCenancestor>\n'
         return cl   
     #----------------------------------
     def _get_sum_statistic(self):
@@ -297,21 +299,21 @@ class XmlWriter(object):
     #----------------------------------
     def _get_tree_likelihood(self,lh_val,lh_up,lh_low,lb_val,lb_up,lb_low,clock):        
         cen = ""
-        cen += f'<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false">\n'
-        cen += f'\t<patterns idref="patterns"/>\n'
-        cen += f'\t<treeModel idref="treeModel"/>\n'
-        cen += f'\t<siteModel idref="siteModel"/>\n'
-        cen += f'\t<cenancestorHeight>\n'
+        cen += '<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false">\n'
+        cen += '\t<patterns idref="patterns"/>\n'
+        cen += '\t<treeModel idref="treeModel"/>\n'
+        cen += '\t<siteModel idref="siteModel"/>\n'
+        cen += '\t<cenancestorHeight>\n'
         cen += f'\t\t<parameter id="luca_height" value="{lh_val}" upper="{lh_up}" lower="{lh_low}"/>\n'
-        cen += f'\t</cenancestorHeight>\n'
-        cen += f'\t<cenancestorBranch>\n'
+        cen += '\t</cenancestorHeight>\n'
+        cen += '\t<cenancestorBranch>\n'
         cen += f'\t\t<parameter id="luca_branch" value="{lb_val}" upper="{lb_up}" lower="{lb_low}"/>\n'
-        cen += f'\t</cenancestorBranch>\n'
+        cen += '\t</cenancestorBranch>\n'
         if clock == "strict clock":
-            cen += f'\t<strictClockCenancestorBranchRates idref="branchRates"/>\n'
+            cen += '\t<strictClockCenancestorBranchRates idref="branchRates"/>\n'
         elif clock == "random local clock":
-            cen += f'\t<randomLocalClockModelCenancestor idref="branchRates"/>\n'
-        cen += f'</cenancestorTreeLikelihood>\n'
+            cen += '\t<randomLocalClockModelCenancestor idref="branchRates"/>\n'
+        cen += '</cenancestorTreeLikelihood>\n'
         return cen
     #----------------------------------
     def _get_operators(self, demographic,datatype,clock):

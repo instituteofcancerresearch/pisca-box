@@ -5,7 +5,7 @@
 ```
 python3 -m venv .venv-vue
 source .venv-vue/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt -U
 ```
 
 ### Running locally to test
