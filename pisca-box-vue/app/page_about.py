@@ -12,7 +12,10 @@ def add_widgets():
     
     st.write("[Diego Mallo](mailto:???), postdoctoral researcher in the Biodesign Institute")
     st.divider()
-    
+        
+    from PIL import Image
+    image = Image.open('app/static/icr.png')
+    st.image(image)
     st.markdown('<span style="color:yellowgreen">Institute</span><span style="color:orange"> of</span><span style="color:hotpink"> Cancer</span><span style="color:darkred"> Research</span>', unsafe_allow_html=True)        
     
     st.write("[Heather Grant](mailto:heather.grant@icr.ac.uk), postdoctoral researcher in GEDy lab")

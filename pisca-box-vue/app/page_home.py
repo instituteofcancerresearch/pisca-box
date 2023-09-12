@@ -2,7 +2,7 @@ import streamlit as st
 
 
 
-def add_widgets():   
+def add_widgets():                            
     st.markdown('Welcome to **pisca-box-vue**. This application is a user-friendly interface to the pisca-beast plug-in for [BEAST](http://beast.community/) (Bayesian Evolutionary Anaylsis Sampling Trees).')
     st.markdown("The pisca-beast plug-in adapts the BEAST MCMC calculations to apply to cancer evolution. The pisca-beast plug-in was created by Diego Mallo and is available on [github](https://github.com/adamallo/PISCA).")
         

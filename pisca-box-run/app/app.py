@@ -2,9 +2,6 @@
 import sys
 import cmds
 
-VERSION = "0.0.2"
-
-print("Welcome to pisca-box version " + VERSION)
 
 # sys.argv[0] access the first argument passed that is the python script name
 

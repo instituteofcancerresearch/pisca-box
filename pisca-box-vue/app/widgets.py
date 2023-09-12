@@ -9,26 +9,30 @@ import streamlit.components.v1 as components
     #    mime='text/xml',
     #)
 
-def get_saveas(xml):
+def get_saveas(big_str,nam,ext="xml",button_text="Save XML"):
     
             
-    js = (
-        """
-            <button type="button" id="picker">Save XML</button>
+    js = (        
+            f'<button type="button" id="picker">{button_text}</button>'
+            +"""
 
             <script>
 
             async function run() {
                 console.log("Running")
             const handle = await showSaveFilePicker({
-                suggestedName: 'my_xml.xml',
+                """
+                 + f"suggestedName: '{nam}.{ext}',"
+                 +"""
                 types: [{
-                    description: 'CSV Data',
-                    accept: {'text/plain': ['.xml']},
+                    description: '',    
+                """            
+                + 'accept: {"text/plain": [".' + ext + '"]},'
+                +"""
                 }],
             });
             """
-                + f"const blob = new Blob([`{xml}`]);"
+                + f"const blob = new Blob([`{big_str}`]);"
                 + """
 
             const writableStream = await handle.createWritable();
@@ -42,5 +46,6 @@ def get_saveas(xml):
 
             """
         )
+
     return js
         
