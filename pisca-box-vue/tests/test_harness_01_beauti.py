@@ -1,4 +1,4 @@
-import __init__
+import __init__ # noqa: F401
 import libs.cls_xml as xml
 import libs.cls_fasta as fa
 import libs.cls_mcmc as mc

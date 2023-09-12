@@ -1,13 +1,13 @@
-import __init__
+import __init__ # noqa: F401
 import streamlit as st
 import subprocess
 import os
 from contextlib import contextmanager, redirect_stdout
 from io import StringIO
 #import cmds_tst as cmd
+import libs.widgets as widge
 import libs.cmds as cmd
 import pandas as pd
-import widgets
 import streamlit.components.v1 as components
 from Bio import Phylo
 
@@ -97,14 +97,14 @@ def add_widgets():
                 col1,col2 = st.columns(2)
                 with col1:
                     nm,ext = fops.split(".")
-                    js = widgets.get_saveas(ops_str,nm,ext,"Save ops")
+                    js = widge.get_saveas(ops_str,nm,ext,"Save ops")
                     components.html(js, height=30)                                                                            
                     with st.expander(f"view ops file {fops}"):                                        
                         st.code(ops_str)
                 
                 with col2:
                     nm,ext = flog.split(".")
-                    js = widgets.get_saveas(log_str,nm,ext,"Save log")
+                    js = widge.get_saveas(log_str,nm,ext,"Save log")
                     components.html(js, height=30)   
                     with st.expander(f"expand {flog}"):
                         st.write(log_csv)
@@ -114,14 +114,14 @@ def add_widgets():
                 col3,col4,col5 = st.columns(3)                
                 with col3:        
                     nm,ext = ftree.split(".")
-                    js = widgets.get_saveas(tree_str,nm,ext,"Save tree")
+                    js = widge.get_saveas(tree_str,nm,ext,"Save tree")
                     components.html(js, height=30)                
                     with st.expander(f"expand {ftree}"):
                         st.code(tree_str)
                                         
                 with col4:        
                     nm,ext = fano.split(".")
-                    js = widgets.get_saveas(ano_str,nm,ext,"Save annotated tree")
+                    js = widge.get_saveas(ano_str,nm,ext,"Save annotated tree")
                     components.html(js, height=30)   
                     with st.expander(f"expand {fano}"):
                         st.code(ano_str)
@@ -133,7 +133,7 @@ def add_widgets():
                             with open(fxml) as f:
                                 tree_xml = f.read()
                             nm,ext = fxml.split(".")
-                            js = widgets.get_saveas(tree_xml,nm,ext,"Save phyloxml")
+                            js = widge.get_saveas(tree_xml,nm,ext,"Save phyloxml")
                             components.html(js, height=30)                                                                            
                             with st.expander(f"expand {fxml}"):
                                 st.code(tree_xml)

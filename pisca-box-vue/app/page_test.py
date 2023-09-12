@@ -1,4 +1,4 @@
-import __init__
+import __init__ # noqa: F401
 import streamlit as st
 from contextlib import contextmanager, redirect_stdout
 from io import StringIO

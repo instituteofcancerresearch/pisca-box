@@ -1,4 +1,4 @@
-import __init__
+import __init__ # noqa: F401
 import streamlit as st
 
 def add_widgets():                            
