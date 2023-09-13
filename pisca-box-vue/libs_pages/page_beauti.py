@@ -41,24 +41,9 @@ def add_widgets(include_header):
                         st.write(fa_dates)
     
     if uploaded_dates is not None:
-        
-        ### ALIGN ########################################################        
-        #st.subheader("Alignment file viewer")        
-        #with st.expander("expand fasta file to view"):
-        #    st.code(fa_data)                
-                
-        ### DATES ########################################################        
-        #st.subheader("Alignment dates")        
-        #uploaded_dates = st.file_uploader("Select dates file",type=['csv'])                            
-        #if uploaded_dates is not None:
-        #    fa_dates = pd.read_csv(uploaded_dates)                    
-        #    with st.expander("expand dates file to view"):
-        #        st.write(fa_dates)
-        
-        
-        tabClock, tabLuca, tabTrees, tabMcmc,tabPisca,tabGenerate = st.tabs(["clock","luca","trees","mcmc","pisca","generate xml"])
-        
-                                                            
+                        
+        tabPisca, tabClock, tabLuca, tabTrees, tabMcmc, tabPriors,tabGenerate = st.tabs(["pisca","clock","luca","trees","mcmc","priors","generate xml"])
+                                                                            
         ### CLOCK ########################################################
         with tabClock:
             st.subheader("Clock model")
@@ -105,7 +90,15 @@ def add_widgets(include_header):
             datatype = st.radio('Select pisca datatype:', ["cnv", "acna"],key="pisca")
             seq_conversion = st.checkbox("Convert to letters",value=True,help="If the sequence is entered as numbers, do you want to convert it to A-J?")
             
-    
+        with tabPriors:
+            cols = st.columns([1,1,1])
+            with cols[0]:
+                st.write('clock rate')
+            with cols[1]:
+                clock_mean = st.number_input(label="clock mean",value=5.0)
+            with cols[2]:
+                clock_std = st.number_input(label="clock std",value=5.0)
+        
         ### GENERATE #############################################################             
         with tabGenerate:
             st.write("#### :checkered_flag: Check and save xml")        

@@ -10,7 +10,7 @@ pip install -r requirements.txt -U
 
 ### Running locally to test
 ```
-streamlit run app/app.py
+streamlit run app/home.py
 ```
 It is then available (usually) on http://localhost:8501/
 
