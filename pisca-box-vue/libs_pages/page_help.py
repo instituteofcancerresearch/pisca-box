@@ -1,45 +1,51 @@
 import __init__ # noqa: F401
 import streamlit as st
+import libs.widgets as widgets
 
-def add_widgets():   
-    #st.markdown('**Documentation for pisca-box-vue**')            
-    st.markdown('**[pisca-box-vue](https://hub.docker.com/r/rachelicr/pisca-vue)**')
-    st.markdown("_To run the containerised webapp pisca-box-vue_")
-    st.code("""
-            docker pull rachelicr/pisca-vue            
-            docker run -p 8000:8501 rachelicr/pisca-vue            
-            """)
-    
-    st.write("It is locally hosted on a port of your choice, in this case 8000. Open the app at [http://localhost:8000/](http://localhost:8000/)")
-    
-    st.markdown('**[pisca-box command-line](https://hub.docker.com/r/rachelicr/pisca-box)**')
-    msg = "An alternative version of pisca-box is available to run from the command-line for heavier duty use. To communicate with the container's file system a drive must be mounted. "
-    msg += "In this case the drive is :green[~/dev/beast-icr/xml], but should be the folder where your xml input file is. "
-    msg += "The folder with the xml file is also used as the working directory, so the output files will be written to this folder."
-    st.write(msg)  
-    st.write("Docker and singularity use different inputs for the drive mapping :blue[-v] and :blue[-B] respectively.")
-    st.write("The docker command is: docker run -v :green[/your/xml/dir]:/project/xml rachelicr/pisca-box :green[your.xml]")
-    st.write("The singularity command is: singularity run -B :green[/your/xml/dir]:/project/xml docker://rachelicr/pisca-box :green[your.xml]")
-    
-    
-    st.markdown("_Running the docker image from docker hub_")
 
-    st.code("""
-            docker pull rachelicr/pisca-box
-            docker run rachelicr/pisca-box validate            
-            docker run -v ~/dev/beast-icr/xml:/mnt rachelicr/pisca-box testStrictClock.xml
-            """)
+
+    
+def add_widgets(include_header):   
+        if include_header:
+                widgets.page_header('pisca help')
+        #st.markdown('**Documentation for pisca-box-vue**')      
+        
+        st.markdown('**[pisca-box-vue](https://hub.docker.com/r/rachelicr/pisca-vue)**')
+        st.markdown("_To run the containerised webapp pisca-box-vue_")
+        st.code("""
+                docker pull rachelicr/pisca-vue            
+                docker run -p 8000:8501 rachelicr/pisca-vue            
+                """)
+        st.write("It is locally hosted on a port of your choice, in this case 8000. Open the app at [http://localhost:8000/](http://localhost:8000/)")
+
+        st.markdown('**[pisca-box command-line](https://hub.docker.com/r/rachelicr/pisca-box)**')
+        msg = "An alternative version of pisca-box is available to run from the command-line for heavier duty use. To communicate with the container's file system a drive must be mounted. "
+        msg += "In this case the drive is :green[~/dev/beast-icr/xml], but should be the folder where your xml input file is. "
+        msg += "The folder with the xml file is also used as the working directory, so the output files will be written to this folder."
+        st.write(msg)  
+        st.write("Docker and singularity use different inputs for the drive mapping :blue[-v] and :blue[-B] respectively.")
+        st.write("The docker command is: docker run -v :green[/your/xml/dir]:/project/xml rachelicr/pisca-box :green[your.xml]")
+        st.write("The singularity command is: singularity run -B :green[/your/xml/dir]:/project/xml docker://rachelicr/pisca-box :green[your.xml]")
     
     
-    st.markdown("_Running the docker image from singularity hub_")
-    st.code("""
-            singularity pull docker://rachelicr/pisca-box
-            singularity run docker://rachelicr/pisca-box validate            
-            singularity run -B ~/dev/beast-icr/xml:/mnt docker://rachelicr/pisca-box testStrictClock.xml
-            """)
-    
-    with st.expander("All the beast command-line inputs"):
-            st.code("""
+        st.markdown("_Running the docker image from docker hub_")
+
+        st.code("""
+                docker pull rachelicr/pisca-box
+                docker run rachelicr/pisca-box validate            
+                docker run -v ~/dev/beast-icr/xml:/mnt rachelicr/pisca-box testStrictClock.xml
+                """)
+
+
+        st.markdown("_Running the docker image from singularity hub_")
+        st.code("""
+                singularity pull docker://rachelicr/pisca-box
+                singularity run docker://rachelicr/pisca-box validate            
+                singularity run -B ~/dev/beast-icr/xml:/mnt docker://rachelicr/pisca-box testStrictClock.xml
+                """)
+
+        with st.expander("All the beast command-line inputs"):
+                st.code("""
                 -verbose Give verbose XML parsing messages
                 -warnings Show warning messages about BEAST XML file
                 -strict Fail on non-conforming BEAST XML file
@@ -84,4 +90,5 @@ def add_widgets():
                 """)
 
                 
-    st.markdown("BEAST help can be found in the [Beast Community](http://beast.community/)")
+        st.markdown("BEAST help can be found in the [Beast Community](http://beast.community/)")
+        

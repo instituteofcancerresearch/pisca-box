@@ -7,13 +7,16 @@ from io import StringIO
 import libs.cls_xml as xml
 import libs.cls_fasta as fa
 import libs.cls_mcmc as mc
+import libs.widgets as widgets
 
 #https://dev.to/chrisgreening/complete-list-of-markdown-emojis-for-your-blog-posts-and-readme-s-164j
 
 
-def add_widgets():
-    
-    #cfa = st.container()
+
+
+def add_widgets(include_header):
+    if include_header:
+        widgets.page_header('beauti-box')
     fa_dates = None
     uploaded_dates = None
     fa_data = ""   

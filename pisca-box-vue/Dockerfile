@@ -73,6 +73,6 @@ COPY . .
 ####### Commands to run python application #######################
 #CMD streamlit run app/app.py
 ENTRYPOINT [ "streamlit", "run" ]
-CMD [ "/project/app/app.py", "--server.headless", "true", "--server.fileWatcherType", "none", "--browser.gatherUsageStats", "false"]
+CMD [ "/project/app/home.py", "--server.headless", "true", "--server.fileWatcherType", "none", "--browser.gatherUsageStats", "false"]
 # OR stop here to look in the container with BASH
 #CMD tail -f /dev/null

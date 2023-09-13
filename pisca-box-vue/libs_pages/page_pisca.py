@@ -10,6 +10,7 @@ import libs.cmds as cmd
 import pandas as pd
 import streamlit.components.v1 as components
 from Bio import Phylo
+import libs.widgets as widgets
 
 IS_TEST = False
 
@@ -27,7 +28,9 @@ def st_capture(output_func):
         yield
     
 ######################################################################
-def add_widgets():   
+def add_widgets(include_header):
+    if include_header:
+        widgets.page_header('pisca-box')
         
     st.subheader("Choose an xml file")
     uploaded_file = st.file_uploader("upload xml file",type=['xml'])                            

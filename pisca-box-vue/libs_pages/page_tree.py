@@ -6,6 +6,7 @@ from contextlib import contextmanager, redirect_stdout
 import libs.cmds as cmd
 from Bio import Phylo
 from matplotlib import pyplot as plt
+import libs.widgets as widgets
 
 #https://dev.to/chrisgreening/complete-list-of-markdown-emojis-for-your-blog-posts-and-readme-s-164j
 
@@ -111,7 +112,9 @@ def show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,interna
     
 
 
-def add_widgets():            
+def add_widgets(include_header):
+    if include_header:
+        widgets.page_header('tree-vue')         
             
     tree_xml = None
     tree_out = None

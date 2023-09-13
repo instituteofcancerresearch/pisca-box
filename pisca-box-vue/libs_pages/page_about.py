@@ -1,8 +1,12 @@
 import __init__ # noqa: F401
 import streamlit as st
 from PIL import Image
+import libs.widgets as widgets
 
-def add_widgets():       
+
+def add_widgets(include_header):       
+    if include_header:
+        widgets.page_header('About pisca-box-vue')
     image = Image.open('app/static/icr.png')
     st.markdown("""
                 
