@@ -25,7 +25,7 @@ docker build -t pisca-vue .
 
 ### Testing the docker image
 ```
-docker run --name pisca-vue-dev -p 8002:8501 pisca-vue
+docker run --rm --name pisca-vue-dev -p 8002:8501 pisca-vue
 http://localhost:8002/
 ```
 

@@ -1,7 +1,10 @@
 import __init__ # noqa: F401
 import streamlit as st
+import libs.widgets as widgets
 
-def add_widgets():                            
+def add_widgets(include_header):
+    if include_header:
+        widgets.page_header('pisca-box-vue')
     st.markdown("""
                 
                 Welcome to **pisca-box-vue**. This application is a user-friendly interface to the pisca-beast plug-in for
