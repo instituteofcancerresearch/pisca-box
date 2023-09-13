@@ -2,7 +2,7 @@
 
 ### Correctness
 
-The containerised app does not necessarily run on a workstation.
+The containerised app does not necessarily run on a workstation. 
 
 
 ### Before checkin
