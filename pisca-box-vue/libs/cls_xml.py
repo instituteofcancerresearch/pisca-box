@@ -34,9 +34,9 @@ class XmlWriter(object):
             xml += self._get_rates()        
         xml += self._get_frequency_model(self.datatype)
         xml += self._get_cna_model(self.datatype)
-        xml += self._get_site_model(self.datatype)        
-        lh_val,lh_up,lh_low,lb_val,lb_up,lb_low = self.lucas
-        xml += self._get_tree_likelihood(lh_val,lh_up,lh_low,lb_val,lb_up,lb_low, self.clock)
+        xml += self._get_site_model(self.datatype)                
+        lh_val,lb_val,lb_up,lb_low = self.lucas
+        xml += self._get_tree_likelihood(lh_val,lb_val,lb_up,lb_low, self.clock)
         xml += self._get_operators(self.demographic,self.datatype,self.clock)
         xml += self.mcmc.get_mcmc(self.datatype,self.demographic)
         xml += self._get_report()
@@ -297,14 +297,14 @@ class XmlWriter(object):
             st += '</siteModel>\n'            
         return st
     #----------------------------------
-    def _get_tree_likelihood(self,lh_val,lh_up,lh_low,lb_val,lb_up,lb_low,clock):        
+    def _get_tree_likelihood(self,lh_val,lb_val,lb_up,lb_low,clock):        
         cen = ""
         cen += '<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false">\n'
         cen += '\t<patterns idref="patterns"/>\n'
         cen += '\t<treeModel idref="treeModel"/>\n'
         cen += '\t<siteModel idref="siteModel"/>\n'
         cen += '\t<cenancestorHeight>\n'
-        cen += f'\t\t<parameter id="luca_height" value="{lh_val}" upper="{lh_up}" lower="{lh_low}"/>\n'
+        cen += f'\t\t<parameter id="luca_height" value="{lh_val}"/>\n'
         cen += '\t</cenancestorHeight>\n'
         cen += '\t<cenancestorBranch>\n'
         cen += f'\t\t<parameter id="luca_branch" value="{lb_val}" upper="{lb_up}" lower="{lb_low}"/>\n'

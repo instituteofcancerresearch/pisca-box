@@ -1,13 +1,5 @@
 # Pisca-Box: A containerisation of PISCA
 
-
-## Installation and use
-For pisca-vue (webapp) installation instructions click here: [README-use-vue.md](README-use-vue.md)  
-For pisca-run (command line) installation instructions click here: [README-use-run.md](README-use-run.md)  
-
-## Developer environment
-for developer instructions click here: [README-dev.md](README-dev.md)
-
 ## Summary
 Pisca-Box consists of 2 containerised applications to run PISCA.
 
@@ -46,8 +38,6 @@ $ docker run -v **/path/to/my/input/dir**:/project/xml rachelicr/pisca-box **myi
 An example, where my xml files are in the directory ~/dev/beast-icr/xml – validation.xml is the pisca validation file.
 
 $ docker run -v **~/dev/beast-icr/xml**:/project/xml rachelicr/pisca-box **validation.xml**
-
-
 
 ### singularity
 Pull the container – either explicitly or it will pull the first time you run it

@@ -1,4 +1,4 @@
-Sample,date,decimaldate,Tip_lab_old,Anatomical.location,compartment
+Sample,date,age,taxon,Anatomical.location,compartment
 Diploid,20/06/2019,2019.465753,Diploid,,
 IBD002_001E,20/06/2019,2019.465753,IBD002_001E,1,sigmoid
 IBD002_001S,20/06/2019,2019.465753,IBD002_001S,1,sigmoid

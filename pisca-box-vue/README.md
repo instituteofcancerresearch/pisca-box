@@ -46,7 +46,25 @@ docker start pisca-vue
 ```
 
 
-
+### debug and run in vscode
+https://stackoverflow.com/questions/60172282/how-to-run-debug-a-streamlit-application-from-an-ide
+the answer here that starts "If you're a VS Code user,"
+In summary, create a launch.json on the debugger (left side) in vscode. Add to it this config:
+```
+{
+    "name": "Python:Streamlit",
+    "type": "python",
+    "request": "launch",
+    "module": "streamlit",
+    "args": [
+         "run",
+         "${file}",
+         "--server.port",
+         "SPECIFY_YOUR_OWN_PORT_NUMBER_HERE"
+    ]
+}
+```
+when on the page you want to run, select python:streannlit and press play.
 
 
 
