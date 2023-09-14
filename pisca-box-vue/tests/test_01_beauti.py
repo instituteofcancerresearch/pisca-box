@@ -15,14 +15,26 @@ def help_show_dif(stringa, stringb):
             if i > 5 and i < min_len - 5:
                 print(i,stringa[i-3:i+3],stringb[i-3:i+3])
     
+def run_0102(trial_matches,str_store):
+    for keya,keyb in trial_matches:
+        stra = str_store[keya]
+        strb = str_store[keyb]
+        help_show_dif(stra,strb)
+        assert stra == strb, f"BEAUTI-02 xml strings do not match for {keya} and {keyb}"
+        
+                
 def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True):
          
     trials = []
-    #trials.append(['data_01a_belle.fasta','data_01a_belle_dates.csv','cnv',False])
-    #trials.append(['data_01b_patient1.fasta','data_01b_patient1_bb_orig_ages.csv','bb',False])
-    trials.append(['data_01b_patient1_bb_seq.csv','data_01b_patient1_bb_orig_ages.csv','bb',True])
+    trials.append(['set1','data_01a_belle.fasta','data_01a_belle_dates.csv','cnv',False])
+    trials.append(['bb-fasta','data_01b_patient1.fasta','data_01b_patient1_bb_orig_ages.csv','bb',False])
+    trials.append(['bb-csv','data_01b_patient1_bb_seq.csv','data_01b_patient1_bb_orig_ages.csv','bb',True])
     
-    for seq_file,seq_ages,seq_type,as_csv in trials:
+    str_store = {}
+    trial_matches = []
+    trial_matches.append(['bb-fasta','bb-csv'])
+    
+    for key,seq_file,seq_ages,seq_type,as_csv in trials:
 
         # File selection
         fasta_string = ""
@@ -78,36 +90,41 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
             with open(filename, "w") as f:
                 f.write(xmlstr)
                 print("saved to",filename)
+        xmlstr = xmlstr.replace("\n","").replace(" ","").replace("\t","")
         if check_assert:
             fix_file = f'{this_dir}/fixtures/{seq_file}_fix.xml'
             fix_str = ""
             with open(fix_file, "r") as f:
                 fix_str = f.read()
             fix_str = fix_str.replace("\n","").replace(" ","").replace("\t","")
-            xmlstr = xmlstr.replace("\n","").replace(" ","").replace("\t","")
+            
             if fix_str != xmlstr:
                 help_show_dif(fix_str,xmlstr)
             assert fix_str == xmlstr, f"BEAUTI-01 xml strings do not match for {seq_file}"
+        
+        str_store[key] = xmlstr
+        
+    run_0102(trial_matches,str_store)
             
            
 ############################################    
 
-def test_0102():    
-    # these files should be the same
-    trials = []
-    trials.append(['data_01b_patient1.fasta_tst.xml','data_01b_patient1_bb_seq.csv_tst.xml'])
-    
-    for filea,fileb in trials:
-        with open(f'{this_dir}/fixtures/{filea}', "r") as f:
-            filea_str = f.read()
-        filea_str = filea_str.replace("\n","").replace(" ","").replace("\t","")
-                
-        with open(f'{this_dir}/fixtures/{fileb}', "r") as f:
-            fileb_str = f.read()
-        fileb_str = fileb_str.replace("\n","").replace(" ","").replace("\t","")
-        
-        if filea_str != fileb_str:
-            help_show_dif(filea_str,fileb_str)                                                         
-        assert filea_str == fileb_str, f"BEAUTI-02 xml files do not match for {filea} and {fileb}"
+#def test_0102():    
+#    # these files should be the same
+#    trials = []
+#    trials.append(['data_01b_patient1.fasta_tst.xml','data_01b_patient1_bb_seq.csv_tst.xml'])
+#    
+#    for filea,fileb in trials:
+#        with open(f'{this_dir}/fixtures/{filea}', "r") as f:
+#            filea_str = f.read()
+#        filea_str = filea_str.replace("\n","").replace(" ","").replace("\t","")
+#                
+#        with open(f'{this_dir}/fixtures/{fileb}', "r") as f:
+#            fileb_str = f.read()
+#        fileb_str = fileb_str.replace("\n","").replace(" ","").replace("\t","")
+#        
+#        if filea_str != fileb_str:
+#            help_show_dif(filea_str,fileb_str)                                                         
+#        assert filea_str == fileb_str, f"BEAUTI-02 xml files do not match for {filea} and {fileb}"
     
     
