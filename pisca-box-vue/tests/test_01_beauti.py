@@ -61,7 +61,7 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
         
         # MCMC                        
         name = "my name any"            
-        chain_length = value=2500            
+        chain_length = 2500            
         log_every = 250
                                 
         fasta = fa.Fasta(fasta_string,csv_ages,seq_conversion,seq_csv)

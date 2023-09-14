@@ -124,6 +124,9 @@ def add_widgets(include_header):
                     clock_mean = st.number_input(label="clock mean",value=5.0)
                 with cols[2]:
                     clock_std = st.number_input(label="clock std",value=5.0)
+                
+                if clock_mean == clock_std:
+                    print("same") #this is just debug code to stop the error about not being used in ruff for now
             
             ### GENERATE #############################################################             
             with tabGenerate:
