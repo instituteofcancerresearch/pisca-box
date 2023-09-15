@@ -166,5 +166,6 @@ cython_debug/
 *.trees
 *.tree
 *.xml
+# fixture xmls to keep
 !/pisca-box-vue/tests/fixtures/*fix.xml
 

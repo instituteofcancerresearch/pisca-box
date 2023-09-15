@@ -1,4 +1,5 @@
 import test_01_beauti as beauti
+import test_02_beast as beast
 
 
 ################################################# BEAUTI #################################################
@@ -10,4 +11,6 @@ beauti.test_0101(show_xml=False,save_xml=True,overwrite=False,check_assert = Tru
 
 
 ################################################# PISCA #################################################
+
+beast.test_0201()
 

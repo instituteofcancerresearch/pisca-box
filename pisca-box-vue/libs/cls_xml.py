@@ -2,11 +2,11 @@
 # ruff: noqa: E501
 
 class XmlWriter(object):
-    def __init__(self,fasta,mcmc,lucas,clock,demographic,datatype):        
+    def __init__(self,fasta,mcmc,lucas,clocks,demographic,datatype):        
         self.fasta = fasta
         self.mcmc = mcmc
         self.lucas = lucas
-        self.clock = clock
+        self.clocks = clocks
         self.demographic = demographic
         self.datatype = datatype
         
@@ -14,31 +14,47 @@ class XmlWriter(object):
     def get_xml(self):
         xml = ""
         xml += self._get_xml_header()
+        xml += self._add_comment("TAXA")
         xml += self.fasta.get_fasta_taxa()        
+        xml += self._add_comment("GENERAL DATATYPE")
         xml += self._get_general_datatype(self.datatype)
+        xml += self._add_comment("ALIGNMENT")
         xml += self.fasta.get_fasta_alignment(self.datatype)
+        xml += self._add_comment("CHARACTER PATTERNS")
         xml += self._get_character_patterns(self.datatype)
         if self.demographic == "constant size":
+            xml += self._add_comment("CONSTANT SIZE")
             xml += self._get_constant_size()
-            xml += self._get_coalescent_simulator("constant")
+            xml += self._get_coalescent_simulator("constant")            
+            xml += self._add_comment("TREE MODEL")
             xml += self._get_tree_model()
             xml += self._get_coalescent_likelihood("constant")
         elif self.demographic == "exponential growth":
+            xml += self._add_comment("EXPONENTIAL GROWTH")
             xml += self._get_exponential_growth("assumption that pop size remained EXPO over time spanned by the geneology")
-            xml += self._get_coalescent_simulator("exponential")
+            xml += self._get_coalescent_simulator("exponential")            
+            xml += self._add_comment("TREE MODEL")
             xml += self._get_tree_model()
-            xml += self._get_coalescent_likelihood("exponential")                            
-        xml += self._get_cenancestor_clock(self.clock)
-        if self.clock == "random local clock":
+            xml += self._get_coalescent_likelihood("exponential")                                    
+        xml += self._add_comment("CENANCESTOR CLOCK")
+        xml += self._get_cenancestor_clock(self.clocks)
+        if self.clocks['type'] == "random local clock":
             xml += self._get_sum_statistic()
             xml += self._get_rates()        
+        xml += self._add_comment("FREQUENCY MODEL")
         xml += self._get_frequency_model(self.datatype)
+        xml += self._add_comment("CNA MODEL")
         xml += self._get_cna_model(self.datatype)
+        xml += self._add_comment("SITE MODEL")
         xml += self._get_site_model(self.datatype)                
-        lh_val,lb_val,lb_up,lb_low = self.lucas
-        xml += self._get_tree_likelihood(lh_val,lb_val,lb_up,lb_low, self.clock)
-        xml += self._get_operators(self.demographic,self.datatype,self.clock)
+        lh_val,lb_val,lb_up,lb_low = self.lucas["height"],self.lucas["branch"],self.lucas["upper"],self.lucas["lower"]
+        xml += self._add_comment("TREE LIKELIHOOD")
+        xml += self._get_tree_likelihood(lh_val,lb_val,lb_up,lb_low, self.clocks)
+        xml += self._add_comment("OPERATORS")
+        xml += self._get_operators(self.demographic,self.datatype,self.clocks)
+        xml += self._add_comment("MCMC and PRIORS")
         xml += self.mcmc.get_mcmc(self.datatype,self.demographic)
+        xml += self._add_comment("REPORT")
         xml += self._get_report()
         xml += self._get_xml_footer()
         return xml
@@ -95,7 +111,13 @@ class XmlWriter(object):
             gdt += '\t<state code="["/> <!-- Genotype: 6,0 ; Beast State: 27 -->\n'
             gdt += '\t<ambiguity code="-" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>\n'
             gdt += '\t<ambiguity code="?" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>\n'
-            gdt += '\t</generalDataType>\n'            
+            gdt += '\t</generalDataType>\n'
+        elif datatype == "bb":
+            gdt += '<generalDataType id="biallelicBinary">\n'
+            gdt += '<state code="0"/> <!-- Genotype: 0 ; Beast State: 0 -->\n'
+            gdt += '<state code="1"/> <!-- Genotype: 1 ; Beast State: 1 -->\n'
+            gdt += '<state code="2"/> <!-- Genotype: 2 ; Beast State: 2 -->\n'
+            gdt += '</generalDataType>\n' 
         return gdt
     #----------------------------------
     def _get_xml_header(self):
@@ -110,14 +132,19 @@ class XmlWriter(object):
         return ftr
     #----------------------------------
     def _get_character_patterns(self,datatype):
-        state = "H"
-        if datatype == "acna":
-            state = "B"
         pat = ""
-        pat += '<ascertainedCharacterPatterns id="patterns">\n'
-        pat += '\t<alignment idref="alignment"/>\n'
-        pat += f'\t<state code="{state}"/>\n'
-        pat += '</ascertainedCharacterPatterns>\n'
+        if datatype == "bb":
+            pat += '<patterns id="patterns" from="1">\n'
+            pat += '\t<alignment idref="alignment"/>\n'
+            pat += '</patterns>\n'
+        else:
+            state = "H"
+            if datatype == "acna":
+                state = "B"            
+            pat += '<ascertainedCharacterPatterns id="patterns">\n'
+            pat += '\t<alignment idref="alignment"/>\n'
+            pat += f'\t<state code="{state}"/>\n'
+            pat += '</ascertainedCharacterPatterns>\n'
         return pat
     #----------------------------------
     def _get_constant_size(self):
@@ -183,17 +210,18 @@ class XmlWriter(object):
         cl += '</coalescentLikelihood>\n'
         return cl
     #----------------------------------
-    def _get_cenancestor_clock(self,clock):
-        if clock == "strict clock":
+    def _get_cenancestor_clock(self,clocks):
+        if clocks['type'] == "strict clock":
             return self._get_strict_clock()
         else:
             return self._get_random_clock()                    
     #----------------------------------
     def _get_strict_clock(self):
+        rate = self.clocks['rate']
         cl = ""
         cl += '<strictClockCenancestorBranchRates id="branchRates">\n'
         cl += '\t<rate>\n'
-        cl += '\t\t<parameter id="clock.rate" value="1"/>\n'
+        cl += f'\t\t<parameter id="clock.rate" value="{rate}"/>\n'
         cl += '\t</rate>\n'
         cl += '</strictClockCenancestorBranchRates>\n'
         return cl            
@@ -238,6 +266,8 @@ class XmlWriter(object):
         return rts
     #----------------------------------
     def _get_frequency_model(self,datatype):
+        if datatype == "bb":
+            datatype = "biallelicBinary"
         fm = ""        
         fm += '<frequencyModel id="frequencies">\n'
         fm += f'\t<dataType idref="{datatype}"/>\n'
@@ -246,6 +276,8 @@ class XmlWriter(object):
             fm += f'\t\t<parameter id="{datatype}.frequencies" value="0 0 1 0 0 0 0 0 0 0 0"/>\n'
         elif datatype == "cnv":
             fm += f'\t\t<parameter id="{datatype}.frequencies" value="0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/>\n'
+        elif datatype == "biallelicBinary":
+            fm += f'\t\t<parameter id="{datatype}.frequencies" value="0.5 0 0.5"/>\n'
         fm += '\t</frequencies>\n'
         fm += '</frequencyModel>\n'	   	  
         return fm
@@ -279,6 +311,21 @@ class XmlWriter(object):
             cna += '\t\t<parameter id="cnv.conversion" value="1" lower="0"/>\n'
             cna += '\t</conversion_rate>\n'
             cna += '</CNVModel>\n'            
+        elif datatype == "bb":
+            cna += '<BiallelicBinaryModel id="biallelicBinary_subsmodel">\n'
+            cna += '\t<frequencies>\n'
+            cna += '\t\t<frequencyModel idref="frequencies"/>\n'
+            cna += '\t</frequencies>\n'                        
+            cna += '\t<demethylation_rate>\n'
+            cna += '\t\t<parameter id="biallelicBinary.demethylation" value="1" lower="0"/>\n'
+            cna += '\t</demethylation_rate>\n'
+            cna += '\t<homozygousDemethylation_rate>\n'
+            cna += '\t\t<parameter id="biallelicBinary.homozygousDemethylation" value="1" lower="0"/>\n'
+            cna += '\t</homozygousDemethylation_rate>\n'
+            cna += '\t<homozygousMethylation_rate>\n'
+            cna += '\t\t<parameter id="biallelicBinary.homozygousMethylation" value="1" lower="0"/>\n'
+            cna += '\t</homozygousMethylation_rate>\n'                    
+            cna += '</BiallelicBinaryModel>\n'            
         return cna
     #----------------------------------
     def _get_site_model(self,datatype):
@@ -295,9 +342,15 @@ class XmlWriter(object):
             st += '\t\t<CNVModel idref="cnv_subsmodel"/>\n'
             st += '\t</substitutionModel>\n'
             st += '</siteModel>\n'            
+        elif datatype == "bb":
+            st += '<siteModel id="siteModel">\n'
+            st += '\t<substitutionModel>\n'
+            st += '\t\t<BiallelicBinaryModel idref="biallelicBinary_subsmodel"/>\n'
+            st += '\t</substitutionModel>\n'
+            st += '</siteModel>\n'            
         return st
     #----------------------------------
-    def _get_tree_likelihood(self,lh_val,lb_val,lb_up,lb_low,clock):        
+    def _get_tree_likelihood(self,lh_val,lb_val,lb_up,lb_low,clocks):        
         cen = ""
         cen += '<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false">\n'
         cen += '\t<patterns idref="patterns"/>\n'
@@ -309,23 +362,26 @@ class XmlWriter(object):
         cen += '\t<cenancestorBranch>\n'
         cen += f'\t\t<parameter id="luca_branch" value="{lb_val}" upper="{lb_up}" lower="{lb_low}"/>\n'
         cen += '\t</cenancestorBranch>\n'
-        if clock == "strict clock":
+        if clocks['type'] == "strict clock":
             cen += '\t<strictClockCenancestorBranchRates idref="branchRates"/>\n'
-        elif clock == "random local clock":
+        elif clocks['type'] == "random local clock":
             cen += '\t<randomLocalClockModelCenancestor idref="branchRates"/>\n'
         cen += '</cenancestorTreeLikelihood>\n'
         return cen
     #----------------------------------
-    def _get_operators(self, demographic,datatype,clock):
+    def _get_operators(self, demographic,datatype,clocks):
+        if datatype == "bb":
+            datatype = "biallelicBinary"
         op = ""
-        op += '<operators id="operators" optimizationSchedule="default">\n'        
-        op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-        op += f'\t\t<parameter idref="{datatype}.loss"/>\n'
-        op += '\t</scaleOperator>\n'        
+        op += '<operators id="operators" optimizationSchedule="default">\n'
+        if datatype != "biallelicBinary":
+            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
+            op += f'\t\t<parameter idref="{datatype}.loss"/>\n'
+            op += '\t</scaleOperator>\n'        
         op += '\t<scaleOperator scaleFactor="0.5" weight="10.0">\n'
         op += '\t\t<parameter idref="clock.rate"/>\n'
         op += '\t</scaleOperator>\n'                
-        if clock == "random local clock":
+        if clocks['type'] == "random local clock":
             op += '\t<scaleOperator scaleFactor="0.75" weight="15">\n'
             op += '\t\t<parameter idref="localClock.relativeRates"/>\n'
             op += '\t</scaleOperator>\n'        
@@ -372,7 +428,20 @@ class XmlWriter(object):
         op += '<parameter idref="treeModel.allInternalNodeHeights"/>'
         op += '</down>\n'
         op += '\t</upDownOperator>\n'        
+        if datatype == "biallelicBinary":
+            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
+            op += '\t\t<parameter idref="biallelicBinary.demethylation"/>\n'
+            op += '\t</scaleOperator>\n'
+            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
+            op += '\t\t<parameter idref="biallelicBinary.homozygousMethylation"/>\n'
+            op += '\t</scaleOperator>\n'
+            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
+            op += '\t\t<parameter idref="biallelicBinary.homozygousDemethylation"/>\n'
+            op += '\t</scaleOperator>\n'
         op += '</operators>\n'
+        
+            
+            
         return op
     #----------------------------------        
     def _get_report(self):
@@ -383,5 +452,8 @@ class XmlWriter(object):
         rp += '\t</property>\n'
         rp += '</report>\n'
         return rp
+    
+    def _add_comment(self,comment):
+        return f"<!-- {comment} -->\n"        
     #----------------------------------
     

@@ -32,10 +32,10 @@ http://localhost:8002/
 ### Pushing the docker image to docker hub
 ```
 docker tag pisca-vue rachelicr/pisca-vue
-docker tag pisca-vue rachelicr/pisca-vue:v06
+docker tag pisca-vue rachelicr/pisca-vue:v07
 
 docker push rachelicr/pisca-vue
-docker push rachelicr/pisca-vue:v06
+docker push rachelicr/pisca-vue:v07
 ```
 
 ### Running the docker image from docker hub

@@ -113,11 +113,13 @@ class Fasta(object):
         return seqstr
      
     
-    def _make_alignment(self,datatype):        
+    def _make_alignment(self,datatype):
+        if datatype == "bb":
+            datatype = "biallelicBinary"
         algn = '<alignment id="alignment">\n'
         algn += f'\t<dataType idref="{datatype}"/>\n'
         for id,seq in self.dic_taxon_seq.items():
-            algn += self._make_a_sequence(id,seq)
+            algn += self._make_a_sequence(id,seq.strip())
         algn += '</alignment>\n'
         return algn
 	

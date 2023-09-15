@@ -52,8 +52,13 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
         datatype = seq_type #(cnv / acna / bb)
         seq_conversion = datatype in ['cnv','acna']   
         
-        # CLOCK
+        # CLOCK        
         clock = "strict clock" # ["strict clock", "random local clock"]
+        clock_rate = 0.13
+        clocks = {}        
+        clocks['type'] = clock
+        clocks['rate'] = clock_rate
+        
         
         # LUCA
         #we want to draw the age
@@ -62,23 +67,34 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
         # s from column age and the seq id from column taxon
         max_age = csv_ages['age'].max()   
         min_age = csv_ages['age'].min()
-        luca_height = max_age
-        luca_branch = min_age
-        luca_lower = 0
-        luca_upper = min_age
-        lucas = (luca_height,luca_branch,luca_lower,luca_upper) # this is all dependednt on the dates
-        
+        lucas = {}
+        lucas["height"] = max_age
+        lucas["branch"] = 34
+        lucas["lower"] = 0.0
+        lucas["upper"] = min_age                
+                
         # TREES
         demographic =  "constant size" #["constant size", "exponential growth"]
         
-        # MCMC                        
-        name = "my name any"            
-        chain_length = 2500            
-        log_every = 250
+        # MCMC
+        mcmcs = {}
+        mcmcs['name'] = "my name any"
+        mcmcs['chain_length'] = 2500
+        mcmcs['log_every'] = 250
+        mcmcs['mle'] = True
+                
+        # PRIORS
+        priors = {}
+        priors['luca_branch'] = {'prior_type':'uniform','value':max_age}
+        priors['clock.rate'] = {'prior_type':'normal','mean':0.0,'std':0.13}
+        priors['biallelicBinary.demethylation'] = {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}
+        priors['biallelicBinary.homozygousMethylation'] = {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}
+        priors['biallelicBinary.homozygousDemethylation']= {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}    
+        
                                 
         fasta = fa.Fasta(fasta_string,csv_ages,seq_conversion,seq_csv)
-        mcmc = mc.MCMC(name,chain_length, log_every,clock)                                    
-        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clock,demographic,datatype)
+        mcmc = mc.MCMC(mcmcs,clocks,priors)                                    
+        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype)
 
         xmlstr = xmlwriter.get_xml()
         if show_xml:
