@@ -16,14 +16,19 @@ def help_show_dif(stringa, stringb):
                 print(i,stringa[i-3:i+3],stringb[i-3:i+3])
     
 def run_0102(trial_matches,str_store):
+    success = True
     for keya,keyb in trial_matches:
         stra = str_store[keya]
         strb = str_store[keyb]
         help_show_dif(stra,strb)
         assert stra == strb, f"BEAUTI-02 xml strings do not match for {keya} and {keyb}"
+        if stra != strb:
+            success = False
+    return success
         
                 
 def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True):
+    success = True
          
     trials = []
     trials.append(['set1','data_01a_belle.fasta','data_01a_belle_dates.csv','cnv',False])
@@ -116,11 +121,13 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
             
             if fix_str != xmlstr:
                 help_show_dif(fix_str,xmlstr)
+                success = False
             assert fix_str == xmlstr, f"BEAUTI-01 xml strings do not match for {seq_file}"
         
         str_store[key] = xmlstr
         
-    run_0102(trial_matches,str_store)
+    succ = run_0102(trial_matches,str_store)
+    return success and succ
             
            
 ############################################    

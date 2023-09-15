@@ -3,7 +3,8 @@ import libs.cmds as cmd
 
 this_dir = "/".join(__file__.split('/')[:-1])
 
-def test_0201():
+def reg_0201():
+    success = True
     xmls = []
     xmls.append("data_02a_validation_fix.xml")
         
@@ -14,6 +15,10 @@ def test_0201():
         params = paramstr.split(",")                
         ret = cmd.run_beast(params)
         assert ret == "done", "beast failed"
+        if ret != "done":
+            success = False
+    return success
+        
     
     
     
