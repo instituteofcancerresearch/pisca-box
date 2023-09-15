@@ -42,6 +42,7 @@ docker push rachelicr/pisca-vue:v07
 ```
 docker pull rachelicr/pisca-vue
 docker run --name pisca-vue -p 8001:8501 rachelicr/pisca-vue
+docker run --rm --name pisca-vue-dock -p 8001:8501 rachelicr/pisca-vue
 docker start pisca-vue
 ```
 

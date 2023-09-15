@@ -15,7 +15,7 @@ docker_latest = f"{docker}/{name}:latest"
 docker_versioned = f"{docker}/{name}:{version}"    
 
 ## WHICH STAGES TO RUN ##
-test_build, test_regression, build_docker,upload_docker = True,True,True,False
+test_build, test_regression, build_docker,upload_docker = True,True,True,True
  
 
 def run_commands(cmd_set):
@@ -24,7 +24,7 @@ def run_commands(cmd_set):
         print(cmd_one)
         print("----------------------------------------------------------------------------------")
         try:            
-            result = subprocess.run(cmd_one,stderr=subprocess.PIPE,stdout=subprocess.PIPE,shell=True,).stdout.decode('utf-8')            
+            result = subprocess.run(cmd_one,stdout=subprocess.PIPE,shell=True,).stdout.decode('utf-8')            
             print(result.strip())
         except Exception as e:
             print("Failed to run", cmd_one,str(e),"!")

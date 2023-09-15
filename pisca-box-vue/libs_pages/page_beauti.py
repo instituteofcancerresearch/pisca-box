@@ -94,7 +94,7 @@ def add_widgets(include_header):
                 with st.container():
                     cols = st.columns([5,1])            
                     with cols[0]:
-                        lb_val = st.slider("luca-branch",0.0,min_age,round(min_age/2),help="This can be between 0 and the root node, or minimum age")
+                        lb_val = st.slider("luca-branch",0.0,min_age,float(round(min_age/2)),help="This can be between 0 and the root node, or minimum age")
                     col1, col2 = st.columns([1,4])            
                     with col1:                
                         st.write(f"luca-height = {round(max_age,4)}")
