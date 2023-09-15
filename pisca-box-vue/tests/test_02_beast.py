@@ -12,7 +12,9 @@ def test_0201():
                 
         paramstr = f"-working,-overwrite,-beagle_off,{filename}"
         params = paramstr.split(",")                
-        cmd.run_beast(params)
+        ret = cmd.run_beast(params)
+        assert ret == "done", "beast failed"
+    
     
     
     
