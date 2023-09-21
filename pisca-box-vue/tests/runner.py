@@ -1,3 +1,5 @@
+import os
+import glob
 import test_01_beauti as beauti
 import regression_01_beast as beast
 
@@ -20,6 +22,23 @@ def run_regression():
     
     return s1 and s2
     
-#run_regression()
+def run_beast_regression():        
+    # Running tests in the container - built in the previous step of the build process
+    ################################################# BEAST #################################################
+    s2 = beast.reg_0202()
+    
+    return s2
+
+def clean_logs(dir,pattern):    
+    # Get a list of all the file paths that ends with .txt from in specified directory
+    fileList = glob.glob(f'{dir}/{pattern}')
+    # Iterate over the list of filepaths & remove each file.
+    for filePath in fileList:
+        try:
+            os.remove(filePath)
+            print("Removed : ", filePath)
+        except:
+            print("Error while deleting file : ", filePath)
+    
 
 

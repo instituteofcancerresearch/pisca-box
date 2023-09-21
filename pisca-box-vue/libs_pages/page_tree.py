@@ -35,13 +35,14 @@ def do_plot(internal_tree_file,opts):
                 clade.color = '#EFA6C6'
             else:
                 clade.color = '#D71A6F'                                                            
-    tree.ladderize()  # Flip branches so deeper clades are displayed at top
+    tree.ladderize()  # Flip branches so deeper clades are displayed at top            
     st.set_option('deprecation.showPyplotGlobalUse', False)                                
-    fig = plt.figure(figsize=(10, 20), dpi=100)
-    axes = fig.add_subplot(1, 1, 1)    
-    #axes.set_title("Phylogenetic tree from pisca-box")
-    #axes.text(0.5, 0.99, "Phylogenetic tree from pisca-box", horizontalalignment='center', verticalalignment='center', transform=axes.transAxes, fontsize=12)
-    st.pyplot(Phylo.draw(tree,axes=axes,show_confidence=True))
+    fig = plt.figure(figsize=(5, 5), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)                
+    Phylo.draw(tree,axes=ax,show_confidence=True)
+    #plt.axvline(0,color="teal",linestyle='--',lw=1)
+    ax.set_title("Phylogenetic tree from pisca-box")
+    st.pyplot(fig)
     
 def remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig):    
     if os.path.isfile(internal_tree_file_xml):
@@ -109,9 +110,8 @@ def show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,interna
         except Exception as e:
             st.error("Error plotting to Bio.Phylo, did you give a valid annotated tree file?")
             st.error(str(e))
-    
-
-
+            
+        
 def add_widgets(include_header):
     if include_header:
         widgets.page_header('tree-vue')         
@@ -201,11 +201,7 @@ def add_widgets(include_header):
         
                                     
     # Now load the files again as there can be instatiation erros from embedded buttons
-    if uploaded_file is not None:         
-    #    if os.path.isfile(internal_in_file):
-    #        with open(internal_in_file) as f:
-    #            tree_in = f.read()                                    
-    
+    if uploaded_file is not None:                 
         show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)
     else:
         remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)
