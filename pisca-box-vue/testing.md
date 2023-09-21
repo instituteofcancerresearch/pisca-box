@@ -3,6 +3,7 @@
 ### Correctness
 
 The containerised app does not necessarily run on a workstation. 
+The tests are in the tests directory and are run by pytest.
 
 
 ### Before checkin

@@ -162,9 +162,10 @@ cython_debug/
 
 # singularity
 *.sif
-pisca-box-vue/temp.xml
 *.ops
 *.trees
 *.tree
 *.xml
+# fixture xmls to keep
+!/pisca-box-vue/tests/fixtures/*fix.xml
 

@@ -1,13 +1,5 @@
 # Pisca-Box: A containerisation of PISCA
 
-
-## Installation and use
-For pisca-vue (webapp) installation instructions click here: [README-use-vue.md](README-use-vue.md)  
-For pisca-run (command line) installation instructions click here: [README-use-run.md](README-use-run.md)  
-
-## Developer environment
-for developer instructions click here: [README-dev.md](README-dev.md)
-
 ## Summary
 Pisca-Box consists of 2 containerised applications to run PISCA.
 

@@ -1,11 +1,12 @@
-
+import pandas as pd
 
 
 class Fasta(object):
-    def __init__(self, big_string,dates_csv,seq_conversion):
+    def __init__(self, big_string,ages_csv,seq_conversion,taxon_csv=pd.DataFrame()):
         self.big_string = big_string
-        self.dates_csv = dates_csv
+        self.ages_csv = ages_csv
         self.seq_conversion = seq_conversion
+        self.taxon_csv = taxon_csv        
         self._convert_to_dict()
         
     ### PUBLIC INTERFACE ######### 
@@ -21,51 +22,71 @@ class Fasta(object):
     ### PRIVATE HELPERS ######### 
     
     def _convert_to_dict(self):
-        self.dic_id_seq = {}        
-        self.dic_id_dates = {}
-        self.dic_id_tips = {}
+        self.dic_taxon_age = {}
+        self.dic_taxon_seq = {}
+        self.dic_taxon_compartment = {}
         
-        ls_string = self.big_string.split(">")
-        for id_seq in ls_string:
-            idseq = id_seq.split("\n")
-            if len(idseq) < 2:                
-                continue
-            id = idseq[0].strip()
-            seq = idseq[1].strip()
-            if self.seq_conversion:
-                seq = seq.replace("0","A")
-                seq = seq.replace("1","B")
-                seq = seq.replace("2","C")
-                seq = seq.replace("3","D")
-                seq = seq.replace("4","E")
-                seq = seq.replace("5","F")
-                seq = seq.replace("6","G")
-                seq = seq.replace("7","H")
-                seq = seq.replace("8","I")
-                seq = seq.replace("9","J")
-            self.dic_id_seq[id] = seq
+        if self.taxon_csv.empty:
+            ls_string = self.big_string.split(">")
+            for id_seq in ls_string:
+                idseq = id_seq.split("\n")
+                if len(idseq) < 2:                
+                    continue
+                id = idseq[0].strip()
+                seq = idseq[1].strip()
+                if self.seq_conversion:
+                    seq = seq.replace("0","A")
+                    seq = seq.replace("1","B")
+                    seq = seq.replace("2","C")
+                    seq = seq.replace("3","D")
+                    seq = seq.replace("4","E")
+                    seq = seq.replace("5","F")
+                    seq = seq.replace("6","G")
+                    seq = seq.replace("7","H")
+                    seq = seq.replace("8","I")
+                    seq = seq.replace("9","J")
+                self.dic_taxon_seq[id] = seq
+        else:
+            taxa = self.taxon_csv.columns            
+            for taxon in taxa:
+                taxon = taxon.strip()
+                seqs = self.taxon_csv[taxon].tolist()
+                seq = ''.join(str(seqs))
+                seq = seq.replace(",","").replace(" ","").replace("[","").replace("]","")                
+                if self.seq_conversion:
+                    seq = seq.replace("0","A")
+                    seq = seq.replace("1","B")
+                    seq = seq.replace("2","C")
+                    seq = seq.replace("3","D")
+                    seq = seq.replace("4","E")
+                    seq = seq.replace("5","F")
+                    seq = seq.replace("6","G")
+                    seq = seq.replace("7","H")
+                    seq = seq.replace("8","I")
+                    seq = seq.replace("9","J")
+                self.dic_taxon_seq[taxon] = seq
         
-        if self.dates_csv is not None:
-            cols = self.dates_csv.columns        
-            for i,row in self.dates_csv.iterrows():
-                id = row[cols[0]]
-                dat = row[cols[1]]
-                dec = row[cols[2]]
-                tip = row[cols[3]]  
-                loc = row[cols[4]]
-                cpt = row[cols[5]]
-                #if id in self.dic_id_seq:
-                self.dic_id_dates[id] = (dat,dec,tip,loc,cpt)
-                self.dic_id_tips[tip] = (dat,dec,id,loc,cpt)
-                    
-            
-            #print(self.dic_id_dates)
+        
+        if self.ages_csv is not None:
+            ages = self.ages_csv["age"]
+            taxa = self.ages_csv["taxon"]
+            for i in range(len(ages)):
+                taxon = taxa[i]
+                age = ages[i]
+                self.dic_taxon_age[taxon] = age                                                
+        if "compartment" in self.ages_csv.columns:
+            compartments = self.ages_csv["compartment"]
+            taxa = self.ages_csv["taxon"]
+            for i in range(len(compartments)):
+                taxon = taxa[i]
+                cpt = compartments[i]
+                self.dic_taxon_compartment[taxon] = cpt
                 
-                    
-    def _make_a_taxon(self,id,date,compartment):
+                                    
+    def _make_a_taxon(self,id,age,compartment):
         taxon = ""
         taxon += f'\t<taxon id="{id}">\n'
-        taxon += f'\t\t<date value="{date}" direction="forwards" units="years"/>\n'
+        taxon += f'\t\t<date value="{age}" direction="forwards" units="years"/>\n'
         if compartment != "?":
             taxon += '\t\t<attr name="compartment">\n'
             taxon += f'\t\t\t{compartment}"\n'
@@ -74,16 +95,13 @@ class Fasta(object):
         return taxon
 
     def _make_taxa(self):
-        taxa = '<taxa id="taxa">\n'
-        for id,seq in self.dic_id_seq.items():
-            dat,dec,tip,loc,cpt = "?","?","?","?","?"
-            if id in self.dic_id_dates:
-                dat,dec,tip,loc,cpt = self.dic_id_dates[id]        
-            elif id in self.dic_id_tips:
-                dat,dec,id2,loc,cpt = self.dic_id_tips[id]        
+        taxa = '<taxa id="taxa">\n'        
+        for tx,age in self.dic_taxon_age.items():            
+            if id in self.dic_taxon_compartment:
+                cpt = self.dic_taxon_compartment[id]        
             else:
-                print(f"Warning: {id} not found in dates file")
-            taxa += self._make_a_taxon(id,dec,cpt)
+                cpt = "?"            
+            taxa += self._make_a_taxon(tx,age,cpt)
         taxa += '</taxa>\n'
         return taxa
     
@@ -95,11 +113,13 @@ class Fasta(object):
         return seqstr
      
     
-    def _make_alignment(self,datatype):        
+    def _make_alignment(self,datatype):
+        if datatype == "bb":
+            datatype = "biallelicBinary"
         algn = '<alignment id="alignment">\n'
         algn += f'\t<dataType idref="{datatype}"/>\n'
-        for id,seq in self.dic_id_seq.items():
-            algn += self._make_a_sequence(id,seq)
+        for id,seq in self.dic_taxon_seq.items():
+            algn += self._make_a_sequence(id,seq.strip())
         algn += '</alignment>\n'
         return algn
 	

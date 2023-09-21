@@ -35,13 +35,14 @@ def do_plot(internal_tree_file,opts):
                 clade.color = '#EFA6C6'
             else:
                 clade.color = '#D71A6F'                                                            
-    tree.ladderize()  # Flip branches so deeper clades are displayed at top
+    tree.ladderize()  # Flip branches so deeper clades are displayed at top            
     st.set_option('deprecation.showPyplotGlobalUse', False)                                
-    fig = plt.figure(figsize=(10, 20), dpi=100)
-    axes = fig.add_subplot(1, 1, 1)    
-    #axes.set_title("Phylogenetic tree from pisca-box")
-    #axes.text(0.5, 0.99, "Phylogenetic tree from pisca-box", horizontalalignment='center', verticalalignment='center', transform=axes.transAxes, fontsize=12)
-    st.pyplot(Phylo.draw(tree,axes=axes,show_confidence=True))
+    fig = plt.figure(figsize=(5, 5), dpi=100)
+    ax = fig.add_subplot(1, 1, 1)                
+    Phylo.draw(tree,axes=ax,show_confidence=True)
+    #plt.axvline(0,color="teal",linestyle='--',lw=1)
+    ax.set_title("Phylogenetic tree from pisca-box")
+    st.pyplot(fig)
     
 def remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig):    
     if os.path.isfile(internal_tree_file_xml):
@@ -60,10 +61,10 @@ def show_b4_plot(file_type,tree_xml,tree_out,tree_in,tree_xml_orig,tree_out_orig
     
     if file_type == "tree":
         if tree_in is not None:
-            with st.expander("original tree file - expand to view"):
+            with st.expander("original trees file - expand to view"):
                 st.code(tree_in)
         if tree_out_orig is not None:
-            with st.expander("annotated tree file - expand to view"):
+            with st.expander("consensus tree file - expand to view"):
                 st.code(tree_out_orig)
         if tree_xml_orig is not None:
             with st.expander("phyloxml conversion - expand to view"):
@@ -102,16 +103,15 @@ def show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,interna
                     
     if tree_xml is not None:
         st.subheader("Plot phylogenetic tree")
-        opts = st.radio('Colour scheme:', ["Black", "Pink"],key="clr")                            
+        opts = "Black"#st.radio('Colour scheme:', ["Black", "Pink"],key="clr")                            
         try:
             if st.button('plot tree'):                                                        
                 do_plot(internal_tree_file_xml,opts)            
         except Exception as e:
             st.error("Error plotting to Bio.Phylo, did you give a valid annotated tree file?")
             st.error(str(e))
-    
-
-
+            
+        
 def add_widgets(include_header):
     if include_header:
         widgets.page_header('tree-vue')         
@@ -129,7 +129,7 @@ def add_widgets(include_header):
                                     
     st.subheader("Pisca outputs -> tree visualisation")
             
-    file_type = st.radio("Select tree file type",("phyloxml","annotated","tree"))
+    file_type = st.radio("Select tree file type",("pisca output trees","consensus tree","phyloxml"))
     st.divider()
     
     if file_type == "phyloxml":    
@@ -142,9 +142,9 @@ def add_widgets(include_header):
             tree_xml = tree_xml.replace("<name>TREE1</name>", "<name>pisca-box phylogenetic tree</name>") 
             with open(internal_tree_file_xml,"w") as fw:
                 fw.write(tree_xml)                                                           
-    elif file_type == "annotated":
+    elif file_type == "consensus tree":
         #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        
-        uploaded_file = st.file_uploader("Upload annotated tree file",type=['anotated trees','trees'])                            
+        uploaded_file = st.file_uploader("Upload consensus tree tree file",type=['consensus tree','tree'])                            
         if uploaded_file is not None:                            
             tree_out = StringIO(uploaded_file.getvalue().decode("utf-8")).read()            
             with open(internal_out_file_ano,"w") as fw:
@@ -163,7 +163,7 @@ def add_widgets(include_header):
                 st.error("Error converting to phyloxml, did you give a valid annotated tree file?")
                 st.error(str(e))                    
     else:        
-        uploaded_file = st.file_uploader("Upload tree file to be annotated",type=['trees','trees'])                            
+        uploaded_file = st.file_uploader("Upload trees file for consensus",type=['trees','trees'])                            
         if uploaded_file is not None:            
             file_type = "tree"            
             #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        
@@ -201,11 +201,7 @@ def add_widgets(include_header):
         
                                     
     # Now load the files again as there can be instatiation erros from embedded buttons
-    if uploaded_file is not None:         
-    #    if os.path.isfile(internal_in_file):
-    #        with open(internal_in_file) as f:
-    #            tree_in = f.read()                                    
-    
+    if uploaded_file is not None:                 
         show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)
     else:
         remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)
