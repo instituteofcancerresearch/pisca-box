@@ -7,12 +7,12 @@ import subprocess
 
 ########################## WHICH STAGES TO RUN ####################################
 test_build = 1
-build_run = 1
-test_regression = 1
+build_run = 0
+test_regression = 0
 build_vue = 0
 tag_dockers = 0
 upload_dockers = 0
-clean_up = 1
+clean_up = 0
 ########################## VERSION AND NAMES## ####################################
 version = "v01"
 name_run = "pisca-box-run"
@@ -76,39 +76,39 @@ cmd_set_upload.append(f"docker push {docker_versioned_vue}")
 ok = True
 #####################################################
 if test_build:
-    print("Running tests...")
+    print("### 1/8 ####################### Running tests... ##########################")
     ok = run_commands(cmd_set_test)
 #####################################################
 if build_run and ok:    
-    print("Running pisca-run build...")
+    print("### 2/8 ####################### Running pisca-run build... ##########################")
     ok = run_commands(cmd_run_build)
     if ok:
         print("The pisca-run has built ok")
 #####################################################
 if test_regression and ok:
     # Run regression tests
-    print("Running regression tests...")
+    print("### 3/8 ###################### Running regression tests... #########################")
     ok = test.run_regression()
     if ok:
-        print("All beauti regression tests passed, commencing pisca/beast regression...")
+        print("### 4/8 ################## All beauti regression tests passed, commencing pisca/beast regression... #####################")
         ok = test.run_beast_regression()
     if ok:
         print("All regression tests passed, commencing docker builds...")
 #####################################################
 if build_vue and ok:
-    print("Building docker images...")  
+    print("### 5/8 ##################### Building docker images... ########################")  
     ok = run_commands(cmd_set_build)
 #####################################################
 if tag_dockers and ok:
-    print("Tagging docker images...")
+    print("### 6/8 #################### Tagging docker images... #######################")
     ok = run_commands(cmd_set_tags)
 #####################################################
 if upload_dockers and ok:
-    print("Uploading docker images...")
+    print("### 7/8 #################### Uploading docker images... #######################")
     ok = run_commands(cmd_set_upload)
 #####################################################
 if clean_up:
-    print("Cleaning up...")
+    print("### 8/8 ##################### Cleaning up... ########################")
     test.clean_logs("tests/fixtures","*.log")
     test.clean_logs("tests/fixtures","*.trees")
     test.clean_logs("tests/fixtures","*.ops")

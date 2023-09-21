@@ -1,6 +1,5 @@
 import __init__ # noqa: F401
 import subprocess
-import time
 import os
 import libs.cmds as cmds
 

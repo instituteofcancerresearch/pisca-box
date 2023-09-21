@@ -37,8 +37,8 @@ def clean_logs(dir,pattern):
         try:
             os.remove(filePath)
             print("Removed : ", filePath)
-        except:
-            print("Error while deleting file : ", filePath)
+        except Exception as e:
+            print("Error while deleting file : ", filePath,str(e))
     
 
 
