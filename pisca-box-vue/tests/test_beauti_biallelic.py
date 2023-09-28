@@ -1,7 +1,7 @@
 import __init__ # noqa: F401
 import libs.cls_xml as xml
-import libs.cls_fasta as fa
 import libs.cls_biallelic as bb
+import libs.cls_operators as ops
 import libs.cls_mcmc as mc
 import pandas as pd
 
@@ -22,7 +22,7 @@ def match_assert(trial_matches,str_store):
     for keya,keyb in trial_matches:
         stra = str_store[keya]
         strb = str_store[keyb]
-        help_show_dif(stra,strb)
+        #help_show_dif(stra,strb)
         assert stra == strb, f"BEAUTI-02 xml strings do not match for {keya} and {keyb}"
         if stra != strb:
             success = False
@@ -43,9 +43,7 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
 
         # File selection
         fasta_string = ""
-        seq_csv = pd.DataFrame()  
-        biallelic_file = f'{this_dir}/fixtures/{seq_file}'      
-        ages_file = f'{this_dir}/fixtures/{seq_ages}'
+        seq_csv = pd.DataFrame()          
         if not as_csv:
             with open(f'{this_dir}/fixtures/{seq_file}', "r") as f:
                 fasta_string = f.read()
@@ -57,8 +55,7 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
                                         
         # PISCA
         datatype = seq_type #(cnv / acna / bb)
-        seq_conversion = datatype in ['cnv','acna']   
-        
+                
         # CLOCK        
         clock = "strict clock" # ["strict clock", "random local clock"]
         clock_rate = 0.13
@@ -99,10 +96,11 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
         priors['biallelicBinary.homozygousDemethylation']= {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}    
         
         # Load DATATYPE
+        operators = ops.Operators(demographic,datatype,clocks)
         fasta = bb.Biallelic(fasta_string,seq_csv,csv_ages)                    
         #fasta = fa.Fasta(fasta_string,csv_ages,seq_conversion,seq_csv)
         mcmc = mc.MCMC(mcmcs,clocks,priors)                                    
-        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype)
+        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype,operators)
 
         xmlstr = xmlwriter.get_xml()
         if show_xml:

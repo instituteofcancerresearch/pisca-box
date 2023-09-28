@@ -1,15 +1,14 @@
-import libs.cls_operators as ops
 # ruff: noqa: E501
 
 class XmlWriter(object):
-    def __init__(self,fasta,mcmc,lucas,clocks,demographic,datatype):        
+    def __init__(self,fasta,mcmc,lucas,clocks,demographic,datatype,operators):        
         self.fasta = fasta
         self.mcmc = mcmc
         self.lucas = lucas
         self.clocks = clocks
         self.demographic = demographic
         self.datatype = datatype
-        self.operators = ops.Operators(datatype,[])
+        self.operators = operators
         
     ### PUBLIC INTERFACE #########
     def get_xml(self):
@@ -52,7 +51,7 @@ class XmlWriter(object):
         xml += self._add_comment("TREE LIKELIHOOD")
         xml += self._get_tree_likelihood(lh_val,lb_val,lb_up,lb_low, self.clocks)
         xml += self._add_comment("OPERATORS")
-        xml += self.operators.get_operators(self.demographic,self.datatype,self.clocks)
+        xml += self.operators.get_operators()
         xml += self._add_comment("MCMC and PRIORS")
         xml += self.mcmc.get_mcmc(self.datatype,self.demographic)
         xml += self._add_comment("REPORT")

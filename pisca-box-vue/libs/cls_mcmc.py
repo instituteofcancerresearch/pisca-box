@@ -6,7 +6,7 @@ tab5 = "\t\t\t\t"
 
 class MCMC(object):
     def __init__(self, mcmcs,clocks,priors):
-        self.mcmcs = mcmcs        
+        self.mcmcs = mcmcs
         self.clocks = clocks
         self.priors = priors
         

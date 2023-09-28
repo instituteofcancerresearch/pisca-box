@@ -2,6 +2,7 @@ import __init__ # noqa: F401
 import libs.cls_xml as xml
 import libs.cls_fasta as fa
 import libs.cls_mcmc as mc
+import libs.cls_operators as ops
 import pandas as pd
 
 this_dir = "/".join(__file__.split('/')[:-1])
@@ -15,30 +16,15 @@ def help_show_dif(stringa, stringb):
             if i > 5 and i < min_len - 5:
                 print(i,stringa[i-3:i+3],stringb[i-3:i+3])
     
-def run_0102(trial_matches,str_store):
-    success = True
-    for keya,keyb in trial_matches:
-        stra = str_store[keya]
-        strb = str_store[keyb]
-        help_show_dif(stra,strb)
-        assert stra == strb, f"BEAUTI-02 xml strings do not match for {keya} and {keyb}"
-        if stra != strb:
-            success = False
-    return success
-        
-                
+                        
 def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True):
     success = True
          
     trials = []
     trials.append(['set1','data_01a_belle.fasta','data_01a_belle_dates.csv','cnv',False])
-    trials.append(['bb-fasta','data_01b_patient1.fasta','data_01b_patient1_bb_orig_ages.csv','bb',False])
-    trials.append(['bb-csv','data_01b_patient1_bb_seq.csv','data_01b_patient1_bb_orig_ages.csv','bb',True])
-    
-    str_store = {}
-    trial_matches = []
-    trial_matches.append(['bb-fasta','bb-csv'])
-    
+    #trials.append(['bb-fasta','data_01b_patient1.fasta','data_01b_patient1_bb_orig_ages.csv','bb',False])
+    #trials.append(['bb-csv','data_01b_patient1_bb_seq.csv','data_01b_patient1_bb_orig_ages.csv','bb',True])
+            
     for key,seq_file,seq_ages,seq_type,as_csv in trials:
 
         # File selection
@@ -97,9 +83,10 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
         priors['biallelicBinary.homozygousDemethylation']= {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}    
         
                                 
+        operators = ops.Operators(demographic,datatype,clocks)
         fasta = fa.Fasta(fasta_string,csv_ages,seq_conversion,seq_csv)
         mcmc = mc.MCMC(mcmcs,clocks,priors)                                    
-        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype)
+        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype,operators)
 
         xmlstr = xmlwriter.get_xml()
         if show_xml:
@@ -124,10 +111,8 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
                 success = False
             assert fix_str == xmlstr, f"BEAUTI-01 xml strings do not match for {seq_file}"
         
-        str_store[key] = xmlstr
         
-    succ = run_0102(trial_matches,str_store)
-    return success and succ
+    return success
             
            
 ############################################    

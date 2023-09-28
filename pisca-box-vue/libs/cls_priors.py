@@ -1,35 +1,37 @@
-import pandas as pd
-# ruff: noqa: E501
-# ruff: noqa: F841
-# ruff: noqa: F541
 
-class Operators(object):
+# ruff: noqa: E501
+
+class Priors(object):
     def __init__(self,demographic,datatype,clocks):
         self.datatype = datatype
         self.datatype = demographic
         self.clocks = clocks
-        self.ops = []
+        self.priors = {}
         
-        # operator, paramater, weight, scaleFactor, size, gaussian
+        self.priors["luca_branch"] = ["uniformPrior","73"]
+        self.priors["luca_height"] = ["uniformPrior","50"]
+        self.priors['biallelicBinary.demethylation'] = ['logNormalPrior','1.0','0.6','0.0','realSpace']
+        self.priors['biallelicBinary.homozygousMethylation'] = ['logNormalPrior','1.0','0.6','0.0','realSpace']
+        self.priors['biallelicBinary.homozygousDemethylation']= ['logNormalPrior','1.0','0.6','0.0','realSpace']
         
-        self.ops.append(['scaleOperator','clock.rate','10.0','0.5','',''])
-        self.ops.append(['subtreeSlide','treeModel','15.0','','2.5','true'])
-        self.ops.append(['narrowExchange','treeModel','15.0','','',''])
-        self.ops.append(['wideExchange','treeModel','3.0','','',''])
-        self.ops.append(['wilsonBalding','treeModel','3.0','','',''])
-        self.ops.append(['scaleOperator','treeModel.rootHeight','5.0','0.75','',''])
-        self.ops.append(['uniformOperator','treeModel.internalNodeHeights','30.0','','',''])
-        self.ops.append(['scaleOperator','luca_branch','1.0','0.2','',''])
+        self.ops.append(['scaleOperator','clock.rate','0.5','10.0'])
+        self.ops.append(['subtreeSlide','treeModel','2.5','true','15.0'])
+        self.ops.append(['narrowExchange','treeModel','15.0'])
+        self.ops.append(['wideExchange','treeModel','3.0'])
+        self.ops.append(['wilsonBalding','treeModel','3.0'])
+        self.ops.append(['scaleOperator','treeModel.rootHeight','0.75','5.0'])
+        self.ops.append(['uniformOperator','treeModel.internalNodeHeights','30.0'])
+        self.ops.append(['scaleOperator','luca_branch','0.2','1.0'])
         if demographic == "constant size":
-            self.ops.append(['scaleOperator','constant.popSize','3.0','0.5','',''])
+            self.ops.append(['scaleOperator','constant.popSize','0.5','3.0'])
         elif demographic == "exponential growth":
-            self.ops.append(['scaleOperator','exponential.popSize','3.0','0.5','',''])
-            self.ops.append(['randomWalkOperator','exponential.growthRate', '3','1.0','',''])
-        self.ops.append(['upDownOperator',  'clock.rate|treeModel.allInternalNodeHeights','5.0','0.75','',''])        
+            self.ops.append(['scaleOperator','exponential.popSize','0.5','3.0'])
+            self.ops.append(['randomWalkOperator','exponential.growthRate','1.0','3'])                
+        self.ops.append(['upDownOperator','clock.rate','treeModel.allInternalNodeHeights','0.75','5.0'])
         if datatype == "biallelicBinary" or datatype == "bb":
-            self.ops.append(['scaleOperator','biallelicBinary.demethylation','0.25','0.25','',''])
-            self.ops.append(['scaleOperator','biallelicBinary.homozygousMethylation','0.25','0.25','',''])
-            self.ops.append(['scaleOperator','biallelicBinary.homozygousDemethylation','0.25','0.25','',''])
+            self.ops.append(['scaleOperator','biallelicBinary.demethylation','0.25','0.25'])
+            self.ops.append(['scaleOperator','biallelicBinary.homozygousMethylation','0.25','0.25'])
+            self.ops.append(['scaleOperator','biallelicBinary.homozygousDemethylation','0.25','0.25'])
     ### PUBLIC INTERFACE #########        
     #---------------------------------------------------------------------------------
     def get_operators(self):
@@ -53,75 +55,64 @@ class Operators(object):
         return ops
     #---------------------------------------------------------------------------------
     def _get_scaleOperator(self,op):
-        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
+        idd,sf,we = op[1],op[2],op[3]        
         op = ""
-        op += f'\t<scaleOperator scaleFactor="{scaleFactor}" weight="{weight}">\n'
-        op += f'\t\t<parameter idref="{paramater}"/>\n'
-        op += f'\t</scaleOperator>\n'
+        op += f'\t<scaleOperator scaleFactor="{sf}" weight="{we}">\n'
+        op += f'\t\t<parameter idref="{idd}"/>\n'
+        op += '\t</scaleOperator>\n'
         return op
         
     #---------------------------------------------------------------------------------
     def _get_upDownOperator(self,op):
-        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
-        up_p = paramater.split("|")[0]
-        down_p = paramater.split("|")[1]
+        upid,downid,sf,we = op[1],op[2],op[3],op[4]
         op = ""
-        op += f'\t<upDownOperator scaleFactor="{scaleFactor}" weight="{weight}">\n'
-        op += f'\t\t<up><parameter idref="{up_p}"/></up>\n'
-        op += f'\t\t<down><parameter idref="{down_p}"/></down>\n'
-        op += f'\t</upDownOperator>'
+        op += f'\t<upDownOperator scaleFactor="{sf}" weight="{we}">\n'
+        op += f'\t\t<up><parameter idref="{upid}"/></up>\n'
+        op += f'\t\t<down><parameter idref="{downid}"/></down>\n'
+        op += '\t</upDownOperator>\n'
         return op
     #---------------------------------------------------------------------------------
     def _get_uniformOperator(self,op):
-        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
+        idd,we = op[1],op[2]        
         op = ""
-        op += f'\t<uniformOperator weight="{weight}">\n'
-        op += f'\t\t<parameter idref="{paramater}"/>\n'
-        op += f'\t</uniformOperator>\n'
+        op += f'\t<uniformOperator weight="{we}">\n'
+        op += f'\t\t<parameter idref="{idd}"/>\n'
+        op += '\t</uniformOperator>\n'
         return op
     #---------------------------------------------------------------------------------
     def _get_wilsonBalding(self,op):
-        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
+        idd,we = op[1],op[2]
         op = ""
-        op += f'\t<wilsonBalding weight="{weight}">\n'
-        op += f'\t\t<treeModel idref="{paramater}"/>\n'
-        op += f'\t</wilsonBalding>\n'
+        op += f'\t<wilsonBalding weight="{we}">\n'
+        op += f'\t\t<treeModel idref="{idd}"/>\n'
+        op += '\t</wilsonBalding>\n'
         return op
     #---------------------------------------------------------------------------------
     def _get_wideExchange(self,op):
-        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
+        idd,we = op[1],op[2]
         op = ""
-        op += f'\t<wideExchange weight="{weight}">\n'
-        op += f'\t\t<treeModel idref="{paramater}"/>\n'
-        op += f'\t</wideExchange>\n'
+        op += f'\t<wideExchange weight="{we}">\n'
+        op += f'\t\t<treeModel idref="{idd}"/>\n'
+        op += '\t</wideExchange>\n'
         return op
     #---------------------------------------------------------------------------------
     def _get_narrowExchange(self,op):
-        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
+        idd,we = op[1],op[2]
         op = ""
-        op += f'\t<narrowExchange weight="{weight}">\n'
-        op += f'\t\t<treeModel idref="{paramater}"/>\n'
-        op += f'\t</narrowExchange>\n'
+        op += f'\t<narrowExchange weight="{we}">\n'
+        op += f'\t\t<treeModel idref="{idd}"/>\n'
+        op += '\t</narrowExchange>\n'
         return op
     #---------------------------------------------------------------------------------
     def _get_subtreeSlide(self,op):         
-        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
+        idd,size, gauss,we = op[1],op[2],op[3],op[4]
         op = ""
-        op += f'\t<subtreeSlide  size="{size}" gaussian="{gaussian}" weight="{weight}">\n'
-        op += f'\t\t<treeModel idref="{paramater}"/>\n'
-        op += f'\t</subtreeSlide>\n'
+        op += f'\t<subtreeSlide  size="{size}" gaussian="{gauss}" weight="{we}">\n'
+        op += f'\t\t<treeModel idref="{idd}"/>\n'
+        op += '\t</subtreeSlide>\n'
         return op
     #---------------------------------------------------------------------------------
-    def get_as_dataframe(self):                
-        df = pd.DataFrame(self.ops,columns=['operator', 'parameter', 'weight', 'scaleFactor', 'size', 'gaussian'])
-        return df
-    #---------------------------------------------------------------------------------
-    def update_from_dataframe(self,df):
-        self.ops = []
-        for row in df.itertuples():
-            self.ops.append([row.operator,row.parameter,row.weight,row.scaleFactor,row.size,row.gaussian])                                
     #----------------------------------
-    ############################################################################################################
     def get_operatorsx(self, demographic,datatype,clocks):
         if datatype == "bb":
             datatype = "biallelicBinary"

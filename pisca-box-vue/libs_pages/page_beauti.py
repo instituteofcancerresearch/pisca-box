@@ -1,5 +1,6 @@
 import __init__ # noqa: F401
 import streamlit as st
+from streamlit_ace import st_ace
 import streamlit.components.v1 as components
 import libs.widgets as widge
 import pandas as pd
@@ -7,8 +8,11 @@ from io import StringIO
 import libs.cls_xml as xml
 import libs.cls_fasta as fa
 import libs.cls_biallelic as bb
+import libs.cls_operators as ops
+import libs.cls_acna as ac
 import libs.cls_mcmc as mc
 import libs.widgets as widgets
+
 
 #https://dev.to/chrisgreening/complete-list-of-markdown-emojis-for-your-blog-posts-and-readme-s-164j
 
@@ -26,9 +30,7 @@ def add_widgets(include_header):
     #datatype = datatypedic[datatypelong]
     #seq_conversion = datatype in ['cnv','acna']            
     #### Alignment and ages data ###################################################                                    
-    uploaded_ages = None    
-    ages_file = ""
-    seq_file = ""
+    uploaded_ages = None        
     seq_data = ""
     seq_csv = pd.DataFrame()
     with st.container():
@@ -68,7 +70,7 @@ def add_widgets(include_header):
             max_age = seq_ages['age'].max()   
             min_age = seq_ages['age'].min()
                                     
-            tabPisca, tabClock, tabLuca, tabTrees, tabMcmc, tabPriors,tabGenerate = st.tabs(["pisca","clock","luca","trees","mcmc","priors","generate xml"])
+            tabPisca, tabClock, tabLuca, tabTrees, tabMcmc, tabPriors,tabOpers,tabGenerate = st.tabs(["pisca","clock","luca","trees","mcmc","priors","operators","generate xml"])
                                                                                 
             ### PISCA ########################################################
             with tabPisca:
@@ -215,21 +217,34 @@ def add_widgets(include_header):
                             clock_std = st.number_input(label="clock std",value=0.1)                    
                         priors['clock.rate'] = {'prior_type':prior_type,'mean':clock_mean,'std':clock_std}
                                             
+            ### OPERATORS #############################################################             
+            with tabOpers:
+                operators = ops.Operators(demographic,datatype,clocks)
+                edited_df = st.data_editor(operators.get_as_dataframe(),num_rows="dynamic")
+                print(edited_df)
+                operators.update_from_dataframe(edited_df)
+                
+                
             ### GENERATE #############################################################             
             with tabGenerate:
                 st.write("#### :checkered_flag: Check and save xml")        
                 ################################################################
                 if datatype == 'bb':
                     data_type =  bb.Biallelic(seq_data,seq_csv,seq_ages)
+                elif datatype == 'acna':
+                    data_type =  ac.Acna(seq_data,seq_csv,seq_ages)
                 else:
                     data_type =  fa.Fasta(seq_data,seq_ages,seq_conversion,seq_csv)                
                 mcmc = mc.MCMC(mcmcs,clocks,priors)        
-                xmlwriter = xml.XmlWriter(data_type,mcmc,lucas,clocks,demographic,datatype)
+                xmlwriter = xml.XmlWriter(data_type,mcmc,lucas,clocks,demographic,datatype,operators)
                 
                 my_xml = xmlwriter.get_xml()            
-                                                                    
-                with st.expander("View generated xml"):
-                    my_xml = st.text_area('Edit xml if necessary, tab out to inactivate box before saving',value=my_xml,height=400)
+                
+                ################################################################                                                                                                              
+                with st.expander("View generated xml"):                                                                                               
+                    #my_xml = st.text_area('Edit xml if necessary, tab out to inactivate box before saving',value=my_xml,height=400)
+                    my_xml = st_ace(language="xml", theme="monokai", keybinding="vscode",font_size=12,show_gutter=True,value=my_xml,height=400)
+                    
                 ################################################################                                                          
                 js = widge.get_saveas(my_xml,name)
                 components.html(js, height=30)

@@ -1,3 +1,4 @@
+# ruff: noqa
 import pandas as pd
 
 
@@ -63,10 +64,10 @@ class Phyfum(object):
     def _make_taxa(self):
         taxa = '<taxa id="taxa">\n'        
         for tx,age in self.dic_taxon_age.items():            
-            #if id in self.dic_taxon_seq:
-            #    seq = self.dic_taxon_seq[id]        
-            #else:
-            cpt = "?"            
+            if id in self.dic_taxon_seq:
+                cpt = self.dic_taxon_seq[id]        
+            else:
+                cpt = "?"            
             taxa += self._make_a_taxon(tx,age,cpt)
         taxa += '</taxa>\n'
         return taxa

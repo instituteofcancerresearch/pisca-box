@@ -135,7 +135,7 @@
 	<scaleOperator scaleFactor="0.5" weight="10.0">
 		<parameter idref="clock.rate"/>
 	</scaleOperator>
-	<subtreeSlide size="2.5" gaussian="true" weight="15.0"> <!-- 2.5 years. They will be automatically optimized by BEAST though -->
+	<subtreeSlide  size="2.5" gaussian="true" weight="15.0">
 		<treeModel idref="treeModel"/>
 	</subtreeSlide>
 	<narrowExchange weight="15.0">
@@ -162,8 +162,7 @@
 	<upDownOperator scaleFactor="0.75" weight="5.0">
 		<up><parameter idref="clock.rate"/></up>
 		<down><parameter idref="treeModel.allInternalNodeHeights"/></down>
-	</upDownOperator>
-	<scaleOperator scaleFactor="0.25" weight="0.25">
+	</upDownOperator>	<scaleOperator scaleFactor="0.25" weight="0.25">
 		<parameter idref="biallelicBinary.demethylation"/>
 	</scaleOperator>
 	<scaleOperator scaleFactor="0.25" weight="0.25">

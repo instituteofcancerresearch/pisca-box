@@ -1,6 +1,6 @@
 
 
-class Biallelic(object):
+class Acna(object):
     def __init__(self, seq_data, seq_csv,ages_csv):
         self.datatype = "biallelicBinary"
         self.seq_data = seq_data
@@ -32,7 +32,17 @@ class Biallelic(object):
                 taxon = taxon.strip()
                 seqs = self.seq_csv[taxon].tolist()
                 seq = ''.join(str(seqs))
-                seq = seq.replace(",","").replace(" ","").replace("[","").replace("]","")                                                
+                seq = seq.replace(",","").replace(" ","").replace("[","").replace("]","")
+                seq = seq.replace("0","A")
+                seq = seq.replace("1","B")
+                seq = seq.replace("2","C")
+                seq = seq.replace("3","D")
+                seq = seq.replace("4","E")
+                seq = seq.replace("5","F")
+                seq = seq.replace("6","G")
+                seq = seq.replace("7","H")
+                seq = seq.replace("8","I")
+                seq = seq.replace("9","J")
                 self.dic_taxon_seq[taxon] = seq            
         else:            
             ls_string = self.seq_data.split(">")
@@ -41,7 +51,17 @@ class Biallelic(object):
                 if len(idseq) < 2:                
                     continue
                 id = idseq[0].strip()
-                seq = idseq[1].strip()                                
+                seq = idseq[1].strip()
+                seq = seq.replace("0","A")
+                seq = seq.replace("1","B")
+                seq = seq.replace("2","C")
+                seq = seq.replace("3","D")
+                seq = seq.replace("4","E")
+                seq = seq.replace("5","F")
+                seq = seq.replace("6","G")
+                seq = seq.replace("7","H")
+                seq = seq.replace("8","I")
+                seq = seq.replace("9","J")
                 self.dic_taxon_seq[id] = seq                
         # ages selection - we want the column with age as the header                
         self.max_age = self.ages_csv['age'].max()   

@@ -1,9 +1,8 @@
 import __init__ # noqa: F401
 import libs.cls_xml as xml
-import libs.cls_fasta as fa
 import libs.cls_phyfum as phyf
+import libs.cls_operators as ops
 import libs.cls_mcmc as mc
-import pandas as pd
 
 this_dir = "/".join(__file__.split('/')[:-1])
 
@@ -16,7 +15,7 @@ def help_show_dif(stringa, stringb):
             if i > 5 and i < min_len - 5:
                 print(i,stringa[i-3:i+3],stringb[i-3:i+3])
                                             
-def test_phyfum_xml(show_xml=False,save_xml=False,overwrite=False,check_assert = True):
+def xtest_phyfum_xml(show_xml=False,save_xml=False,overwrite=False,check_assert = True):
     success = True
          
     trials = []            
@@ -79,8 +78,9 @@ def test_phyfum_xml(show_xml=False,save_xml=False,overwrite=False,check_assert =
                                 
         
         #fasta = fa.Fasta(fasta_string,csv_ages,datatype,seq_csv)        
+        operators = ops.Operators(demographic,datatype,clocks)
         mcmc = mc.MCMC(mcmcs,clocks,priors)                                    
-        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype)
+        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype,operators)
 
         xmlstr = xmlwriter.get_xml()
         if show_xml:

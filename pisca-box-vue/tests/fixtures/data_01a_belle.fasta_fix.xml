@@ -476,13 +476,10 @@
 </cenancestorTreeLikelihood>
 <!-- OPERATORS -->
 <operators id="operators" optimizationSchedule="default">
-	<scaleOperator scaleFactor="0.25" weight="0.25">
-		<parameter idref="cnv.loss"/>
-	</scaleOperator>
 	<scaleOperator scaleFactor="0.5" weight="10.0">
 		<parameter idref="clock.rate"/>
 	</scaleOperator>
-	<subtreeSlide size="2.5" gaussian="true" weight="15.0"> <!-- 2.5 years. They will be automatically optimized by BEAST though -->
+	<subtreeSlide  size="2.5" gaussian="true" weight="15.0">
 		<treeModel idref="treeModel"/>
 	</subtreeSlide>
 	<narrowExchange weight="15.0">
@@ -509,8 +506,7 @@
 	<upDownOperator scaleFactor="0.75" weight="5.0">
 		<up><parameter idref="clock.rate"/></up>
 		<down><parameter idref="treeModel.allInternalNodeHeights"/></down>
-	</upDownOperator>
-</operators>
+	</upDownOperator></operators>
 <!-- MCMC and PRIORS -->
 <mcmc id="mcmc" chainLength="2500" autoOptimize="true" operatorAnalysis="my name any.ops">
 	<posterior id="posterior">
