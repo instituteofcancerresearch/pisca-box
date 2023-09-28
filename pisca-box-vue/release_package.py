@@ -8,7 +8,7 @@ import subprocess
 ########################## WHICH STAGES TO RUN ####################################
 test_build = 1
 build_run = 0
-test_regression = 0
+test_regression = 1
 build_vue = 0
 tag_dockers = 0
 upload_dockers = 0

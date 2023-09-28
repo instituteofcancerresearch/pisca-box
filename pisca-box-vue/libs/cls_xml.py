@@ -1,4 +1,4 @@
-
+import libs.cls_operators as ops
 # ruff: noqa: E501
 
 class XmlWriter(object):
@@ -9,6 +9,7 @@ class XmlWriter(object):
         self.clocks = clocks
         self.demographic = demographic
         self.datatype = datatype
+        self.operators = ops.Operators(datatype,[])
         
     ### PUBLIC INTERFACE #########
     def get_xml(self):
@@ -51,7 +52,7 @@ class XmlWriter(object):
         xml += self._add_comment("TREE LIKELIHOOD")
         xml += self._get_tree_likelihood(lh_val,lb_val,lb_up,lb_low, self.clocks)
         xml += self._add_comment("OPERATORS")
-        xml += self._get_operators(self.demographic,self.datatype,self.clocks)
+        xml += self.operators.get_operators(self.demographic,self.datatype,self.clocks)
         xml += self._add_comment("MCMC and PRIORS")
         xml += self.mcmc.get_mcmc(self.datatype,self.demographic)
         xml += self._add_comment("REPORT")
@@ -112,7 +113,7 @@ class XmlWriter(object):
             gdt += '\t<ambiguity code="-" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>\n'
             gdt += '\t<ambiguity code="?" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>\n'
             gdt += '\t</generalDataType>\n'
-        elif datatype == "bb":
+        elif datatype == "bb" or datatype == "biallelicBinary":
             gdt += '<generalDataType id="biallelicBinary">\n'
             gdt += '<state code="0"/> <!-- Genotype: 0 ; Beast State: 0 -->\n'
             gdt += '<state code="1"/> <!-- Genotype: 1 ; Beast State: 1 -->\n'
@@ -133,7 +134,7 @@ class XmlWriter(object):
     #----------------------------------
     def _get_character_patterns(self,datatype):
         pat = ""
-        if datatype == "bb":
+        if datatype == "bb" or datatype == "biallelicBinary":
             pat += '<patterns id="patterns" from="1">\n'
             pat += '\t<alignment idref="alignment"/>\n'
             pat += '</patterns>\n'
@@ -311,7 +312,7 @@ class XmlWriter(object):
             cna += '\t\t<parameter id="cnv.conversion" value="1" lower="0"/>\n'
             cna += '\t</conversion_rate>\n'
             cna += '</CNVModel>\n'            
-        elif datatype == "bb":
+        elif datatype == "bb" or datatype == "biallelicBinary":
             cna += '<BiallelicBinaryModel id="biallelicBinary_subsmodel">\n'
             cna += '\t<frequencies>\n'
             cna += '\t\t<frequencyModel idref="frequencies"/>\n'
@@ -342,7 +343,7 @@ class XmlWriter(object):
             st += '\t\t<CNVModel idref="cnv_subsmodel"/>\n'
             st += '\t</substitutionModel>\n'
             st += '</siteModel>\n'            
-        elif datatype == "bb":
+        elif datatype == "bb" or datatype == "biallelicBinary":
             st += '<siteModel id="siteModel">\n'
             st += '\t<substitutionModel>\n'
             st += '\t\t<BiallelicBinaryModel idref="biallelicBinary_subsmodel"/>\n'
@@ -367,82 +368,7 @@ class XmlWriter(object):
         elif clocks['type'] == "random local clock":
             cen += '\t<randomLocalClockModelCenancestor idref="branchRates"/>\n'
         cen += '</cenancestorTreeLikelihood>\n'
-        return cen
-    #----------------------------------
-    def _get_operators(self, demographic,datatype,clocks):
-        if datatype == "bb":
-            datatype = "biallelicBinary"
-        op = ""
-        op += '<operators id="operators" optimizationSchedule="default">\n'
-        if datatype != "biallelicBinary":
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += f'\t\t<parameter idref="{datatype}.loss"/>\n'
-            op += '\t</scaleOperator>\n'        
-        op += '\t<scaleOperator scaleFactor="0.5" weight="10.0">\n'
-        op += '\t\t<parameter idref="clock.rate"/>\n'
-        op += '\t</scaleOperator>\n'                
-        if clocks['type'] == "random local clock":
-            op += '\t<scaleOperator scaleFactor="0.75" weight="15">\n'
-            op += '\t\t<parameter idref="localClock.relativeRates"/>\n'
-            op += '\t</scaleOperator>\n'        
-            op += '\t<bitFlipOperator weight="15">\n'
-            op += '\t\t<parameter idref="localClock.changes"/>\n'
-            op += '\t</bitFlipOperator>\n'        
-        op += '\t<subtreeSlide size="2.5" gaussian="true" weight="15.0"> <!-- 2.5 years. They will be automatically optimized by BEAST though -->\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</subtreeSlide>\n'        
-        op += '\t<narrowExchange weight="15.0">\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</narrowExchange>\n'        
-        op += '\t<wideExchange weight="3.0">\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</wideExchange>\n'        
-        op += '\t<wilsonBalding weight="3.0">\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</wilsonBalding>\n'        
-        op += '\t<scaleOperator scaleFactor="0.75" weight="5.0">\n'
-        op += '\t\t<parameter idref="treeModel.rootHeight"/>\n'
-        op += '\t</scaleOperator>\n'        
-        op += '\t<uniformOperator weight="30.0">\n'
-        op += '\t\t<parameter idref="treeModel.internalNodeHeights"/>\n'
-        op += '\t</uniformOperator>\n'        
-        op += '\t<scaleOperator scaleFactor="0.2" weight="1.0">\n'
-        op += '\t\t<parameter idref="luca_branch"/>\n'
-        op += '\t</scaleOperator>\n'        
-        if demographic == "constant size":
-            op += '\t<scaleOperator scaleFactor="0.5" weight="3.0">\n'
-            op += '\t\t<parameter idref="constant.popSize"/>\n'
-            op += '\t</scaleOperator>\n'
-        elif demographic == "exponential growth":
-            op += '\t<scaleOperator scaleFactor="0.5" weight="3.0">\n'
-            op += '\t\t<parameter idref="exponential.popSize"/>\n'
-            op += '\t</scaleOperator>\n'
-            op += '\t<randomWalkOperator windowSize="1.0" weight="3">\n'
-            op += '\t\t<parameter idref="exponential.growthRate"/>\n'
-            op += '\t</randomWalkOperator>\n'                    
-        op += '\t<upDownOperator scaleFactor="0.75" weight="5.0">\n'
-        op += '\t\t<up>'
-        op += '<parameter idref="clock.rate"/>'
-        op += '</up>\n'
-        op += '\t\t<down>'
-        op += '<parameter idref="treeModel.allInternalNodeHeights"/>'
-        op += '</down>\n'
-        op += '\t</upDownOperator>\n'        
-        if datatype == "biallelicBinary":
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += '\t\t<parameter idref="biallelicBinary.demethylation"/>\n'
-            op += '\t</scaleOperator>\n'
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += '\t\t<parameter idref="biallelicBinary.homozygousMethylation"/>\n'
-            op += '\t</scaleOperator>\n'
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += '\t\t<parameter idref="biallelicBinary.homozygousDemethylation"/>\n'
-            op += '\t</scaleOperator>\n'
-        op += '</operators>\n'
-        
-            
-            
-        return op
+        return cen        
     #----------------------------------        
     def _get_report(self):
         rp = ""

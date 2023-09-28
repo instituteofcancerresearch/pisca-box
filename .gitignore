@@ -168,4 +168,6 @@ cython_debug/
 *.xml
 # fixture xmls to keep
 !/pisca-box-vue/tests/fixtures/*fix.xml
+!/pisca-box-vue/tests/fixtures/biallelic/*fix.xml
+!/pisca-box-vue/tests/fixtures/phyfum/*fix.xml
 

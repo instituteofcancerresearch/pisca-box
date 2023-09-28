@@ -6,6 +6,7 @@ import pandas as pd
 from io import StringIO
 import libs.cls_xml as xml
 import libs.cls_fasta as fa
+import libs.cls_biallelic as bb
 import libs.cls_mcmc as mc
 import libs.widgets as widgets
 
@@ -16,30 +17,32 @@ import libs.widgets as widgets
 
 def add_widgets(include_header):
     if include_header:
-        widgets.page_header('beauti-box')    
+        widgets.page_header('beauti-box')
+    
+    #### Establish datatype before doing anythong else ##############################
+    #datatypedic = {'absolute copy number alterations': 'acna', 'copy number variant': 'cnv', 'biallelic binary':'bb'}
+    #values = list(datatypedic.keys())
+    #datatypelong = st.radio('#### PISCA datatype:', values,key="pisca",horizontal=True)
+    #datatype = datatypedic[datatypelong]
+    #seq_conversion = datatype in ['cnv','acna']            
+    #### Alignment and ages data ###################################################                                    
     uploaded_ages = None    
+    ages_file = ""
+    seq_file = ""
     seq_data = ""
     seq_csv = pd.DataFrame()
     with st.container():
         convert_from_csv = False
-        st.subheader("Alignment")
-        col1, col2 = st.columns([1,6])
-        with col1:
-            st.write('fasta format')
-        with col2:
-            convert_from_csv = st.toggle('csv format',value=False)
-        
-        if convert_from_csv:
-            msg1,type1 = "Select sequence csv file",['csv']            
-            msg2,type2 = "Select ages (dates/time) file",['csv']
-        else:
-            msg1,type1 = "Select fasta file",['fasta','fa']            
-            msg2,type2 = "Select ages (dates/time) file",['csv']
+        st.write("#### Alignment")        
+        msg1,type1 = "Select fasta/csv file",['fasta','fa','csv']
+        msg2,type2 = "Select ages (dates/time) file",['csv']
         
         col1, col2 = st.columns(2)        
-        with col1:            
-            uploaded_file = st.file_uploader(msg1,type=type1)
-            if uploaded_file is not None:
+        with col1:                        
+            uploaded_file = st.file_uploader(msg1,type=type1,accept_multiple_files=False)            
+            if uploaded_file is not None:                
+                if ".csv" in uploaded_file.name:
+                    convert_from_csv = True                
                 if convert_from_csv:
                     seq_csv = pd.read_csv(uploaded_file,index_col=0)
                     with st.expander("expand sequence file to view"):
@@ -49,8 +52,8 @@ def add_widgets(include_header):
                     with st.expander("expand sequence file to view"):
                         st.code(seq_data)                        
         with col2:
-            if uploaded_file is not None:
-                uploaded_ages = st.file_uploader(msg2,type=type2)
+            if uploaded_file is not None:            
+                uploaded_ages = st.file_uploader(msg2,type=type2)                
                 if uploaded_ages is not None:
                     seq_ages = pd.read_csv(uploaded_ages)
                     #fa_dates = StringIO(uploaded_dates.getvalue().decode("utf-8")).read()
@@ -215,10 +218,13 @@ def add_widgets(include_header):
             ### GENERATE #############################################################             
             with tabGenerate:
                 st.write("#### :checkered_flag: Check and save xml")        
-                ################################################################                                                          
-                fasta = fa.Fasta(seq_data,seq_ages,seq_conversion,seq_csv)
+                ################################################################
+                if datatype == 'bb':
+                    data_type =  bb.Biallelic(seq_data,seq_csv,seq_ages)
+                else:
+                    data_type =  fa.Fasta(seq_data,seq_ages,seq_conversion,seq_csv)                
                 mcmc = mc.MCMC(mcmcs,clocks,priors)        
-                xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype)
+                xmlwriter = xml.XmlWriter(data_type,mcmc,lucas,clocks,demographic,datatype)
                 
                 my_xml = xmlwriter.get_xml()            
                                                                     
