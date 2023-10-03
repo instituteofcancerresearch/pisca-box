@@ -156,13 +156,11 @@
 	<scaleOperator scaleFactor="0.2" weight="1.0">
 		<parameter idref="luca_branch"/>
 	</scaleOperator>
-	<scaleOperator scaleFactor="0.5" weight="3.0">
-		<parameter idref="constant.popSize"/>
-	</scaleOperator>
 	<upDownOperator scaleFactor="0.75" weight="5.0">
 		<up><parameter idref="clock.rate"/></up>
 		<down><parameter idref="treeModel.allInternalNodeHeights"/></down>
-	</upDownOperator>	<scaleOperator scaleFactor="0.25" weight="0.25">
+	</upDownOperator>
+	<scaleOperator scaleFactor="0.25" weight="0.25">
 		<parameter idref="biallelicBinary.demethylation"/>
 	</scaleOperator>
 	<scaleOperator scaleFactor="0.25" weight="0.25">
@@ -170,6 +168,9 @@
 	</scaleOperator>
 	<scaleOperator scaleFactor="0.25" weight="0.25">
 		<parameter idref="biallelicBinary.homozygousDemethylation"/>
+	</scaleOperator>
+	<scaleOperator scaleFactor="0.5" weight="3.0">
+		<parameter idref="constant.popSize"/>
 	</scaleOperator>
 </operators>
 <!-- MCMC and PRIORS -->
@@ -180,13 +181,6 @@
 			<oneOnXPrior>
 				<parameter idref="constant.popSize"/>
 			</oneOnXPrior>
-			<uniformPrior lower="1" upper="73.91491902959673">
-				<parameter idref="luca_branch"/>
-			</uniformPrior>
-			<!-- Clock (gain) Rate Prior. -->
-			<normalPrior mean="0.0" stdev="0.13" offset="0.0" meanInRealSpace="true">
-				<parameter idref="clock.rate"/>
-			</normalPrior>
 			<logNormalPrior mean="1.0" stdev="0.6" offset="0.0" meanInRealSpace="true">
 				<parameter idref="biallelicBinary.demethylation"/>
 			</logNormalPrior>
@@ -196,7 +190,6 @@
 			<logNormalPrior mean="1.0" stdev="0.6" offset="0.0" meanInRealSpace="true">
 				<parameter idref="biallelicBinary.homozygousDemethylation"/>
 			</logNormalPrior>
-			<!-- Loss (relative to gain) rate priors-->
 		</prior>
 		<likelihood id="likelihood">
 			<cenancestorTreeLikelihood idref="treeLikelihood"/>
@@ -214,26 +207,20 @@
 		<column label="Likelihood" dp="4" width="12">
 			<likelihood idref="likelihood"/>
 		</column>
-		<column label="clock_rate" sf="6" width="12">
-			<parameter idref="clock.rate"/>
+		<column label="coalescent" sf="6" width="12">
+			<parameter idref="coalescent"/>
 		</column>
-		<column label="rootHeight" sf="6" width="12">
-			<parameter idref="treeModel.rootHeight"/>
+		<column label="constant_popSize" sf="6" width="12">
+			<parameter idref="constant.popSize"/>
 		</column>
-		<column label="luca_height" sf="6" width="12">
-			<parameter idref="luca_height"/>
-		</column>
-		<column label="luca_branch" sf="6" width="12">
-			<parameter idref="luca_branch"/>
-		</column>
-		<column label="rel_loss_rate" sf="6" width="12">
+		<column label="biallelicBinary_demethylation" sf="6" width="12">
 			<parameter idref="biallelicBinary.demethylation"/>
 		</column>
-		<column label="rel_loss_rate" sf="6" width="12">
-			<parameter idref="biallelicBinary.homozygousDemethylation"/>
-		</column>
-		<column label="rel_loss_rate" sf="6" width="12">
+		<column label="biallelicBinary_homozygousMethylation" sf="6" width="12">
 			<parameter idref="biallelicBinary.homozygousMethylation"/>
+		</column>
+		<column label="biallelicBinary_homozygousDemethylation" sf="6" width="12">
+			<parameter idref="biallelicBinary.homozygousDemethylation"/>
 		</column>
 	</log>
 	<!-- write log to file  -->
@@ -241,15 +228,11 @@
 		<posterior idref="posterior"/>
 		<prior idref="prior"/>
 		<likelihood idref="likelihood"/>
-		<parameter idref="biallelicBinary.demethylation"/>
-		<parameter idref="biallelicBinary.homozygousDemethylation"/>
-		<parameter idref="biallelicBinary.homozygousMethylation"/>
-		<parameter idref="treeModel.rootHeight"/>
-		<parameter idref="luca_height"/>
-		<parameter idref="luca_branch"/>
-		<parameter idref="clock.rate"/>
-		<coalescentLikelihood idref="coalescent"/>
+		<parameter idref="coalescent"/>
 		<parameter idref="constant.popSize"/>
+		<parameter idref="biallelicBinary.demethylation"/>
+		<parameter idref="biallelicBinary.homozygousMethylation"/>
+		<parameter idref="biallelicBinary.homozygousDemethylation"/>
 	</log>
 	<!-- write tree log to file   -->
 	<logTree id="treeFileLog" logEvery="250" nexusFormat="true" fileName="my name any.trees" sortTranslationTable="true">

@@ -12,7 +12,7 @@ class MCMC(object):
         
         
     ### PUBLIC INTERFACE ######### 
-    def get_mcmc(self,datatype,demographic):        
+    def get_mcmc(self,datatype,demographic):   
         mcmc = "" 
         if datatype == "bb":
             datatype = "biallelicBinary"
@@ -20,29 +20,7 @@ class MCMC(object):
         mcmc += f'{tab2}<posterior id="posterior">\n'
         ##############################################################
         ## HARDCODED AND USER PRIORS
-        mcmc += f'{tab3}<prior id="prior">\n'
-        mcmc += f'{tab4}<coalescentLikelihood idref="coalescent"/>\n'
-        if demographic == "constant size":
-            mcmc += f'{tab4}<oneOnXPrior>\n'
-            mcmc += f'{tab5}<parameter idref="constant.popSize"/>\n'
-            mcmc += f'{tab4}</oneOnXPrior>\n'            
-        elif demographic == "exponential growth":        
-            mcmc += f'{tab4}<oneOnXPrior>\n'
-            mcmc += f'{tab5}<parameter idref="exponential.popSize"/>\n'
-            mcmc += f'{tab4}</oneOnXPrior>\n'
-            mcmc += f'{tab4}<laplacePrior mean="0.0" scale="1.0">\n'
-            mcmc += f'{tab5}<parameter idref="exponential.growthRate"/>\n'
-            mcmc += f'{tab4}</laplacePrior>\n'
-
-        mcmc += self.__get_priors__()
-        
-        mcmc += f'{tab4}<!-- Loss (relative to gain) rate priors-->\n'
-        if datatype != "biallelicBinary":
-            mcmc += f'{tab4}<exponentialPrior mean="1.0" offset="0.0">\n'
-            mcmc += f'{tab5}<parameter idref="{datatype}.loss"/>\n'
-            mcmc += f'{tab4}</exponentialPrior>\n'
-        
-        mcmc += f'{tab3}</prior>\n'
+        mcmc += self.priors.get_priors_xml()       
         ##############################################################
         mcmc += f'{tab3}<likelihood id="likelihood">\n'
         mcmc += f'{tab4}<cenancestorTreeLikelihood idref="treeLikelihood"/>\n'
@@ -61,64 +39,27 @@ class MCMC(object):
         mcmc += f'{tab3}<column label="Likelihood" dp="4" width="12">\n'
         mcmc += f'{tab4}<likelihood idref="likelihood"/>\n'
         mcmc += f'{tab3}</column>\n'        
-        mcmc += f'{tab3}<column label="clock_rate" sf="6" width="12">\n'
-        mcmc += f'{tab4}<parameter idref="clock.rate"/>\n'
-        mcmc += f'{tab3}</column>\n'
-        mcmc += f'{tab3}<column label="rootHeight" sf="6" width="12">\n'
-        mcmc += f'{tab4}<parameter idref="treeModel.rootHeight"/>\n'
-        mcmc += f'{tab3}</column>\n'
-        mcmc += f'{tab3}<column label="luca_height" sf="6" width="12">\n'
-        mcmc += f'{tab4}<parameter idref="luca_height"/>\n'
-        mcmc += f'{tab3}</column>\n'
-        mcmc += f'{tab3}<column label="luca_branch" sf="6" width="12">\n'
-        mcmc += f'{tab4}<parameter idref="luca_branch"/>\n'
-        mcmc += f'{tab3}</column>\n'
-        if datatype == "biallelicBinary":
-            mcmc += f'{tab3}<column label="rel_loss_rate" sf="6" width="12">\n'
-            mcmc += f'{tab4}<parameter idref="biallelicBinary.demethylation"/>\n'
-            mcmc += f'{tab3}</column>\n'
-            mcmc += f'{tab3}<column label="rel_loss_rate" sf="6" width="12">\n'
-            mcmc += f'{tab4}<parameter idref="biallelicBinary.homozygousDemethylation"/>\n'
-            mcmc += f'{tab3}</column>\n'
-            mcmc += f'{tab3}<column label="rel_loss_rate" sf="6" width="12">\n'
-            mcmc += f'{tab4}<parameter idref="biallelicBinary.homozygousMethylation"/>\n'
-            mcmc += f'{tab3}</column>\n'
-        else:
-            mcmc += f'{tab3}<column label="rel_loss_rate" sf="6" width="12">\n'
-            mcmc += f'{tab4}<parameter idref="{datatype}.loss"/>\n'
-            mcmc += f'{tab3}</column>\n'
+        
+        prior_list = self.priors.getPriorsList()
+        for prior in prior_list:
+            prior_ = prior.replace(".","_")
+            mcmc += f'{tab3}<column label="{prior_}" sf="6" width="12">\n'
+            mcmc += f'{tab4}<parameter idref="{prior}"/>\n'
+            mcmc += f'{tab3}</column>\n'               
         mcmc += f'{tab2}</log>\n'
-
         mcmc += f'{tab2}<!-- write log to file  -->\n'
         mcmc += f'{tab2}<log id="fileLog" logEvery="{self.mcmcs["log_every"]}" fileName="{self.mcmcs["name"]}.log" overwrite="false">\n'
         mcmc += f'{tab3}<posterior idref="posterior"/>\n'
         mcmc += f'{tab3}<prior idref="prior"/>\n'
         mcmc += f'{tab3}<likelihood idref="likelihood"/>\n'
-        if datatype == "biallelicBinary":
-            mcmc += f'{tab3}<parameter idref="biallelicBinary.demethylation"/>\n'
-            mcmc += f'{tab3}<parameter idref="biallelicBinary.homozygousDemethylation"/>\n'
-            mcmc += f'{tab3}<parameter idref="biallelicBinary.homozygousMethylation"/>\n'
-        else:
-            mcmc += f'{tab3}<parameter idref="{datatype}.loss"/>\n'
-        mcmc += f'{tab3}<parameter idref="treeModel.rootHeight"/>\n'
-        mcmc += f'{tab3}<parameter idref="luca_height"/>\n'
-        mcmc += f'{tab3}<parameter idref="luca_branch"/>\n'                
-        mcmc += f'{tab3}<parameter idref="clock.rate"/>\n'
-        mcmc += f'{tab3}<coalescentLikelihood idref="coalescent"/>\n'        
-        if demographic == "exponential growth":
-            mcmc += f'{tab3}<parameter idref="exponential.popSize"/>\n'
-            mcmc += f'{tab3}<parameter idref="exponential.growthRate"/>\n'
-        elif demographic == "constant size":
-            mcmc += f'{tab3}<parameter idref="constant.popSize"/>\n'
-        if self.clocks['type'] == "random local clock":            
-            mcmc += f'{tab3}<parameter idref="localClock.relativeRates"/>\n'
-            mcmc += f'{tab3}<parameter idref="localClock.changes"/>\n'
+        for prior in prior_list:
+            mcmc += f'{tab3}<parameter idref="{prior}"/>\n'
+       
+        if self.clocks['type'] == "random local clock":
             mcmc += f'{tab3}<statistic idref="rateChanges"/>\n'
             mcmc += f'{tab3}<rateStatisticCenancestor idref="coefficientOfVariation"/>\n'
             mcmc += f'{tab3}<rateCovarianceStatistic idref="covariance"/>\n'
-            mcmc += f'{tab3}<rateStatisticCenancestor idref="cenancestorRate"/>\n'
-        
-            
+            mcmc += f'{tab3}<rateStatisticCenancestor idref="cenancestorRate"/>\n'                    
         mcmc += f'{tab2}</log>\n'
 
         mcmc += f'{tab2}<!-- write tree log to file   -->\n'

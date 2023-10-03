@@ -8,7 +8,7 @@ this_dir = "/".join(__file__.split('/')[:-1])
 def reg_0201():
     success = True
     xmls = []
-    xmls.append("data_02a_validation_fix.xml")
+    xmls.append("validation/val_fix.xml")
         
     for xml in xmls:
         filename = f'{this_dir}/fixtures/{xml}'

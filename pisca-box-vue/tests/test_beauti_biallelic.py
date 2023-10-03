@@ -1,9 +1,12 @@
+# ruff: noqa: F841
 import __init__ # noqa: F401
 import libs.cls_xml as xml
-import libs.cls_biallelic as bb
+import libs.cls_dt_biallelic as bb
 import libs.cls_operators as ops
 import libs.cls_mcmc as mc
 import pandas as pd
+import libs.cls_priors as prs
+import libs.cls_datadetermine as dd
 
 this_dir = "/".join(__file__.split('/')[:-1])
 
@@ -32,26 +35,23 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
     success = True
          
     trials = []        
-    trials.append(['bb-fasta','biallelic/data_patient1.fasta','biallelic/data_patient1_bb_orig_ages.csv','bb',False])
-    trials.append(['bb-csv','biallelic/data_patient1_bb_seq.csv','biallelic/data_patient1_bb_orig_ages.csv','bb',True])
+    trials.append(['bb-fasta','biallelic/patient1.fasta','biallelic/patient1_ages.csv','bb',False])
+    trials.append(['bb-csv','biallelic/patient1_seq.csv','biallelic/patient1_ages.csv','bb',True])
     
     str_store = {}
     trial_matches = []
     trial_matches.append(['bb-fasta','bb-csv'])
     
     for key,seq_file,seq_ages,seq_type,as_csv in trials:
-
-        # File selection
-        fasta_string = ""
-        seq_csv = pd.DataFrame()          
-        if not as_csv:
-            with open(f'{this_dir}/fixtures/{seq_file}', "r") as f:
-                fasta_string = f.read()
-        else:
-            seq_csv = pd.read_csv(f'{this_dir}/fixtures/{seq_file}',index_col=0)
-            
+                              
+        file_name = f'{this_dir}/fixtures/{seq_file}'                
+        nm,tp = file_name.lower().split(".")
+        dtd = dd.DataDetermine(None,tp,file_name)
+        dic_seq,dtyp = dtd.get_seq_data()
+        
         # ages selection - we want the column with age as the header        
         csv_ages = pd.read_csv(f'{this_dir}/fixtures/{seq_ages}')
+        
                                         
         # PISCA
         datatype = seq_type #(cnv / acna / bb)
@@ -93,15 +93,15 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
         priors['clock.rate'] = {'prior_type':'normal','mean':0.0,'std':0.13}
         priors['biallelicBinary.demethylation'] = {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}
         priors['biallelicBinary.homozygousMethylation'] = {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}
-        priors['biallelicBinary.homozygousDemethylation']= {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True}    
+        priors['biallelicBinary.homozygousDemethylation']= {'prior_type':'logNormal','mean':1.0,'std':0.6,'offset':0.0,'realSpace':True} 
         
         # Load DATATYPE
-        operators = ops.Operators(demographic,datatype,clocks)
-        fasta = bb.Biallelic(fasta_string,seq_csv,csv_ages)                    
-        #fasta = fa.Fasta(fasta_string,csv_ages,seq_conversion,seq_csv)
-        mcmc = mc.MCMC(mcmcs,clocks,priors)                                    
-        xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype,operators)
-
+        dt_obj =  bb.Biallelic(dic_seq,csv_ages)
+        operators = ops.Operators(demographic,dt_obj.ops)
+        prrs = prs.Priors(demographic,dt_obj.prs)
+        mcmc = mc.MCMC(mcmcs,clocks,prrs)
+        xmlwriter = xml.XmlWriter(dt_obj,mcmc,lucas,clocks,demographic,dt_obj,operators)
+                                                
         xmlstr = xmlwriter.get_xml()
         if show_xml:
             print(xmlstr)

@@ -17,11 +17,11 @@ class XmlWriter(object):
         xml += self._add_comment("TAXA")
         xml += self.fasta.get_fasta_taxa()        
         xml += self._add_comment("GENERAL DATATYPE")
-        xml += self._get_general_datatype(self.datatype)
+        xml += self.fasta.get_datatype_xml()
         xml += self._add_comment("ALIGNMENT")
-        xml += self.fasta.get_fasta_alignment(self.datatype)
+        xml += self.fasta.get_fasta_alignment()
         xml += self._add_comment("CHARACTER PATTERNS")
-        xml += self._get_character_patterns(self.datatype)
+        xml += self.fasta.get_character_patterns()
         if self.demographic == "constant size":
             xml += self._add_comment("CONSTANT SIZE")
             xml += self._get_constant_size()
@@ -42,11 +42,11 @@ class XmlWriter(object):
             xml += self._get_sum_statistic()
             xml += self._get_rates()        
         xml += self._add_comment("FREQUENCY MODEL")
-        xml += self._get_frequency_model(self.datatype)
+        xml += self.fasta.get_frequency_model()
         xml += self._add_comment("CNA MODEL")
-        xml += self._get_cna_model(self.datatype)
+        xml += self.fasta.get_cna_model()
         xml += self._add_comment("SITE MODEL")
-        xml += self._get_site_model(self.datatype)                
+        xml += self.fasta.get_site_model()
         lh_val,lb_val,lb_up,lb_low = self.lucas["height"],self.lucas["branch"],self.lucas["upper"],self.lucas["lower"]
         xml += self._add_comment("TREE LIKELIHOOD")
         xml += self._get_tree_likelihood(lh_val,lb_val,lb_up,lb_low, self.clocks)
@@ -57,68 +57,7 @@ class XmlWriter(object):
         xml += self._add_comment("REPORT")
         xml += self._get_report()
         xml += self._get_xml_footer()
-        return xml
-        
-    
-    ### PRIVATE HELPERS #########
-    def _get_general_datatype(self,datatype):
-        gdt = ""
-        if datatype == "acna":        
-            gdt += "<generalDataType id=\"acna\">" + "\n"
-            gdt += "\t<state code=\"@\"/> <!-- Genotype: 0 ; Beast State: 0 -->" + "\n"
-            gdt += "\t<state code=\"A\"/> <!-- Genotype: 1 ; Beast State: 1 -->" + "\n"
-            gdt += "\t<state code=\"B\"/> <!-- Genotype: 2 ; Beast State: 2 -->" + "\n"
-            gdt += "\t<state code=\"C\"/> <!-- Genotype: 3 ; Beast State: 3 -->" + "\n"
-            gdt += "\t<state code=\"D\"/> <!-- Genotype: 4 ; Beast State: 4 -->" + "\n"
-            gdt += "\t<state code=\"E\"/> <!-- Genotype: 5 ; Beast State: 5 -->" + "\n"
-            gdt += "\t<state code=\"F\"/> <!-- Genotype: 6 ; Beast State: 6 -->" + "\n"
-            gdt += "\t<state code=\"G\"/> <!-- Genotype: 7 ; Beast State: 7 -->" + "\n"
-            gdt += "\t<state code=\"H\"/> <!-- Genotype: 8 ; Beast State: 8 -->" + "\n"
-            gdt += "\t<state code=\"I\"/> <!-- Genotype: 9 ; Beast State: 9 -->" + "\n"
-            gdt += "\t<state code=\"J\"/> <!-- Genotype: 10 ; Beast State: 10 -->" + "\n"
-            gdt += "\t<ambiguity code=\"-\" states=\"@ABCDEFGHIJ\"/>" + "\n"
-            gdt += "\t<ambiguity code=\"?\" states=\"@ABCDEFGHIJ\"/>" + "\n"
-            gdt += "</generalDataType>" + "\n"
-        elif datatype == "cnv":
-            gdt += '\t<generalDataType id="cnv">\n'
-            gdt += '\t<state code="@"/> <!-- Genotype: 0,0 ; Beast State: 0 -->\n'
-            gdt += '\t<state code="A"/> <!-- Genotype: 0,1 ; Beast State: 1 -->\n'
-            gdt += '\t<state code="B"/> <!-- Genotype: 0,2 ; Beast State: 2 -->\n'
-            gdt += '\t<state code="C"/> <!-- Genotype: 0,3 ; Beast State: 3 -->\n'
-            gdt += '\t<state code="D"/> <!-- Genotype: 0,4 ; Beast State: 4 -->\n'
-            gdt += '\t<state code="E"/> <!-- Genotype: 0,5 ; Beast State: 5 -->\n'
-            gdt += '\t<state code="F"/> <!-- Genotype: 0,6 ; Beast State: 6 -->\n'
-            gdt += '\t<state code="G"/> <!-- Genotype: 1,0 ; Beast State: 7 -->\n'
-            gdt += '\t<state code="H"/> <!-- Genotype: 1,1 ; Beast State: 8 -->\n'
-            gdt += '\t<state code="I"/> <!-- Genotype: 1,2 ; Beast State: 9 -->\n'
-            gdt += '\t<state code="J"/> <!-- Genotype: 1,3 ; Beast State: 10 -->\n'
-            gdt += '\t<state code="K"/> <!-- Genotype: 1,4 ; Beast State: 11 -->\n'
-            gdt += '\t<state code="L"/> <!-- Genotype: 1,5 ; Beast State: 12 -->\n'
-            gdt += '\t<state code="M"/> <!-- Genotype: 2,0 ; Beast State: 13 -->\n'
-            gdt += '\t<state code="N"/> <!-- Genotype: 2,1 ; Beast State: 14 -->\n'
-            gdt += '\t<state code="O"/> <!-- Genotype: 2,2 ; Beast State: 15 -->\n'
-            gdt += '\t<state code="P"/> <!-- Genotype: 2,3 ; Beast State: 16 -->\n'
-            gdt += '\t<state code="Q"/> <!-- Genotype: 2,4 ; Beast State: 17 -->\n'
-            gdt += '\t<state code="R"/> <!-- Genotype: 3,0 ; Beast State: 18 -->\n'
-            gdt += '\t<state code="S"/> <!-- Genotype: 3,1 ; Beast State: 19 -->\n'
-            gdt += '\t<state code="T"/> <!-- Genotype: 3,2 ; Beast State: 20 -->\n'
-            gdt += '\t<state code="U"/> <!-- Genotype: 3,3 ; Beast State: 21 -->\n'
-            gdt += '\t<state code="V"/> <!-- Genotype: 4,0 ; Beast State: 22 -->\n'
-            gdt += '\t<state code="W"/> <!-- Genotype: 4,1 ; Beast State: 23 -->\n'
-            gdt += '\t<state code="X"/> <!-- Genotype: 4,2 ; Beast State: 24 -->\n'
-            gdt += '\t<state code="Y"/> <!-- Genotype: 5,0 ; Beast State: 25 -->\n'
-            gdt += '\t<state code="Z"/> <!-- Genotype: 5,1 ; Beast State: 26 -->\n'
-            gdt += '\t<state code="["/> <!-- Genotype: 6,0 ; Beast State: 27 -->\n'
-            gdt += '\t<ambiguity code="-" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>\n'
-            gdt += '\t<ambiguity code="?" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>\n'
-            gdt += '\t</generalDataType>\n'
-        elif datatype == "bb" or datatype == "biallelicBinary":
-            gdt += '<generalDataType id="biallelicBinary">\n'
-            gdt += '<state code="0"/> <!-- Genotype: 0 ; Beast State: 0 -->\n'
-            gdt += '<state code="1"/> <!-- Genotype: 1 ; Beast State: 1 -->\n'
-            gdt += '<state code="2"/> <!-- Genotype: 2 ; Beast State: 2 -->\n'
-            gdt += '</generalDataType>\n' 
-        return gdt
+        return xml                
     #----------------------------------
     def _get_xml_header(self):
         hdr = ""
@@ -129,23 +68,7 @@ class XmlWriter(object):
     def _get_xml_footer(self):
         ftr = ""
         ftr += "</beast>"        
-        return ftr
-    #----------------------------------
-    def _get_character_patterns(self,datatype):
-        pat = ""
-        if datatype == "bb" or datatype == "biallelicBinary":
-            pat += '<patterns id="patterns" from="1">\n'
-            pat += '\t<alignment idref="alignment"/>\n'
-            pat += '</patterns>\n'
-        else:
-            state = "H"
-            if datatype == "acna":
-                state = "B"            
-            pat += '<ascertainedCharacterPatterns id="patterns">\n'
-            pat += '\t<alignment idref="alignment"/>\n'
-            pat += f'\t<state code="{state}"/>\n'
-            pat += '</ascertainedCharacterPatterns>\n'
-        return pat
+        return ftr    
     #----------------------------------
     def _get_constant_size(self):
         cs = ""        
@@ -263,92 +186,7 @@ class XmlWriter(object):
         rts += '\t<treeModel idref="treeModel"/>\n'
         rts += '\t<randomLocalClockModelCenancestor idref="branchRates"/>\n'
         rts += '</rateCovarianceStatistic>\n'
-        return rts
-    #----------------------------------
-    def _get_frequency_model(self,datatype):
-        if datatype == "bb":
-            datatype = "biallelicBinary"
-        fm = ""        
-        fm += '<frequencyModel id="frequencies">\n'
-        fm += f'\t<dataType idref="{datatype}"/>\n'
-        fm += '\t<frequencies>\n'
-        if datatype == "acna":
-            fm += f'\t\t<parameter id="{datatype}.frequencies" value="0 0 1 0 0 0 0 0 0 0 0"/>\n'
-        elif datatype == "cnv":
-            fm += f'\t\t<parameter id="{datatype}.frequencies" value="0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/>\n'
-        elif datatype == "biallelicBinary":
-            fm += f'\t\t<parameter id="{datatype}.frequencies" value="0.5 0 0.5"/>\n'
-        fm += '\t</frequencies>\n'
-        fm += '</frequencyModel>\n'	   	  
-        return fm
-    #----------------------------------
-    def _get_cna_model(self,datatype):
-        cna = ""
-        if datatype == "acna":            
-            cna += '<AbsoluteCNAModel id="acna_subsmodel">\n'
-            cna += '\t<frequencies>\n'
-            cna += '\t\t<frequencyModel idref="frequencies"/>\n'
-            cna += '\t</frequencies>\n'
-            cna += '\t<gain_rate>\n'
-            cna += '\t\t<parameter id="acna.gain" value="1" lower="0"/>\n'
-            cna += '\t</gain_rate>\n'
-            cna += '\t<relative_loss_rate>\n'
-            cna += '\t\t<parameter id="acna.loss" value="1" lower="0"/>\n'
-            cna += '\t</relative_loss_rate>\n'
-            cna += '</AbsoluteCNAModel>\n'
-        elif datatype == "cnv":
-            cna += '<CNVModel id="cnv_subsmodel">\n'
-            cna += '\t<frequencies>\n'
-            cna += '\t\t<frequencyModel idref="frequencies"/>\n'
-            cna += '\t</frequencies>\n'
-            cna += '\t<gain_rate>\n'
-            cna += '\t\t<parameter id="cnv.gain" value="1" lower="0"/>\n'
-            cna += '\t</gain_rate>\n'
-            cna += '\t<loss_rate>\n'
-            cna += '\t\t<parameter id="cnv.loss" value="1" lower="0"/>\n'
-            cna += '\t</loss_rate>\n'
-            cna += '\t<conversion_rate>\n'
-            cna += '\t\t<parameter id="cnv.conversion" value="1" lower="0"/>\n'
-            cna += '\t</conversion_rate>\n'
-            cna += '</CNVModel>\n'            
-        elif datatype == "bb" or datatype == "biallelicBinary":
-            cna += '<BiallelicBinaryModel id="biallelicBinary_subsmodel">\n'
-            cna += '\t<frequencies>\n'
-            cna += '\t\t<frequencyModel idref="frequencies"/>\n'
-            cna += '\t</frequencies>\n'                        
-            cna += '\t<demethylation_rate>\n'
-            cna += '\t\t<parameter id="biallelicBinary.demethylation" value="1" lower="0"/>\n'
-            cna += '\t</demethylation_rate>\n'
-            cna += '\t<homozygousDemethylation_rate>\n'
-            cna += '\t\t<parameter id="biallelicBinary.homozygousDemethylation" value="1" lower="0"/>\n'
-            cna += '\t</homozygousDemethylation_rate>\n'
-            cna += '\t<homozygousMethylation_rate>\n'
-            cna += '\t\t<parameter id="biallelicBinary.homozygousMethylation" value="1" lower="0"/>\n'
-            cna += '\t</homozygousMethylation_rate>\n'                    
-            cna += '</BiallelicBinaryModel>\n'            
-        return cna
-    #----------------------------------
-    def _get_site_model(self,datatype):
-        st = ""
-        if datatype == "acna":
-            st += '<siteModel id="siteModel">\n'
-            st += '\t<substitutionModel>\n'
-            st += '\t\t<AbsoluteCNAModel idref="acna_subsmodel"/>\n'
-            st += '\t</substitutionModel>\n'
-            st += '</siteModel>\n'
-        elif datatype == "cnv":
-            st += '<siteModel id="siteModel">\n'
-            st += '\t<substitutionModel>\n'
-            st += '\t\t<CNVModel idref="cnv_subsmodel"/>\n'
-            st += '\t</substitutionModel>\n'
-            st += '</siteModel>\n'            
-        elif datatype == "bb" or datatype == "biallelicBinary":
-            st += '<siteModel id="siteModel">\n'
-            st += '\t<substitutionModel>\n'
-            st += '\t\t<BiallelicBinaryModel idref="biallelicBinary_subsmodel"/>\n'
-            st += '\t</substitutionModel>\n'
-            st += '</siteModel>\n'            
-        return st
+        return rts                
     #----------------------------------
     def _get_tree_likelihood(self,lh_val,lb_val,lb_up,lb_low,clocks):        
         cen = ""

@@ -170,4 +170,7 @@ cython_debug/
 !/pisca-box-vue/tests/fixtures/*fix.xml
 !/pisca-box-vue/tests/fixtures/biallelic/*fix.xml
 !/pisca-box-vue/tests/fixtures/phyfum/*fix.xml
+!/pisca-box-vue/tests/fixtures/acna/*fix.xml
+!/pisca-box-vue/tests/fixtures/cnv/*fix.xml
+!/pisca-box-vue/tests/fixtures/validation/*fix.xml
 

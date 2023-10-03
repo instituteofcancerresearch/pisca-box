@@ -1,186 +1,202 @@
-
 # ruff: noqa: E501
+# ruff: noqa: F841
+import pandas as pd
+
+tab1 = ""
+tab2 = "\t"
+tab3 = "\t\t"
+tab4 = "\t\t\t"
+tab5 = "\t\t\t\t"
 
 class Priors(object):
-    def __init__(self,demographic,datatype,clocks):
-        self.datatype = datatype
-        self.datatype = demographic
-        self.clocks = clocks
-        self.priors = {}
+    def __init__(self,demographic,default_prs):
+        self.demographic = demographic        
+        self.priors = []
+        ## default fromt he datatype
+        self.priors.append(["coalescentLikelihood","coalescent","","","","","","","","",""])                        
+        # from the demongraphic
+        if self.demographic == "constant size":
+            self.priors.append(["oneOnXPrior","constant.popSize","","","","","","","","",""])
+        elif self.demographic == "exponential growth":        
+            self.priors.append(["oneOnXPrior","exponential.popSize","","","","","","","","",""])
+            self.priors.append(["laplacePrior","exponential.growthRate","","","0.0","","","","","1.0",""])
+            
+        for pr in default_prs:
+            self.priors.append(pr)
+        # from the clock
+        #self.priors.append(clock_prior)
+        #self.priors.append(luca_prior)                                
+        """
+        ------------------------------------------------------------------------------------------------------------------------------
+        operator            parameter   lower   upper   mean    stddev  offset      meanInRealSpace     shape   scale   treeModel
+        ------------------------------------------------------------------------------------------------------------------------------
+        coalescentLikelihood param
+        oneOnXPrior         param
+        uniformPrior        param       lower   upper
+        exponentialPrior    param                       mean            offset
+        logNormalPrior      param                       mean    sd      offset      mirs
+        normalPrior         param                       mean    sd      offset      mirs
+        ctmcScalePrior      param                                                                                       treemod
+        gammaPrior          param                                       offset                          shape   scale
+        laplacePrior        param                       mean                                                    scale                        
+        ------------------------------------------------------------------------------------------------------------------------------                
+        # All the priors I know about
+        ["coalescentLikelihood","coalescent","","","","","","","","",""]
+        ## From biallelic binary
+        ["oneOnXPrior","constant.popSize","","","","","","","","",""]
+        ["uniformPrior","luca_branch","1.0","73.91491902959673","","","","","","",""]
+        ["normalPrior","clock.rate","","","0.0","0.13","0.0","true","","",""]
+        ["logNormalPrior","biallelicBinary.demethylation","","","1.0","0.6","0.0","true","","",""]
+        ["logNormalPrior","biallelicBinary.homozygousMethylation","","","1.0","0.6","0.0","true","","",""]
+        ["logNormalPrior","biallelicBinary.homozygousDemethylation","","","1.0","0.6","0.0","true","","",""]
+        ## From acna examples
+        ["oneOnXPrior","exponential.popSize","","","","","","","","",""]
+        ["laplacePrior","exponential.growthRate","","","0.0","","","","","1.0",""]
+        ["logNormalPrior","clock.rate","","","0.1","0.3","0.0","true","","",""]
+        ["exponentialPrior","acna.loss","","","1.0","","0.0","","","",""]
+        ["uniformPrior","luca_height","1.0","50","","","","","","",""]        
+        ["oneOnXPrior","constant.popSize","","","","","","","","",""]
+        ["uniformPrior","luca_height","2.73999961035501","76.3799893509288","","","","","","",""]
+        ## strict clock
+        ["ctmcScalePrior","clock.rate","","","","","","","","","treeModel"]                
+        """                                                            
+    def get_priors_xml(self):        
+        prs = f'{tab3}<prior id="prior">\n'
+        for pr in self.priors:
+            if pr[0] == "coalescentLikelihood":
+                prs += self._coalescentLikelihood(pr)
+            elif pr[0] == "oneOnXPrior":
+                prs += self._oneOnXPrior(pr)
+            elif pr[0] == "uniformPrior":
+                prs += self._uniformPrior(pr)
+            elif pr[0] == "exponentialPrior":
+                prs += self._exponentialPrior(pr)
+            elif pr[0] == "logNormalPrior":
+                prs += self._logNormalPrior(pr)
+            elif pr[0] == "normalPrior":
+                prs += self._normalPrior(pr)
+            elif pr[0] == "ctmcScalePrior":
+                prs += self._ctmcScalePrior(pr)
+            elif pr[0] == "gammaPrior":
+                prs += self._gammaPrior(pr)
+            elif pr[0] == "laplacePrior":
+                prs += self._laplacePrior(pr)            
+        prs += f'{tab3}</prior>\n'
+        return prs    
+    #########################################################################################
+    def getPriorsList(self):
+        prs = []
+        for pr in self.priors:
+            if pr[1] not in prs:
+                prs.append(pr[1])
+        return prs    
+    #########################################################################################def _coalescentLikelihood(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""
+        prx += f'{tab4}<coalescentLikelihood idref="{prm}"/>\n'
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------
+    def _coalescentLikelihood(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""
+        prx += f'{tab4}<coalescentLikelihood idref="{prm}"/>\n'        
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------
+    def _oneOnXPrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""
+        prx += f'{tab4}<oneOnXPrior>\n'
+        prx += f'{tab5}<parameter idref="{prm}"/>\n'
+        prx += f'{tab4}</oneOnXPrior>\n'                    
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------
+    def _uniformPrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""                
+        prx += f'{tab4}<uniformPrior lower="{lwr}" upper="{upr}">\n'
+        prx += f'{tab5}<parameter idref="{prm}"/>\n'
+        prx += f'{tab4}</uniformPrior>\n'        
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------
+    def _exponentialPrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""
+        prx += f'{tab4}<exponentialPrior mean="{men}" offset="{off}">\n'
+        prx += f'{tab5}<parameter idref="{prm}"/>\n'
+        prx += f'{tab4}</exponentialPrior>\n'
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------
+    def _logNormalPrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""                          
+        prx += f'{tab4}<logNormalPrior mean="{men}" stdev="{std}" offset="{off}" meanInRealSpace="{str(mns).lower()}">\n'
+        prx += f'{tab5}<parameter idref="{prm}"/>\n'
+        prx += f'{tab4}</logNormalPrior>\n'
+        return prx            
+    #-------------------------------------------------------------------------------------------------------------------
+    def _normalPrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""                          
+        prx += f'{tab4}<normalPrior mean="{men}" stdev="{std}" offset="{off}" meanInRealSpace="{str(mns).lower()}">\n'
+        prx += f'{tab5}<parameter idref="{prm}"/>\n'
+        prx += f'{tab4}</normalPrior>\n'
+        return prx            
+    #-------------------------------------------------------------------------------------------------------------------
+    def _ctmcScalePrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""        
+        prx += f'{tab4}<ctmcScalePrior>\n'
+        prx += f'{tab5}<ctmcScale><parameter idref="{prm}"/></ctmcScale>\n'
+        prx += f'{tab5}<treeModel idref="{tree}"/>\n'
+        prx += f'{tab4}</ctmcScalePrior>\n'
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------
+    def _gammaPrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""
+        prx += f'{tab4}<gammaPrior shape="{shp}" scale="{scl}" offset="{off}">\n'
+        prx += f'{tab5}<parameter idref="{prm}"/>\n'
+        prx += f'{tab4}</gammaPrior>\n'
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------
+    def _laplacePrior(self,pr):
+        op,prm,lwr,upr,men,std,off,mns,shp,scl,tree = pr[0],pr[1],pr[2],pr[3],pr[4],pr[5],pr[6],pr[7],pr[8],pr[9],pr[10]
+        prx = ""
+        prx += f'{tab4}<laplacePrior mean="{men}" scale="{scl}">\n'
+        prx += f'{tab5}<parameter idref="{prm}"/>\n'
+        prx += f'{tab4}</laplacePrior>\n'
+        return prx
+    #-------------------------------------------------------------------------------------------------------------------    
+    def get_as_dataframe(self):                
+        df = pd.DataFrame(self.priors,columns=['operator','parameter','lower','upper','mean','stddev','offset','meanInRealSpace','shape','scale','treeModel'])
+        return df
+    #---------------------------------------------------------------------------------
+    def update_from_dataframe(self,df):
+        self.priors = []
+        for row in df.itertuples():        
+            self.priors.append([row.operator,row.parameter,row.lower,row.upper,row.mean,row.stddev,row.offset,row.meanInRealSpace,row.shape,row.scale,row.treeModel])
+    #-------------------------------------------------------------------------------------------------------------------
+    def get_one_prior(self,prior_name):
+        for pr in self.priors:
+            if len(pr) > 0:
+                if pr[1] == prior_name:
+                    return pr
+        return None
+    #-------------------------------------------------------------------------------------------------------------------
+    def update_one_prior(self,remove,prior_name,new_vals):
+        updated = False
+        prs = []
+        for pr in self.priors:
+            if len(pr) > 0:
+                if pr[1] == prior_name and not remove:
+                    updated = True
+                    prs.append(new_vals)
+                else:
+                    prs.append(pr)
+        if not updated and not remove:
+            prs.append(new_vals)
+        self.priors = prs
+    #-------------------------------------------------------------------------------------------------------------------
         
-        self.priors["luca_branch"] = ["uniformPrior","73"]
-        self.priors["luca_height"] = ["uniformPrior","50"]
-        self.priors['biallelicBinary.demethylation'] = ['logNormalPrior','1.0','0.6','0.0','realSpace']
-        self.priors['biallelicBinary.homozygousMethylation'] = ['logNormalPrior','1.0','0.6','0.0','realSpace']
-        self.priors['biallelicBinary.homozygousDemethylation']= ['logNormalPrior','1.0','0.6','0.0','realSpace']
-        
-        self.ops.append(['scaleOperator','clock.rate','0.5','10.0'])
-        self.ops.append(['subtreeSlide','treeModel','2.5','true','15.0'])
-        self.ops.append(['narrowExchange','treeModel','15.0'])
-        self.ops.append(['wideExchange','treeModel','3.0'])
-        self.ops.append(['wilsonBalding','treeModel','3.0'])
-        self.ops.append(['scaleOperator','treeModel.rootHeight','0.75','5.0'])
-        self.ops.append(['uniformOperator','treeModel.internalNodeHeights','30.0'])
-        self.ops.append(['scaleOperator','luca_branch','0.2','1.0'])
-        if demographic == "constant size":
-            self.ops.append(['scaleOperator','constant.popSize','0.5','3.0'])
-        elif demographic == "exponential growth":
-            self.ops.append(['scaleOperator','exponential.popSize','0.5','3.0'])
-            self.ops.append(['randomWalkOperator','exponential.growthRate','1.0','3'])                
-        self.ops.append(['upDownOperator','clock.rate','treeModel.allInternalNodeHeights','0.75','5.0'])
-        if datatype == "biallelicBinary" or datatype == "bb":
-            self.ops.append(['scaleOperator','biallelicBinary.demethylation','0.25','0.25'])
-            self.ops.append(['scaleOperator','biallelicBinary.homozygousMethylation','0.25','0.25'])
-            self.ops.append(['scaleOperator','biallelicBinary.homozygousDemethylation','0.25','0.25'])
-    ### PUBLIC INTERFACE #########        
-    #---------------------------------------------------------------------------------
-    def get_operators(self):
-        ops = '<operators id="operators" optimizationSchedule="default">\n'
-        for op in self.ops:
-            if op[0] == "scaleOperator":
-                ops += self._get_scaleOperator(op)
-            elif op[0] == "upDownOperator":
-                ops += self._get_upDownOperator(op)
-            elif op[0] == "uniformOperator":
-                ops += self._get_uniformOperator(op)
-            elif op[0] == "wilsonBalding":
-                ops += self._get_wilsonBalding(op)
-            elif op[0] == "wideExchange":
-                ops += self._get_wideExchange(op)
-            elif op[0] == "narrowExchange":
-                ops += self._get_narrowExchange(op)
-            elif op[0] == "subtreeSlide":
-                ops += self._get_subtreeSlide(op)
-        ops += "</operators>\n"
-        return ops
-    #---------------------------------------------------------------------------------
-    def _get_scaleOperator(self,op):
-        idd,sf,we = op[1],op[2],op[3]        
-        op = ""
-        op += f'\t<scaleOperator scaleFactor="{sf}" weight="{we}">\n'
-        op += f'\t\t<parameter idref="{idd}"/>\n'
-        op += '\t</scaleOperator>\n'
-        return op
-        
-    #---------------------------------------------------------------------------------
-    def _get_upDownOperator(self,op):
-        upid,downid,sf,we = op[1],op[2],op[3],op[4]
-        op = ""
-        op += f'\t<upDownOperator scaleFactor="{sf}" weight="{we}">\n'
-        op += f'\t\t<up><parameter idref="{upid}"/></up>\n'
-        op += f'\t\t<down><parameter idref="{downid}"/></down>\n'
-        op += '\t</upDownOperator>\n'
-        return op
-    #---------------------------------------------------------------------------------
-    def _get_uniformOperator(self,op):
-        idd,we = op[1],op[2]        
-        op = ""
-        op += f'\t<uniformOperator weight="{we}">\n'
-        op += f'\t\t<parameter idref="{idd}"/>\n'
-        op += '\t</uniformOperator>\n'
-        return op
-    #---------------------------------------------------------------------------------
-    def _get_wilsonBalding(self,op):
-        idd,we = op[1],op[2]
-        op = ""
-        op += f'\t<wilsonBalding weight="{we}">\n'
-        op += f'\t\t<treeModel idref="{idd}"/>\n'
-        op += '\t</wilsonBalding>\n'
-        return op
-    #---------------------------------------------------------------------------------
-    def _get_wideExchange(self,op):
-        idd,we = op[1],op[2]
-        op = ""
-        op += f'\t<wideExchange weight="{we}">\n'
-        op += f'\t\t<treeModel idref="{idd}"/>\n'
-        op += '\t</wideExchange>\n'
-        return op
-    #---------------------------------------------------------------------------------
-    def _get_narrowExchange(self,op):
-        idd,we = op[1],op[2]
-        op = ""
-        op += f'\t<narrowExchange weight="{we}">\n'
-        op += f'\t\t<treeModel idref="{idd}"/>\n'
-        op += '\t</narrowExchange>\n'
-        return op
-    #---------------------------------------------------------------------------------
-    def _get_subtreeSlide(self,op):         
-        idd,size, gauss,we = op[1],op[2],op[3],op[4]
-        op = ""
-        op += f'\t<subtreeSlide  size="{size}" gaussian="{gauss}" weight="{we}">\n'
-        op += f'\t\t<treeModel idref="{idd}"/>\n'
-        op += '\t</subtreeSlide>\n'
-        return op
-    #---------------------------------------------------------------------------------
-    #----------------------------------
-    def get_operatorsx(self, demographic,datatype,clocks):
-        if datatype == "bb":
-            datatype = "biallelicBinary"
-        op = ""
-        op += '<operators id="operators" optimizationSchedule="default">\n'
-        if datatype != "biallelicBinary":
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += f'\t\t<parameter idref="{datatype}.loss"/>\n'
-            op += '\t</scaleOperator>\n'        
-        op += '\t<scaleOperator scaleFactor="0.5" weight="10.0">\n'
-        op += '\t\t<parameter idref="clock.rate"/>\n'
-        op += '\t</scaleOperator>\n'                
-        if clocks['type'] == "random local clock":
-            op += '\t<scaleOperator scaleFactor="0.75" weight="15">\n'
-            op += '\t\t<parameter idref="localClock.relativeRates"/>\n'
-            op += '\t</scaleOperator>\n'        
-            op += '\t<bitFlipOperator weight="15">\n'
-            op += '\t\t<parameter idref="localClock.changes"/>\n'
-            op += '\t</bitFlipOperator>\n'        
-        op += '\t<subtreeSlide size="2.5" gaussian="true" weight="15.0"> <!-- 2.5 years. They will be automatically optimized by BEAST though -->\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</subtreeSlide>\n'        
-        op += '\t<narrowExchange weight="15.0">\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</narrowExchange>\n'        
-        op += '\t<wideExchange weight="3.0">\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</wideExchange>\n'        
-        op += '\t<wilsonBalding weight="3.0">\n'
-        op += '\t\t<treeModel idref="treeModel"/>\n'
-        op += '\t</wilsonBalding>\n'        
-        op += '\t<scaleOperator scaleFactor="0.75" weight="5.0">\n'
-        op += '\t\t<parameter idref="treeModel.rootHeight"/>\n'
-        op += '\t</scaleOperator>\n'        
-        op += '\t<uniformOperator weight="30.0">\n'
-        op += '\t\t<parameter idref="treeModel.internalNodeHeights"/>\n'
-        op += '\t</uniformOperator>\n'        
-        op += '\t<scaleOperator scaleFactor="0.2" weight="1.0">\n'
-        op += '\t\t<parameter idref="luca_branch"/>\n'
-        op += '\t</scaleOperator>\n'        
-        if demographic == "constant size":
-            op += '\t<scaleOperator scaleFactor="0.5" weight="3.0">\n'
-            op += '\t\t<parameter idref="constant.popSize"/>\n'
-            op += '\t</scaleOperator>\n'
-        elif demographic == "exponential growth":
-            op += '\t<scaleOperator scaleFactor="0.5" weight="3.0">\n'
-            op += '\t\t<parameter idref="exponential.popSize"/>\n'
-            op += '\t</scaleOperator>\n'
-            op += '\t<randomWalkOperator windowSize="1.0" weight="3">\n'
-            op += '\t\t<parameter idref="exponential.growthRate"/>\n'
-            op += '\t</randomWalkOperator>\n'                    
-        op += '\t<upDownOperator scaleFactor="0.75" weight="5.0">\n'
-        op += '\t\t<up>'
-        op += '<parameter idref="clock.rate"/>'
-        op += '</up>\n'
-        op += '\t\t<down>'
-        op += '<parameter idref="treeModel.allInternalNodeHeights"/>'
-        op += '</down>\n'
-        op += '\t</upDownOperator>\n'        
-        if datatype == "biallelicBinary":
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += '\t\t<parameter idref="biallelicBinary.demethylation"/>\n'
-            op += '\t</scaleOperator>\n'
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += '\t\t<parameter idref="biallelicBinary.homozygousMethylation"/>\n'
-            op += '\t</scaleOperator>\n'
-            op += '\t<scaleOperator scaleFactor="0.25" weight="0.25">\n'
-            op += '\t\t<parameter idref="biallelicBinary.homozygousDemethylation"/>\n'
-            op += '\t</scaleOperator>\n'
-        op += '</operators>\n'                                
-        return op
+
+    
