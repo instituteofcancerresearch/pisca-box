@@ -8,17 +8,17 @@ import libs.widgets as widgets
 
 tabs = False
 if tabs:
-    widgets.page_header(divider=True)    
+    widgets.page_header(divider=True)
     tabHm, tabBB, tabPB, tabTv  = st.tabs(["home","beauti-box","pisca-box","tree-vue"])
     with tabHm:
-        pageHm.add_widgets(False)    
+        pageHm.add_widgets(False)
     with tabBB:
-        pageBe.add_widgets(False)    
+        pageBe.add_widgets(False)
     with tabPB:
-        pagePi.add_widgets(False)        
+        pagePi.add_widgets(False)
     with tabTv:
-        pageTv.add_widgets(False)   
+        pageTv.add_widgets(False)
 else:     
-    pageHm.add_widgets(True)    
+    pageHm.add_widgets(True)
     
     

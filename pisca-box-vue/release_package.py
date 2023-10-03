@@ -4,16 +4,23 @@ import os
 import subprocess
 
 # This file runs tests and builds the release
+# Manual regression detailed here: readme_regression.md
 
 ########################## WHICH STAGES TO RUN ####################################
+#### CLEAN ###
+pre_clean_up = 1
+post_clean_up = 1
+#### TEST ###
 test_build = 1
 build_run = 0
-test_regression = 0
+test_regression = 1
+#### BUILD ###
 build_vue = 0
 tag_dockers = 0
+#### RELEASE ###
 upload_dockers = 0
-clean_up = 0
-########################## VERSION AND NAMES## ####################################
+
+########################## VERSION AND NAMES ######################################
 version = "v01"
 name_run = "pisca-box-run"
 name_vue = "pisca-box-vue"
@@ -73,6 +80,15 @@ cmd_set_upload.append(f"docker push {docker_versioned_run}")
 cmd_set_upload.append(f"docker push {docker_no_tag_vue}")
 cmd_set_upload.append(f"docker push {docker_versioned_vue}")
 #----------------------------------------------------------------------------------
+if pre_clean_up:
+    print("### 0/8 ##################### Cleaning up... ########################")
+    test.clean_logs("tests/fixtures","*.log")
+    test.clean_logs("tests/fixtures","*.trees")
+    test.clean_logs("tests/fixtures","*.ops")
+    test.clean_logs("tests/fixtures","*.Identifier")
+    
+    #delete the temp files in the fixtures folder
+#####################################################
 ok = True
 #####################################################
 if test_build:
@@ -107,11 +123,12 @@ if upload_dockers and ok:
     print("### 7/8 #################### Uploading docker images... #######################")
     ok = run_commands(cmd_set_upload)
 #####################################################
-if clean_up:
+if post_clean_up:
     print("### 8/8 ##################### Cleaning up... ########################")
     test.clean_logs("tests/fixtures","*.log")
     test.clean_logs("tests/fixtures","*.trees")
     test.clean_logs("tests/fixtures","*.ops")
+    test.clean_logs("tests/fixtures","*.Identifier")
     #delete the temp files in the fixtures folder
 #####################################################
 

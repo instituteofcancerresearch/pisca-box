@@ -2,313 +2,155 @@
 <beast>
 <!-- TAXA -->
 <taxa id="taxa">
-	<taxon id="Diploid">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_001E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_001S">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_002E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_003E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_004E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_005E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
 	<taxon id="IBD002_006E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_007E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_008E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			descending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_009E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_010E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_010S">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_011E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			descending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_012E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_013E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			spleenflex"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_014E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			spleenflex"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_016E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_017E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_018E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_019E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_020E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_020S">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_021E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			spleenflex"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_024E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			transverse"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_027E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_030E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_030S">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_031E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_032E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_033E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_034E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			transverse"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_035E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_036E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_037E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_039E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_041E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_042E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_043E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_044E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_045E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_046E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_047E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_048E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_049E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_050E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_050S">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_051E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_052E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_054E_S35">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			cecum"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_055E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			sigmoid"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_056E">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_057E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_058E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_059E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			descending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_060E">
 		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			descending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_078E_S34">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_079E_S17">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_080E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_081E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_082E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_083E_S18">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_084E_S33">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_085E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_086E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_087E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_088E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_089E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_090E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_091E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_092E">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_093E">
-		<date value="2019.465753" direction="forwards" units="years"/>
+		<attr name="compartment">
+			cecum"
+		</attr>
 	</taxon>
 	<taxon id="IBD002_114E_S19">
 		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_116E_S21">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_117E_S20">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_118E_S22">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P03_S1">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P04_S2">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P08_S3">
-		<date value="2019.465753" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P11_S4">
-		<date value="2015.339726" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P13_S5">
-		<date value="2015.339726" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P14_S6">
-		<date value="2015.339726" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P15A_S7">
-		<date value="2018.673973" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P15D_S9">
-		<date value="2018.673973" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P15E_S10">
-		<date value="2018.673973" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P15F_S11">
-		<date value="2018.673973" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P15G_S12">
-		<date value="2018.673973" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P15I_S14">
-		<date value="2018.673973" direction="forwards" units="years"/>
-	</taxon>
-	<taxon id="IBD002_P15J_S15">
-		<date value="2018.673973" direction="forwards" units="years"/>
+		<attr name="compartment">
+			ascending"
+		</attr>
 	</taxon>
 </taxa>
 <!-- GENERAL DATATYPE -->
-	<generalDataType id="cnv">
-	<state code="@"/> <!-- Genotype: 0,0 ; Beast State: 0 -->
-	<state code="A"/> <!-- Genotype: 0,1 ; Beast State: 1 -->
-	<state code="B"/> <!-- Genotype: 0,2 ; Beast State: 2 -->
-	<state code="C"/> <!-- Genotype: 0,3 ; Beast State: 3 -->
-	<state code="D"/> <!-- Genotype: 0,4 ; Beast State: 4 -->
-	<state code="E"/> <!-- Genotype: 0,5 ; Beast State: 5 -->
-	<state code="F"/> <!-- Genotype: 0,6 ; Beast State: 6 -->
-	<state code="G"/> <!-- Genotype: 1,0 ; Beast State: 7 -->
-	<state code="H"/> <!-- Genotype: 1,1 ; Beast State: 8 -->
-	<state code="I"/> <!-- Genotype: 1,2 ; Beast State: 9 -->
-	<state code="J"/> <!-- Genotype: 1,3 ; Beast State: 10 -->
-	<state code="K"/> <!-- Genotype: 1,4 ; Beast State: 11 -->
-	<state code="L"/> <!-- Genotype: 1,5 ; Beast State: 12 -->
-	<state code="M"/> <!-- Genotype: 2,0 ; Beast State: 13 -->
-	<state code="N"/> <!-- Genotype: 2,1 ; Beast State: 14 -->
-	<state code="O"/> <!-- Genotype: 2,2 ; Beast State: 15 -->
-	<state code="P"/> <!-- Genotype: 2,3 ; Beast State: 16 -->
-	<state code="Q"/> <!-- Genotype: 2,4 ; Beast State: 17 -->
-	<state code="R"/> <!-- Genotype: 3,0 ; Beast State: 18 -->
-	<state code="S"/> <!-- Genotype: 3,1 ; Beast State: 19 -->
-	<state code="T"/> <!-- Genotype: 3,2 ; Beast State: 20 -->
-	<state code="U"/> <!-- Genotype: 3,3 ; Beast State: 21 -->
-	<state code="V"/> <!-- Genotype: 4,0 ; Beast State: 22 -->
-	<state code="W"/> <!-- Genotype: 4,1 ; Beast State: 23 -->
-	<state code="X"/> <!-- Genotype: 4,2 ; Beast State: 24 -->
-	<state code="Y"/> <!-- Genotype: 5,0 ; Beast State: 25 -->
-	<state code="Z"/> <!-- Genotype: 5,1 ; Beast State: 26 -->
-	<state code="["/> <!-- Genotype: 6,0 ; Beast State: 27 -->
-	<ambiguity code="-" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>
-	<ambiguity code="?" states="@ABCDEFGHIJKLMNOPQRSTUVWXYZ["/>
-	</generalDataType>
+<generalDataType id="acna">
+	<state code="@"/> <!-- Genotype: 0 ; Beast State: 0 -->
+	<state code="A"/> <!-- Genotype: 1 ; Beast State: 1 -->
+	<state code="B"/> <!-- Genotype: 2 ; Beast State: 2 -->
+	<state code="C"/> <!-- Genotype: 3 ; Beast State: 3 -->
+	<state code="D"/> <!-- Genotype: 4 ; Beast State: 4 -->
+	<state code="E"/> <!-- Genotype: 5 ; Beast State: 5 -->
+	<state code="F"/> <!-- Genotype: 6 ; Beast State: 6 -->
+	<state code="G"/> <!-- Genotype: 7 ; Beast State: 7 -->
+	<state code="H"/> <!-- Genotype: 8 ; Beast State: 8 -->
+	<state code="I"/> <!-- Genotype: 9 ; Beast State: 9 -->
+	<state code="J"/> <!-- Genotype: 10 ; Beast State: 10 -->
+	<ambiguity code="-" states="@ABCDEFGHIJ"/>
+	<ambiguity code="?" states="@ABCDEFGHIJ"/>
+</generalDataType>
 <!-- ALIGNMENT -->
 <alignment id="alignment">
-	<dataType idref="cnv"/>
+	<dataType idref="acna"/>
 	<sequence>
 		<taxon idref="IBD002_078E_S34"/>
-		BCDEFGHIJACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDEEEEEEEEEEEEEEECCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBFFFFFFFFFFFFFFBBBBBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEECCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+		CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDEEEEEEEEEEEEEEECCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBFFFFFFFFFFFFFFBBBBBBBBBBBBBBBBBBBBBBBBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEECCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 	</sequence>
 	<sequence>
 		<taxon idref="IBD002_083E_S18"/>
@@ -394,7 +236,7 @@
 <!-- CHARACTER PATTERNS -->
 <ascertainedCharacterPatterns id="patterns">
 	<alignment idref="alignment"/>
-	<state code="H"/>
+	<state code="B"/>
 </ascertainedCharacterPatterns>
 <!-- CONSTANT SIZE -->
 <constantSize id="constant" units="years">
@@ -430,35 +272,32 @@
 <!-- CENANCESTOR CLOCK -->
 <strictClockCenancestorBranchRates id="branchRates">
 	<rate>
-		<parameter id="clock.rate" value="0.13"/>
+		<parameter id="clock.rate" value="1.0"/>
 	</rate>
 </strictClockCenancestorBranchRates>
 <!-- FREQUENCY MODEL -->
 <frequencyModel id="frequencies">
-	<dataType idref="cnv"/>
+	<dataType idref="acna"/>
 	<frequencies>
-		<parameter id="cnv.frequencies" value="0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"/>
+		<parameter id="acna.frequencies" value="0 0 1 0 0 0 0 0 0 0 0"/>
 	</frequencies>
 </frequencyModel>
 <!-- CNA MODEL -->
-<CNVModel id="cnv_subsmodel">
+<AbsoluteCNAModel id="acna_subsmodel">
 	<frequencies>
 		<frequencyModel idref="frequencies"/>
 	</frequencies>
 	<gain_rate>
-		<parameter id="cnv.gain" value="1" lower="0"/>
+		<parameter id="acna.gain" value="1" lower="0"/>
 	</gain_rate>
-	<loss_rate>
-		<parameter id="cnv.loss" value="1" lower="0"/>
-	</loss_rate>
-	<conversion_rate>
-		<parameter id="cnv.conversion" value="1" lower="0"/>
-	</conversion_rate>
-</CNVModel>
+	<relative_loss_rate>
+		<parameter id="acna.loss" value="1" lower="0"/>
+	</relative_loss_rate>
+</AbsoluteCNAModel>
 <!-- SITE MODEL -->
 <siteModel id="siteModel">
 	<substitutionModel>
-		<CNVModel idref="cnv_subsmodel"/>
+		<AbsoluteCNAModel idref="acna_subsmodel"/>
 	</substitutionModel>
 </siteModel>
 <!-- TREE LIKELIHOOD -->
@@ -476,13 +315,10 @@
 </cenancestorTreeLikelihood>
 <!-- OPERATORS -->
 <operators id="operators" optimizationSchedule="default">
-	<scaleOperator scaleFactor="0.25" weight="0.25">
-		<parameter idref="cnv.loss"/>
-	</scaleOperator>
 	<scaleOperator scaleFactor="0.5" weight="10.0">
 		<parameter idref="clock.rate"/>
 	</scaleOperator>
-	<subtreeSlide size="2.5" gaussian="true" weight="15.0"> <!-- 2.5 years. They will be automatically optimized by BEAST though -->
+	<subtreeSlide  size="2.5" gaussian="true" weight="15.0">
 		<treeModel idref="treeModel"/>
 	</subtreeSlide>
 	<narrowExchange weight="15.0">
@@ -503,13 +339,13 @@
 	<scaleOperator scaleFactor="0.2" weight="1.0">
 		<parameter idref="luca_branch"/>
 	</scaleOperator>
-	<scaleOperator scaleFactor="0.5" weight="3.0">
-		<parameter idref="constant.popSize"/>
-	</scaleOperator>
 	<upDownOperator scaleFactor="0.75" weight="5.0">
 		<up><parameter idref="clock.rate"/></up>
 		<down><parameter idref="treeModel.allInternalNodeHeights"/></down>
 	</upDownOperator>
+	<scaleOperator scaleFactor="0.5" weight="3.0">
+		<parameter idref="constant.popSize"/>
+	</scaleOperator>
 </operators>
 <!-- MCMC and PRIORS -->
 <mcmc id="mcmc" chainLength="2500" autoOptimize="true" operatorAnalysis="my name any.ops">
@@ -519,25 +355,8 @@
 			<oneOnXPrior>
 				<parameter idref="constant.popSize"/>
 			</oneOnXPrior>
-			<uniformPrior lower="1" upper="2019.465753">
-				<parameter idref="luca_branch"/>
-			</uniformPrior>
-			<!-- Clock (gain) Rate Prior. -->
-			<normalPrior mean="0.0" stdev="0.13" offset="0.0" meanInRealSpace="true">
-				<parameter idref="clock.rate"/>
-			</normalPrior>
-			<logNormalPrior mean="1.0" stdev="0.6" offset="0.0" meanInRealSpace="true">
-				<parameter idref="biallelicBinary.demethylation"/>
-			</logNormalPrior>
-			<logNormalPrior mean="1.0" stdev="0.6" offset="0.0" meanInRealSpace="true">
-				<parameter idref="biallelicBinary.homozygousMethylation"/>
-			</logNormalPrior>
-			<logNormalPrior mean="1.0" stdev="0.6" offset="0.0" meanInRealSpace="true">
-				<parameter idref="biallelicBinary.homozygousDemethylation"/>
-			</logNormalPrior>
-			<!-- Loss (relative to gain) rate priors-->
 			<exponentialPrior mean="1.0" offset="0.0">
-				<parameter idref="cnv.loss"/>
+				<parameter idref="acna.loss"/>
 			</exponentialPrior>
 		</prior>
 		<likelihood id="likelihood">
@@ -556,20 +375,14 @@
 		<column label="Likelihood" dp="4" width="12">
 			<likelihood idref="likelihood"/>
 		</column>
-		<column label="clock_rate" sf="6" width="12">
-			<parameter idref="clock.rate"/>
+		<column label="coalescent" sf="6" width="12">
+			<parameter idref="coalescent"/>
 		</column>
-		<column label="rootHeight" sf="6" width="12">
-			<parameter idref="treeModel.rootHeight"/>
+		<column label="constant_popSize" sf="6" width="12">
+			<parameter idref="constant.popSize"/>
 		</column>
-		<column label="luca_height" sf="6" width="12">
-			<parameter idref="luca_height"/>
-		</column>
-		<column label="luca_branch" sf="6" width="12">
-			<parameter idref="luca_branch"/>
-		</column>
-		<column label="rel_loss_rate" sf="6" width="12">
-			<parameter idref="cnv.loss"/>
+		<column label="acna_loss" sf="6" width="12">
+			<parameter idref="acna.loss"/>
 		</column>
 	</log>
 	<!-- write log to file  -->
@@ -577,13 +390,9 @@
 		<posterior idref="posterior"/>
 		<prior idref="prior"/>
 		<likelihood idref="likelihood"/>
-		<parameter idref="cnv.loss"/>
-		<parameter idref="treeModel.rootHeight"/>
-		<parameter idref="luca_height"/>
-		<parameter idref="luca_branch"/>
-		<parameter idref="clock.rate"/>
-		<coalescentLikelihood idref="coalescent"/>
+		<parameter idref="coalescent"/>
 		<parameter idref="constant.popSize"/>
+		<parameter idref="acna.loss"/>
 	</log>
 	<!-- write tree log to file   -->
 	<logTree id="treeFileLog" logEvery="250" nexusFormat="true" fileName="my name any.trees" sortTranslationTable="true">

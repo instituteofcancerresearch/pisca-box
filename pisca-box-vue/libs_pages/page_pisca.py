@@ -102,44 +102,45 @@ def add_widgets(include_header):
                                                                 
                 
                 
-                st.divider()
-                st.write("Save output logs")
-                nm,ext = fops.split(".")
-                col1,col2 = st.columns([5,1])
-                with col1:                
-                    with st.expander(f"expand {fops}"):                                        
-                        st.code(ops_str)                
-                with col2:
-                    js = widge.get_saveas(ops_str,nm,ext,"Save ops")
-                    components.html(js, height=30)                                                                            
-                
-                nm,ext = flog.split(".")
-                col1,col2 = st.columns([5,1])
-                with col1:                
-                    with st.expander(f"expand {flog}"):
-                        st.write(log_csv)
-                with col2:
-                    js = widge.get_saveas(log_str,nm,ext,"Save log")
-                    components.html(js, height=30)   
-                                                
-                #if fmle:
-                #    col1,col2 = st.columns([5,1])
-                #    with col1:                
-                #        with st.expander(f"expand {nm}.mle.log"):
-                #            st.write(log_mle)
-                #    with col2:
-                #        js = widge.get_saveas(log_mle,f"{nm}.mle","log","Save mle log")
-                #        components.html(js, height=30)   
-                    
-                nm,ext = ftree.split(".")
-                col1,col2 = st.columns([5,1])
-                with col1:                
-                    with st.expander(f"expand {ftree}"):
-                        st.code(tree_str)
-                with col2:
-                    js = widge.get_saveas(tree_str,nm,ext,"Save trees")
-                    components.html(js, height=30)   
-                    
+                        st.divider()
+                        st.write("Save output logs")
+                        nm,ext = fops.split(".")
+                        col1,col2 = st.columns([5,1])
+                        with col1:                
+                            with st.expander(f"expand {fops}"):                                        
+                                st.code(ops_str)                
+                        with col2:
+                            js = widge.get_saveas(ops_str,nm,ext,"Save ops")
+                            components.html(js, height=30)                                                                            
+                        
+                        nm,ext = flog.split(".")
+                        col1,col2 = st.columns([5,1])
+                        with col1:                
+                            with st.expander(f"expand {flog}"):
+                                st.write(log_csv)
+                        with col2:
+                            js = widge.get_saveas(log_str,nm,ext,"Save log")
+                            components.html(js, height=30)   
+                                                        
+                        #if fmle:
+                        #    col1,col2 = st.columns([5,1])
+                        #    with col1:                
+                        #        with st.expander(f"expand {nm}.mle.log"):
+                        #            st.write(log_mle)
+                        #    with col2:
+                        #        js = widge.get_saveas(log_mle,f"{nm}.mle","log","Save mle log")
+                        #        components.html(js, height=30)   
+                            
+                        nm,ext = ftree.split(".")
+                        col1,col2 = st.columns([5,1])
+                        with col1:                
+                            with st.expander(f"expand {ftree}"):
+                                st.code(tree_str)
+                        with col2:
+                            js = widge.get_saveas(tree_str,nm,ext,"Save trees")
+                            components.html(js, height=30)   
+                    else:
+                        st.error("The BEAST application failed") 
                 
                     
                                                 
