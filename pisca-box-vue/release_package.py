@@ -11,12 +11,12 @@ import subprocess
 pre_clean_up = 1
 post_clean_up = 1
 #### TEST ###
-test_build = 0 
+test_build = 0
 build_run = 0
-test_regression = 1
+test_regression = 0
 #### BUILD ###-
-build_vue = 1
-tag_dockers = 1
+build_vue = 0
+tag_dockers = 0
 #### RELEASE ###
 upload_dockers = 0
 
