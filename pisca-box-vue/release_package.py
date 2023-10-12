@@ -11,7 +11,7 @@ import subprocess
 pre_clean_up = 1
 post_clean_up = 1
 #### TEST ###
-test_build = 0
+test_build = 1
 build_run = 0
 test_regression = 0
 #### BUILD ###-
