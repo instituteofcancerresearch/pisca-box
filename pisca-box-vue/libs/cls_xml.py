@@ -53,7 +53,7 @@ class XmlWriter(object):
         xml += self._add_comment("OPERATORS")
         xml += self.operators.get_operators()
         xml += self._add_comment("MCMC and PRIORS")
-        xml += self.mcmc.get_mcmc(self.datatype,self.demographic)
+        xml += self.mcmc.get_mcmc()
         xml += self._add_comment("REPORT")
         xml += self._get_report()
         xml += self._get_xml_footer()

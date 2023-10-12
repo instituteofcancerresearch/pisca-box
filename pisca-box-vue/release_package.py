@@ -11,17 +11,17 @@ import subprocess
 pre_clean_up = 1
 post_clean_up = 1
 #### TEST ###
-test_build = 1
+test_build = 0 
 build_run = 0
 test_regression = 1
-#### BUILD ###
-build_vue = 0
-tag_dockers = 0
+#### BUILD ###-
+build_vue = 1
+tag_dockers = 1
 #### RELEASE ###
 upload_dockers = 0
 
 ########################## VERSION AND NAMES ######################################
-version = "v01"
+version = "v02"
 name_run = "pisca-box-run"
 name_vue = "pisca-box-vue"
 docker = "rachelicr"

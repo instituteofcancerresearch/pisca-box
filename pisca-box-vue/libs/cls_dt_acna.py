@@ -32,8 +32,14 @@ class Acna(dt.DataType):
     def _default_priors(self):
         prs = []
         prs.append(["exponentialPrior","acna.loss","","","1.0","","0.0","","","",""])
-        return prs
-    ##############################################################
+        prs.append(["uniformPrior","luca_height","1.0","50","","","","","","",""])
+        return prs    
+    #############################################################
+    def _define_default_logs(self):
+        defaults = ["posterior","prior","likelihood","coalescent","rateChanges","coefficientOfVariation","covariance","cenancestorRate"]
+        defaults += ["luca_height","luca_branch","clock.rate",".growthRate",".popSize",".changes",".relativeRates",".rootHeight",".loss"]
+        return defaults
+    #############################################################
     def get_datatype_xml(self):    
         gdt = ""        
         gdt += "<generalDataType id=\"acna\">" + "\n"

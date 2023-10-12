@@ -30,6 +30,9 @@ def add_widgets(include_header):
     #### Alignment and ages data ###################################################                                    
     uploaded_ages = None
     dt_obj = None
+    
+    ## create state of choices in the screen
+    log_choices = []
         
     with st.container():        
         st.write("#### Alignment")        
@@ -62,7 +65,7 @@ def add_widgets(include_header):
             max_age = seq_ages['age'].max()   
             min_age = seq_ages['age'].min()
                                     
-            tabPisca, tabClock, tabLuca, tabTrees, tabMcmc, tabPriors,tabGenerate = st.tabs(["pisca","clock","luca","trees","mcmc","priors","generate xml"])
+            tabPisca, tabClock, tabLuca, tabTrees, tabMcmc, tabPriors,tabLog,tabGenerate = st.tabs(["pisca","clock","luca","trees","mcmc","priors","log","generate xml"])
                                                                                 
             ### PISCA ########################################################
             with tabPisca:
@@ -263,11 +266,35 @@ def add_widgets(include_header):
                     edited_df = st.data_editor(operators.get_as_dataframe(),num_rows="dynamic",use_container_width=True)
                     operators.update_from_dataframe(edited_df)
                                 
+            ### LOG FILE PARAMS #############################################################             
+            with tabLog:
+                st.write("#### :page_facing_up: Log file params")
+                cols = st.columns(2)
+                logs = dt_obj.selected_logs(prrs,operators,log_choices)
+                logs_all = dt_obj.all_logs(prrs,operators)                
+                with cols[0]:
+                    st.write("Defaults")
+                    for k,v in logs.items():
+                        include = st.checkbox(k,value=True)
+                        if include:
+                            if k not in log_choices:
+                                log_choices.append(k)
+                with cols[1]:
+                    st.write("Available")
+                    for k in logs_all:
+                        if k not in logs:
+                            include = st.checkbox(k,value=False)
+                            if include:
+                                if k not in log_choices:
+                                    log_choices.append(k)
+                
+                
+                
             ### GENERATE #############################################################             
             with tabGenerate:
                 st.write("#### :checkered_flag: Check and save xml")        
                 ################################################################                
-                mcmc = mc.MCMC(mcmcs,clocks,prrs)        
+                mcmc = mc.MCMC(mcmcs,clocks,prrs,dt_obj,operators,log_choices)
                 xmlwriter = xml.XmlWriter(dt_obj,mcmc,lucas,clocks,demographic,dt_obj,operators)
                 
                 my_xml = xmlwriter.get_xml()            

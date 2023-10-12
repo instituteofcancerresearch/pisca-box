@@ -34,6 +34,14 @@ class Operators(object):
         ops += "</operators>\n"
         return ops
     #---------------------------------------------------------------------------------
+    def getOpsList(self):
+        #create list from priors and operators
+        ops = []
+        for op in self.ops:
+            if op[1] not in ops:
+                ops.append(op[1])
+        return ops
+    #---------------------------------------------------------------------------------
     def _get_scaleOperator(self,op):
         operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
         op = ""

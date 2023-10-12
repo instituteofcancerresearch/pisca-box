@@ -47,6 +47,10 @@ docker pull rachelicr/pisca-box
 docker run rachelicr/pisca-box validate
 docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box validation.xml
 docker run -v ~/dev/beast-icr/xml:/project/xml rachelicr/pisca-box testStrictClock.xml
+
+docker run -v ~/dev/beast-icr/xml:/mnt --rm rachelicr/pisca-box-run validation.xml
+
+
 ```
 
 ### Running the docker image from singularity hub

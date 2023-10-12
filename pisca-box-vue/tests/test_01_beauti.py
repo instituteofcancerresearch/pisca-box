@@ -15,14 +15,20 @@ this_dir = "/".join(__file__.split('/')[:-1])
 
 
 def help_show_dif(stringa, stringb):
-    min_len = min(len(stringa),len(stringb))
+    stringsa = stringa.split("/>")
+    stringsb = stringb.split("/>")
+    min_len = min(len(stringsa),len(stringsb))
     for i in range(min_len):
-        if stringa[i] != stringb[i]:
-            print(i,stringa[i],stringb[i])
-            if i > 5 and i < min_len - 5:
-                print(i,stringa[i-3:i+3],stringb[i-3:i+3])
-    
-                        
+        stringa = stringsa[i].strip()
+        stringb = stringsb[i].strip()
+        if stringa != stringb:
+            print("LINE=",i,stringa,stringb)
+            print("-----")
+            print(stringa)
+            print("-----")
+            print(stringb)
+            print("-----")
+                                        
 def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True):
     success = True
          
@@ -81,7 +87,7 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
                                                         
         operators = ops.Operators(demographic,dt_obj.ops)
         prrs = prs.Priors(demographic,dt_obj.prs)
-        mcmc = mc.MCMC(mcmcs,clocks,prrs)
+        mcmc = mc.MCMC(mcmcs,clocks,prrs,dt_obj,operators,[])
         xmlwriter = xml.XmlWriter(dt_obj,mcmc,lucas,clocks,demographic,dt_obj,operators)
 
         xmlstr = xmlwriter.get_xml()
