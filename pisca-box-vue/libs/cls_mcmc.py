@@ -5,17 +5,18 @@ tab4 = "\t\t\t"
 tab5 = "\t\t\t\t"
 
 class MCMC(object):
-    def __init__(self, mcmcs,clocks,priors):
+    def __init__(self, mcmcs,clocks,priors,datatype,operators,log_choices):
         self.mcmcs = mcmcs
         self.clocks = clocks
         self.priors = priors
+        self.datatype = datatype
+        self.operators = operators
+        self.log_choices = log_choices
         
         
     ### PUBLIC INTERFACE ######### 
-    def get_mcmc(self,datatype,demographic):   
-        mcmc = "" 
-        if datatype == "bb":
-            datatype = "biallelicBinary"
+    def get_mcmc(self):   
+        mcmc = ""         
         mcmc += f'{tab1}<mcmc id="mcmc" chainLength="{self.mcmcs["chain_length"]}" autoOptimize="true" operatorAnalysis="{self.mcmcs["name"]}.ops">\n'
         mcmc += f'{tab2}<posterior id="posterior">\n'
         ##############################################################
@@ -27,33 +28,35 @@ class MCMC(object):
         mcmc += f'{tab3}</likelihood>\n'
         mcmc += f'{tab2}</posterior>\n'
         mcmc += f'{tab2}<operators idref="operators"/>\n'
-
+        
+        # LOGGING created from priors and operators #################        
+        log_list = self.datatype.selected_logs(self.priors,self.operators,self.log_choices)
+        # Create log to screen ####################################
         mcmc += f'{tab2}<!-- write log to screen -->\n'
         mcmc += f'{tab2}<log id="screenLog" logEvery="{self.mcmcs["log_every"]}">\n'
-        mcmc += f'{tab3}<column label="Posterior" dp="4" width="12">\n'
-        mcmc += f'{tab4}<posterior idref="posterior"/>\n'
-        mcmc += f'{tab3}</column>\n'
-        mcmc += f'{tab3}<column label="Prior" dp="4" width="12">\n'
-        mcmc += f'{tab4}<prior idref="prior"/>\n'
-        mcmc += f'{tab3}</column>\n'
-        mcmc += f'{tab3}<column label="Likelihood" dp="4" width="12">\n'
-        mcmc += f'{tab4}<likelihood idref="likelihood"/>\n'
-        mcmc += f'{tab3}</column>\n'        
-        
-        prior_list = self.priors.getPriorsList()
-        for prior in prior_list:
+        #mcmc += f'{tab3}<column label="Posterior" dp="4" width="12">\n'
+        #mcmc += f'{tab4}<posterior idref="posterior"/>\n'
+        #mcmc += f'{tab3}</column>\n'
+        #mcmc += f'{tab3}<column label="Prior" dp="4" width="12">\n'
+        #mcmc += f'{tab4}<prior idref="prior"/>\n'
+        #mcmc += f'{tab3}</column>\n'
+        #mcmc += f'{tab3}<column label="Likelihood" dp="4" width="12">\n'
+        #mcmc += f'{tab4}<likelihood idref="likelihood"/>\n'
+        #mcmc += f'{tab3}</column>\n'                                
+        for prior,kind in log_list.items():
             prior_ = prior.replace(".","_")
             mcmc += f'{tab3}<column label="{prior_}" sf="6" width="12">\n'
-            mcmc += f'{tab4}<parameter idref="{prior}"/>\n'
+            mcmc += f'{tab4}<{kind} idref="{prior}"/>\n'
             mcmc += f'{tab3}</column>\n'               
-        mcmc += f'{tab2}</log>\n'
+        mcmc += f'{tab2}</log>\n'        
+        # Create log to file ####################################
         mcmc += f'{tab2}<!-- write log to file  -->\n'
         mcmc += f'{tab2}<log id="fileLog" logEvery="{self.mcmcs["log_every"]}" fileName="{self.mcmcs["name"]}.log" overwrite="false">\n'
-        mcmc += f'{tab3}<posterior idref="posterior"/>\n'
-        mcmc += f'{tab3}<prior idref="prior"/>\n'
-        mcmc += f'{tab3}<likelihood idref="likelihood"/>\n'
-        for prior in prior_list:
-            mcmc += f'{tab3}<parameter idref="{prior}"/>\n'
+        #mcmc += f'{tab3}<posterior idref="posterior"/>\n'
+        #mcmc += f'{tab3}<prior idref="prior"/>\n'
+        #mcmc += f'{tab3}<likelihood idref="likelihood"/>\n'
+        for prior,kind in log_list.items():
+            mcmc += f'{tab3}<{kind} idref="{prior}"/>\n'
        
         if self.clocks['type'] == "random local clock":
             mcmc += f'{tab3}<statistic idref="rateChanges"/>\n'
@@ -61,6 +64,7 @@ class MCMC(object):
             mcmc += f'{tab3}<rateCovarianceStatistic idref="covariance"/>\n'
             mcmc += f'{tab3}<rateStatisticCenancestor idref="cenancestorRate"/>\n'                    
         mcmc += f'{tab2}</log>\n'
+        ######################################################
 
         mcmc += f'{tab2}<!-- write tree log to file   -->\n'
         mcmc += f'{tab2}<logTree id="treeFileLog" logEvery="{self.mcmcs["log_every"]}" nexusFormat="true" fileName="{self.mcmcs["name"]}.trees" sortTranslationTable="true">\n'
@@ -113,43 +117,4 @@ class MCMC(object):
             mcmc += f'{tab1}</steppingStoneSamplingAnalysis>\n'
             
         return mcmc
-    
-    def __get_priors__(self):
-        mcmc = ""
-        for key,prior in self.priors.items():
-            if key == "clock.rate":
-                mcmc += self.__get_clock_rate_prior__(key,prior)
-            elif key == "luca_height":
-                mcmc += self.__get_luca_prior__(key,prior)
-            elif key == "luca_branch":
-                mcmc += self.__get_luca_prior__(key,prior)
-            elif key == "biallelicBinary.demethylation":
-                mcmc += self.__get_biallelicBinary_prior__(key,prior)
-            elif key == "biallelicBinary.homozygousMethylation":
-                mcmc += self.__get_biallelicBinary_prior__(key,prior)
-            elif key == "biallelicBinary.homozygousDemethylation":
-                mcmc += self.__get_biallelicBinary_prior__(key,prior)
-        return mcmc
                 
-                
-    def __get_clock_rate_prior__(self,id,prior):
-        mcmc = ""
-        mcmc += f'{tab4}<!-- Clock (gain) Rate Prior. -->\n'
-        mcmc += f'{tab4}<{prior["prior_type"]}Prior mean="{prior["mean"]}" stdev="{prior["std"]}" offset="0.0" meanInRealSpace="true">\n'
-        mcmc += f'{tab5}<parameter idref="{id}"/>\n'
-        mcmc += f'{tab4}</{prior["prior_type"]}Prior>\n'
-        return mcmc
-        
-    def __get_luca_prior__(self,id,prior):
-        mcmc = ""        
-        mcmc += f'{tab4}<{prior["prior_type"]}Prior lower="1" upper="{prior["value"]}">\n'
-        mcmc += f'{tab5}<parameter idref="{id}"/>\n'
-        mcmc += f'{tab4}</{prior["prior_type"]}Prior>\n'
-        return mcmc
-    
-    def __get_biallelicBinary_prior__(self,id,prior):
-        mcmc = ""        
-        mcmc += f'{tab4}<{prior["prior_type"]}Prior mean="{prior["mean"]}" stdev="{prior["std"]}" offset="{prior["offset"]}" meanInRealSpace="true">\n'
-        mcmc += f'{tab5}<parameter idref="{id}"/>\n'
-        mcmc += f'{tab4}</{prior["prior_type"]}Prior>\n'
-        return mcmc

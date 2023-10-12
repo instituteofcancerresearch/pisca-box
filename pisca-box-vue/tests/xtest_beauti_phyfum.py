@@ -79,7 +79,7 @@ def xtest_phyfum_xml(show_xml=False,save_xml=False,overwrite=False,check_assert 
         
         #fasta = fa.Fasta(fasta_string,csv_ages,datatype,seq_csv)        
         operators = ops.Operators(demographic,datatype,clocks)
-        mcmc = mc.MCMC(mcmcs,clocks,priors)                                    
+        mcmc = mc.MCMC(mcmcs,clocks,priors,datatype,operators)
         xmlwriter = xml.XmlWriter(fasta,mcmc,lucas,clocks,demographic,datatype,operators)
 
         xmlstr = xmlwriter.get_xml()

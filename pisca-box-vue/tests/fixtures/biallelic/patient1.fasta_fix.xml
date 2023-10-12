@@ -190,6 +190,9 @@
 			<logNormalPrior mean="1.0" stdev="0.6" offset="0.0" meanInRealSpace="true">
 				<parameter idref="biallelicBinary.homozygousDemethylation"/>
 			</logNormalPrior>
+			<uniformPrior lower="1.0" upper="50">
+				<parameter idref="luca_height"/>
+			</uniformPrior>
 		</prior>
 		<likelihood id="likelihood">
 			<cenancestorTreeLikelihood idref="treeLikelihood"/>
@@ -198,29 +201,32 @@
 	<operators idref="operators"/>
 	<!-- write log to screen -->
 	<log id="screenLog" logEvery="250">
-		<column label="Posterior" dp="4" width="12">
+		<column label="posterior" sf="6" width="12">
 			<posterior idref="posterior"/>
 		</column>
-		<column label="Prior" dp="4" width="12">
+		<column label="prior" sf="6" width="12">
 			<prior idref="prior"/>
 		</column>
-		<column label="Likelihood" dp="4" width="12">
+		<column label="likelihood" sf="6" width="12">
 			<likelihood idref="likelihood"/>
 		</column>
 		<column label="coalescent" sf="6" width="12">
-			<parameter idref="coalescent"/>
+			<coalescentLikelihood idref="coalescent"/>
 		</column>
 		<column label="constant_popSize" sf="6" width="12">
 			<parameter idref="constant.popSize"/>
 		</column>
-		<column label="biallelicBinary_demethylation" sf="6" width="12">
-			<parameter idref="biallelicBinary.demethylation"/>
+		<column label="luca_height" sf="6" width="12">
+			<parameter idref="luca_height"/>
 		</column>
-		<column label="biallelicBinary_homozygousMethylation" sf="6" width="12">
-			<parameter idref="biallelicBinary.homozygousMethylation"/>
+		<column label="clock_rate" sf="6" width="12">
+			<parameter idref="clock.rate"/>
 		</column>
-		<column label="biallelicBinary_homozygousDemethylation" sf="6" width="12">
-			<parameter idref="biallelicBinary.homozygousDemethylation"/>
+		<column label="treeModel_rootHeight" sf="6" width="12">
+			<parameter idref="treeModel.rootHeight"/>
+		</column>
+		<column label="luca_branch" sf="6" width="12">
+			<parameter idref="luca_branch"/>
 		</column>
 	</log>
 	<!-- write log to file  -->
@@ -228,11 +234,12 @@
 		<posterior idref="posterior"/>
 		<prior idref="prior"/>
 		<likelihood idref="likelihood"/>
-		<parameter idref="coalescent"/>
+		<coalescentLikelihood idref="coalescent"/>
 		<parameter idref="constant.popSize"/>
-		<parameter idref="biallelicBinary.demethylation"/>
-		<parameter idref="biallelicBinary.homozygousMethylation"/>
-		<parameter idref="biallelicBinary.homozygousDemethylation"/>
+		<parameter idref="luca_height"/>
+		<parameter idref="clock.rate"/>
+		<parameter idref="treeModel.rootHeight"/>
+		<parameter idref="luca_branch"/>
 	</log>
 	<!-- write tree log to file   -->
 	<logTree id="treeFileLog" logEvery="250" nexusFormat="true" fileName="my name any.trees" sortTranslationTable="true">

@@ -134,7 +134,7 @@ def add_widgets(include_header):
     
     if file_type == "phyloxml":    
         #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        
-        uploaded_file = st.file_uploader("Upload phloxml tree file",type=['phyloxml tree','xml'])                            
+        uploaded_file = st.file_uploader("Upload phloxml tree file",type=['xml'])                            
         if uploaded_file is not None:                        
             tree_xml = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
             tree_xml = tree_xml.replace("<name>tree1</name>", "<name>pisca-box phylogenetic tree</name>") 
@@ -144,7 +144,7 @@ def add_widgets(include_header):
                 fw.write(tree_xml)                                                           
     elif file_type == "consensus tree":
         #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        
-        uploaded_file = st.file_uploader("Upload consensus tree tree file",type=['consensus tree','tree'])                            
+        uploaded_file = st.file_uploader("Upload consensus tree tree file",type=['tree','tre'])
         if uploaded_file is not None:                            
             tree_out = StringIO(uploaded_file.getvalue().decode("utf-8")).read()            
             with open(internal_out_file_ano,"w") as fw:
@@ -163,7 +163,7 @@ def add_widgets(include_header):
                 st.error("Error converting to phyloxml, did you give a valid annotated tree file?")
                 st.error(str(e))                    
     else:        
-        uploaded_file = st.file_uploader("Upload trees file for consensus",type=['trees','trees'])                            
+        uploaded_file = st.file_uploader("Upload trees file for consensus",type=['trees','tres'])                            
         if uploaded_file is not None:            
             file_type = "tree"            
             #remove_internal_files(internal_tree_file,internal_out_file,internal_in_file)        

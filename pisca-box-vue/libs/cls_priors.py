@@ -12,7 +12,7 @@ class Priors(object):
     def __init__(self,demographic,default_prs):
         self.demographic = demographic        
         self.priors = []
-        ## default fromt he datatype
+        ## default from the datatype
         self.priors.append(["coalescentLikelihood","coalescent","","","","","","","","",""])                        
         # from the demongraphic
         if self.demographic == "constant size":
@@ -54,7 +54,7 @@ class Priors(object):
         ["laplacePrior","exponential.growthRate","","","0.0","","","","","1.0",""]
         ["logNormalPrior","clock.rate","","","0.1","0.3","0.0","true","","",""]
         ["exponentialPrior","acna.loss","","","1.0","","0.0","","","",""]
-        ["uniformPrior","luca_height","1.0","50","","","","","","",""]        
+        ["uniformPrior","luca_height","1.0","50","","","","","","",""]
         ["oneOnXPrior","constant.popSize","","","","","","","","",""]
         ["uniformPrior","luca_height","2.73999961035501","76.3799893509288","","","","","","",""]
         ## strict clock
@@ -82,9 +82,10 @@ class Priors(object):
             elif pr[0] == "laplacePrior":
                 prs += self._laplacePrior(pr)            
         prs += f'{tab3}</prior>\n'
-        return prs    
+        return prs            
     #########################################################################################
     def getPriorsList(self):
+        #create list from priors and operators
         prs = []
         for pr in self.priors:
             if pr[1] not in prs:
