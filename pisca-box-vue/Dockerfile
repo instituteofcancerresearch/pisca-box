@@ -27,42 +27,13 @@ RUN apt-get update -y
 RUN apt-get install -y openssh-client
 RUN apt-get install -y wget
 ##################################################################################################
-ENV JAVA_HOME=/project/jdk-20.0.2
-ENV PATH=$JAVA_HOME/bin:$PATH
-ENV PATH=/project/BEASTv1.8.4/bin:$PATH
-# install the correct version of java!!!!!
-RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz
-RUN tar zxvf jdk.tar.gz
-## makes directory jdk-20.0.2
-# Install beast
-RUN wget -O beast.tgz https://github.com/beast-dev/beast-mcmc/releases/download/v1.8.4/BEASTv1.8.4.tgz
-RUN tar -xvzf beast.tgz
-## makes directory BEASTv1.8.4
-# Install pisca
-RUN wget -O pisca.tgz https://github.com/adamallo/PISCA/releases/download/v1.1/PISCAv1.1.tgz
-RUN tar -xvzf pisca.tgz
-## makes directory PISCAv1.1 ## note that cd has to be inline with other commands
-RUN chmod +x /project/PISCAv1.1/install.sh
-RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
-###################################################################################################
 # make a dir for the tmp files
 RUN mkdir /project/xml
 
+# enable docker inside.... docker!!!!
+#https://github.com/jpetazzo/dind
+#docker run --privileged -t -i dind
 
-# install R packages
-#https://support.bioconductor.org/p/p134101/
-#https://stackoverflow.com/questions/45244387/install-r-in-docker-image
-#RUN apt-get update -y 
-#RUN apt-get install -y r-base
-# Docker inheritance
-#FROM bioconductor/bioconductor_docker:devel as dev
-#RUN R -e 'install.packages("BiocManager")'
-#RUN R -e "BiocManager::install(version='devel')"
-#RUN R -e 'BiocManager::install(c("treeio","ggtree", "HDInterval", "lubridate", ask = F))'
-# install renv & restore packages
-#RUN R -e "install.packages('data.table',dependencies=TRUE, repos='http://cran.rstudio.com/')"
-#RUN R -e "install.packages('ggplot2',dependencies=TRUE, repos='http://cran.rstudio.com/')"
-#RUN R -e "install.packages('cowplot',dependencies=TRUE, repos='http://cran.rstudio.com/')" 
 
 # install python packages
 RUN apt-get update -y

@@ -6,6 +6,8 @@ from io import StringIO
 #import cmds_tst as cmd
 import libs.widgets as widge
 import libs.cmds as cmd
+import libs.docker as dkr
+
 import pandas as pd
 import streamlit.components.v1 as components
 import libs.widgets as widgets
@@ -45,25 +47,28 @@ def add_widgets(include_header):
             col1,col2 = st.columns(2)
             with col1:
                 params_input = st.text_input("Enter additional beast parameters",value="-beagle_off")
+            with col2:
+                docker_version = st.selectbox("Select a beast version",["pisca-box-run","pisca-branch-master"])
             #with col2:
             #    burnin = st.number_input(label="Enter annotation burnin",value=100)
             st.subheader("Check inputs and run")
             if st.button('run pisca-box'):                        
                 output = st.empty()
-                params = []
+                docker_params = ["-working", "-overwrite"]
+                params = ["-working", "-overwrite"]
                 if params_input != "":
-                    params = params + params_input.split(" ")
-                    for pm in params:
+                    input_params = params_input.split(" ")
+                    for pm in input_params:
                         if pm not in params and len(pm) > 2:
-                            params.append(pm)
-                params2 = ["-working", "-overwrite",full_file_name]                
-                for pm in params2:
-                    if pm not in params and len(pm) > 2:
-                        params.append(pm)
+                            params.append(pm)                
+                        if pm not in docker_params and len(pm) > 2:
+                            docker_params.append(pm)                
+                params.append(full_file_name)
                 ret = ""
                 
-                with st_capture(output.code):
-                    ret  = cmd.run_beast(params)
+                with st_capture(output.code):                    
+                    #ret  = cmd.run_beast(params)                    
+                    ret  = dkr.beast_docker(full_file_name,docker_params,docker_version)
                     #str = cmd.run_validation(["/project","/project/xml","/mnt"])
                     #print(str)                    
                     if ret == "done":
