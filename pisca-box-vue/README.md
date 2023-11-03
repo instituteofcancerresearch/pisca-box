@@ -29,6 +29,9 @@ docker run --rm --name pisca-vue-dev -p 8002:8501 pisca-box-vue
 http://localhost:8002/
 ```
 
+docker run --privileged --rm -p 8002:8501 pisca-box-box-vue
+
+
 ### Pushing the docker image to docker hub
 ```
 docker tag pisca-vue rachelicr/pisca-vue

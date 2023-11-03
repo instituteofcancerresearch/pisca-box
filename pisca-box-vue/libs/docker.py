@@ -46,10 +46,10 @@ def cmd_runner_with_wait(params):
         print("...completed pisca-box")
         return "done"
                                 
-def run_beast(full_file_name,docker_params,docker_version):
+def beast_docker(full_file_name,docker_params,docker_version):
     #docker run -v ~/dev/beast-icr/pisca-branch:/mnt --rm pisca-branch-master flipflop.xml
-    dir = os.cwd()    
-    params = ["docker", "run", "-v", f"{dir}:/mnt", "--rm", docker_version, full_file_name] + docker_params
+    dir = os.getcwd()    
+    params = ["docker", "run", "--privileged","-v", f"{dir}:/mnt", "--rm", docker_version, full_file_name] + docker_params
     print("Welcome to pisca-box version " + VERSION)
     print("starting pisca-box call to beast...")        
     try:                                        

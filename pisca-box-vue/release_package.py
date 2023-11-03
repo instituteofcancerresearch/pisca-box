@@ -21,7 +21,7 @@ upload_dockers = 0
 
 ########################## VERSION AND NAMES ######################################
 version = "v02"
-name_vue = "pisca-box-vue"
+name_vue = "pisca-box-box-vue"
 docker = "rachelicr"
 ###################################################################################
 
