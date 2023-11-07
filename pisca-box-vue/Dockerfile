@@ -27,39 +27,57 @@ RUN apt-get update -y
 RUN apt-get install -y openssh-client
 RUN apt-get install -y wget
 ##################################################################################################
+ENV JAVA_HOME=/project/jdk-20.0.2
+ENV PATH=$JAVA_HOME/bin:$PATH
+ENV PATH=/project/BEASTv1.8.4/bin:$PATH
+# install the correct version of java!!!!!
+#RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz
+# it looks like that version has been moved to the archive between 10/10/23 and 17/10/23
+RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/archive/jdk-20.0.2_linux-x64_bin.tar.gz
+RUN tar zxvf jdk.tar.gz
+## makes directory jdk-20.0.2
+# Install beast
+RUN wget -O beast.tgz https://github.com/beast-dev/beast-mcmc/releases/download/v1.8.4/BEASTv1.8.4.tgz
+RUN tar -xvzf beast.tgz
+## makes directory BEASTv1.8.4
+# Install pisca
+RUN wget -O pisca.tgz https://github.com/adamallo/PISCA/releases/download/v1.1/PISCAv1.1.tgz
+RUN tar -xvzf pisca.tgz
+## makes directory PISCAv1.1 ## note that cd has to be inline with other commands
+RUN chmod +x /project/PISCAv1.1/install.sh
+RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
+###################################################################################################
 # make a dir for the tmp files
 RUN mkdir /project/xml
 
+
 # enable docker inside.... docker!!!!
-#https://github.com/jpetazzo/dind
-#docker run --privileged -t -i dind
+#RUN apt-get update -y
+#RUN apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+#RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+#RUN apt-key fingerprint 0EBFCD88
+#RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+#RUN apt-get update -y
+#RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+#RUN docker run hello-world
 
-# install docker :shrug: https://docs.docker.com/engine/install/ubuntu/
-# Add Docker's official GPG key:
-RUN apt-get update -y
-RUN apt-get -y install ca-certificates curl gnupg software-properties-common apt-transport-https
-RUN install -m 0755 -d /etc/apt/keyrings
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-RUN chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Add the repository to Apt sources:
-#echo \
-RUN "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-  tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt-get update -y
 
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` test"
-RUN apt update
-# To install the latest version, run:
-RUN apt-get -y install docker-ce
-RUN apt-get -y install docker-ce-cli
-RUN apt-get -y install containerd.io
-RUN apt-get -y install docker-buildx-plugin
-RUN apt-get -y install docker-compose-plugin
-    
 
+# install R packages
+#https://support.bioconductor.org/p/p134101/
+#https://stackoverflow.com/questions/45244387/install-r-in-docker-image
+#RUN apt-get update -y 
+#RUN apt-get install -y r-base
+# Docker inheritance
+#FROM bioconductor/bioconductor_docker:devel as dev
+#RUN R -e 'install.packages("BiocManager")'
+#RUN R -e "BiocManager::install(version='devel')"
+#RUN R -e 'BiocManager::install(c("treeio","ggtree", "HDInterval", "lubridate", ask = F))'
+# install renv & restore packages
+#RUN R -e "install.packages('data.table',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+#RUN R -e "install.packages('ggplot2',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+#RUN R -e "install.packages('cowplot',dependencies=TRUE, repos='http://cran.rstudio.com/')" 
 
 # install python packages
 RUN apt-get update -y
