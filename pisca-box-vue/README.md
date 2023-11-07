@@ -29,6 +29,9 @@ docker run --rm --name pisca-vue-dev -p 8002:8501 pisca-box-vue
 http://localhost:8002/
 ```
 
+docker run --privileged --rm -p 8002:8501 pisca-box-box-vue
+
+
 ### Pushing the docker image to docker hub
 ```
 docker tag pisca-vue rachelicr/pisca-vue
@@ -44,6 +47,11 @@ docker pull rachelicr/pisca-vue
 docker run --name pisca-vue -p 8001:8501 rachelicr/pisca-vue
 docker run --rm --name pisca-vue-dock -p 8001:8501 rachelicr/pisca-box-vue
 docker start pisca-vue
+
+
+
+https://github.com/jpetazzo/dind
+docker run --privileged -d docker:dind
 ```
 
 

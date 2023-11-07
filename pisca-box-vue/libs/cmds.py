@@ -96,8 +96,7 @@ def rename_logs(working_dir):
                 os.rename(os.path.join(working_dir,fname), os.path.join(working_dir,"_" + fname))
     except Exception as e:
         print(str(e))
-    
-                
+                            
 def run_beast(params):    
     print("Welcome to pisca-box version " + VERSION)
     print("starting pisca-box call to beast...")        

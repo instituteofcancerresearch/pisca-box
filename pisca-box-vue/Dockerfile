@@ -31,7 +31,9 @@ ENV JAVA_HOME=/project/jdk-20.0.2
 ENV PATH=$JAVA_HOME/bin:$PATH
 ENV PATH=/project/BEASTv1.8.4/bin:$PATH
 # install the correct version of java!!!!!
-RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz
+#RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.tar.gz
+# it looks like that version has been moved to the archive between 10/10/23 and 17/10/23
+RUN wget -O jdk.tar.gz https://download.oracle.com/java/20/archive/jdk-20.0.2_linux-x64_bin.tar.gz
 RUN tar zxvf jdk.tar.gz
 ## makes directory jdk-20.0.2
 # Install beast
@@ -47,6 +49,19 @@ RUN cd /project/PISCAv1.1/ && ./install.sh /project/BEASTv1.8.4/
 ###################################################################################################
 # make a dir for the tmp files
 RUN mkdir /project/xml
+
+
+# enable docker inside.... docker!!!!
+#RUN apt-get update -y
+#RUN apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+#RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+#RUN apt-key fingerprint 0EBFCD88
+#RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+#RUN apt-get update -y
+#RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+#RUN docker run hello-world
+
+
 
 
 # install R packages
