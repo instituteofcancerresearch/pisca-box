@@ -52,7 +52,7 @@ def add_widgets(include_header):
             #with col2:
             #    burnin = st.number_input(label="Enter annotation burnin",value=100)
             st.subheader("Check inputs and run")
-            if st.button('run pisca-box'):                        
+            if st.button('run pisca-box'):
                 output = st.empty()
                 docker_params = ["-working", "-overwrite"]
                 params = ["-working", "-overwrite"]
@@ -60,17 +60,17 @@ def add_widgets(include_header):
                     input_params = params_input.split(" ")
                     for pm in input_params:
                         if pm not in params and len(pm) > 2:
-                            params.append(pm)                
+                            params.append(pm)
                         if pm not in docker_params and len(pm) > 2:
-                            docker_params.append(pm)                
+                            docker_params.append(pm)
                 params.append(full_file_name)
                 ret = ""
                 
-                with st_capture(output.code):                    
-                    #ret  = cmd.run_beast(params)                    
-                    ret  = dkr.beast_docker(full_file_name,docker_params,docker_version)
+                with st_capture(output.code):
+                    ret  = cmd.run_beast(params)
+                    #ret  = dkr.beast_docker(full_file_name,docker_params,docker_version)
                     #str = cmd.run_validation(["/project","/project/xml","/mnt"])
-                    #print(str)                    
+                    #print(str)
                     if ret == "done":
                         ops_str,tree_str,log_str = "","",""
                         flog = cmd.get_logs(string_data,".log")
@@ -90,62 +90,36 @@ def add_widgets(include_header):
                                 log_str = f.read()
                             log_csv = pd.read_csv(flog,sep="\t",header=3)
                             
-                        #nm,ext = flog.split(".")
-                        #if os.path.isfile(f"{nm}.mle.log"):
-                        #    fmle = True
-                        #    with open(f"{nm}.mle.log") as f:
-                        #        log_mle = f.read()
-                        
-                        
-                        #nm,ext = ftree.split(".")
-                        #fano = nm + "_annotated." + ext
-                        #fxml = nm + "_anno_tree.xml"
-                        #ret  = cmd.run_tree(tree_str,burnin,fano)
-                        #if os.path.isfile(fano):
-                        #    with open(fano) as f:
-                        #        ano_str = f.read()
-                                                                
-                
-                
                         st.divider()
                         st.write("Save output logs")
                         nm,ext = fops.split(".")
                         col1,col2 = st.columns([5,1])
-                        with col1:                
-                            with st.expander(f"expand {fops}"):                                        
-                                st.code(ops_str)                
+                        with col1:
+                            with st.expander(f"expand {fops}"):
+                                st.code(ops_str)
                         with col2:
                             js = widge.get_saveas(ops_str,nm,ext,"Save ops")
-                            components.html(js, height=30)                                                                            
+                            components.html(js, height=30)
                         
                         nm,ext = flog.split(".")
                         col1,col2 = st.columns([5,1])
-                        with col1:                
+                        with col1:
                             with st.expander(f"expand {flog}"):
                                 st.write(log_csv)
                         with col2:
                             js = widge.get_saveas(log_str,nm,ext,"Save log")
-                            components.html(js, height=30)   
-                                                        
-                        #if fmle:
-                        #    col1,col2 = st.columns([5,1])
-                        #    with col1:                
-                        #        with st.expander(f"expand {nm}.mle.log"):
-                        #            st.write(log_mle)
-                        #    with col2:
-                        #        js = widge.get_saveas(log_mle,f"{nm}.mle","log","Save mle log")
-                        #        components.html(js, height=30)   
-                            
+                            components.html(js, height=30)
+                                                                                                            
                         nm,ext = ftree.split(".")
                         col1,col2 = st.columns([5,1])
-                        with col1:                
+                        with col1:
                             with st.expander(f"expand {ftree}"):
                                 st.code(tree_str)
                         with col2:
                             js = widge.get_saveas(tree_str,nm,ext,"Save trees")
-                            components.html(js, height=30)   
+                            components.html(js, height=30)
                     else:
-                        st.error("The BEAST application failed") 
+                        st.error("The BEAST application failed")
                 
                     
                                                 

@@ -18,7 +18,7 @@ if tabs:
         pagePi.add_widgets(False)
     with tabTv:
         pageTv.add_widgets(False)
-else:     
+else:
     pageHm.add_widgets(True)
     
     

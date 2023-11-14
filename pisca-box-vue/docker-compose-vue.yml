@@ -1,0 +1,12 @@
+# https://www.youtube.com/watch?v=kHz6sz0jVSU
+# https://github.com/iwpnd/streamlit-docker-example/blob/master/docker-compose.yml
+# 8081 is needed for azure app service
+# To create this  container, right click on the file and chose "Compose Up"
+# 
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        image: pisca-box-vue:latest

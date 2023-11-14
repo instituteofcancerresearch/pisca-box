@@ -12,38 +12,38 @@ def cmd_runner_with_wait(params):
     error_msg = False
     any_exceptions = False
     # Wait until process terminates
-    while result.poll() is None:                    
+    while result.poll() is None:
         print("...waiting for process to finish...")
-        output = result.stdout.readline()            
-        if output:                                
+        output = result.stdout.readline()
+        if output:
             while output:
                 if "SEVERE" in output.strip().decode('utf-8'):
                     any_exceptions = True
                 if "ERROR" in output.strip().decode('utf-8'):
                     any_exceptions = True
                 print(output.strip().decode('utf-8'))
-                output  = result.stdout.readline()                                                                                        
+                output  = result.stdout.readline()
         error = result.stderr.readline()
         while error:
             if not error_msg:
                 print("##########################################")
                 print("Additional messages found:")
-                error_msg = True                                        
+                error_msg = True
             print("#",error.strip().decode('utf-8'))
             if "SEVERE" in error.strip().decode('utf-8'):
                 any_exceptions = True
             if "ERROR" in error.strip().decode('utf-8'):
                 any_exceptions = True
-            error  = result.stderr.readline()                                                                                
-        time.sleep(0.1)    
-    output  = result.stdout.readline()            
+            error  = result.stderr.readline()
+        time.sleep(0.1)
+    output  = result.stdout.readline()
     if output:
-        print(output.strip().decode('utf-8'))                                        
+        print(output.strip().decode('utf-8'))
     result.poll()
-    print("##########################################")    
+    print("##########################################")
     if any_exceptions:
         print("!!! failed pisca-box")
-        return "failed" 
+        return "failed"
     else:
         print("...completed pisca-box")
         return "done"

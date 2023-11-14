@@ -34,7 +34,7 @@ class Cnv(dt.DataType):
     def _default_priors(self):
         prs = []
         prs.append(["exponentialPrior","cnv.loss","","","1.0","","0.0","","","",""])
-        prs.append(["uniformPrior","luca_height","1.0","50","","","","","","",""])
+        #prs.append(["uniformPrior","luca_height","1.0","50","","","","","","",""])
         return prs
     #############################################################
     def _define_default_logs(self):

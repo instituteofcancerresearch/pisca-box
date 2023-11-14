@@ -4,7 +4,8 @@
 ### Virtual environment
 ```
 python3 -m venv .venv-vue
-source .venv-vue/bin/activate
+source .venv-vue/bin/activate (Linux/Mac)
+.venv-vue\Scripts\activate (Windows)
 pip install -r requirements.txt -U
 ```
 
@@ -20,7 +21,7 @@ TODO
 ### Creating the docker image
 You must be in the directory pisca-box/pisca-box-vue/
 ```
-docker build -t pisca-vue .
+docker build -t pisca-box-vue .
 ```
 
 ### Testing the docker image

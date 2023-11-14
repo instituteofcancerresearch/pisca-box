@@ -58,9 +58,9 @@ class Priors(object):
         ["oneOnXPrior","constant.popSize","","","","","","","","",""]
         ["uniformPrior","luca_height","2.73999961035501","76.3799893509288","","","","","","",""]
         ## strict clock
-        ["ctmcScalePrior","clock.rate","","","","","","","","","treeModel"]                
-        """                                                            
-    def get_priors_xml(self):        
+        ["ctmcScalePrior","clock.rate","","","","","","","","","treeModel"]
+        """
+    def get_priors_xml(self):
         prs = f'{tab3}<prior id="prior">\n'
         for pr in self.priors:
             if pr[0] == "coalescentLikelihood":

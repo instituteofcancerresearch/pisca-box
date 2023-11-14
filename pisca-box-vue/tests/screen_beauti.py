@@ -21,7 +21,7 @@ ages = '/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/tests/fixtures/bial
 
 nm,tp = seq.lower().split(".")
 dtd = dd.DataDetermine(None,tp,seq)
-dic_seq,dtyp = dtd.get_seq_data()                
+dic_seq,dtyp = dtd.get_seq_data()
 csv_ages = pd.read_csv(ages)
 
 # Choose the pisca settings --------------------------------------------------------------------------------------------------

@@ -1,3 +1,31 @@
+################### BUILD AND RUN THIS DOCKER FILE ############################
+
+### BUILD IMAGE
+
+# docker build -t pisca-box-vue .
+
+### TEST IMAGE
+
+# docker run --rm --name pisca-box-vue -p 8002:8501 pisca-box-vue
+# runs on http://localhost:8002/
+
+### UPLOAD TO DOCKER
+
+# docker tag pisca-box-vue rachelicr/pisca-box-vue
+# docker push rachelicr/pisca-box-vue
+
+### Pull DOWN FROM DOCKER and run
+
+# docker pull rachelicr/pisca-box-vue
+
+### TEST IMAGE
+
+# docker run --rm --name p-b-v -p 8003:8501 rachelicr/pisca-box-vue
+# runs on http://localhost:8003/
+
+
+#################################################################################
+
 # syntax=docker/dockerfile:1
 
 ARG PYTHON_VERSION=3.10.12

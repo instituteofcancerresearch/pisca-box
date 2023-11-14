@@ -1,4 +1,4 @@
 import __init__ # noqa: F401
-import libs_pages.page_help_inputs as page
+import libs_pages.page_tutorial as page
     
 page.add_widgets(True)

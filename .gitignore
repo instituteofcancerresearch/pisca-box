@@ -174,4 +174,5 @@ cython_debug/
 !/pisca-box-vue/tests/fixtures/cnv/*fix.xml
 !/pisca-box-vue/tests/fixtures/validation/*fix.xml
 *.Zone.Identifier
+.ds_store
 

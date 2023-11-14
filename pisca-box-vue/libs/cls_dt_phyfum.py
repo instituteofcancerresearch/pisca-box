@@ -27,14 +27,14 @@ class Phyfum(dt.DataType):
         ops.append(['wilsonBalding','treeModel','3.0','','',''])
         ops.append(['scaleOperator','treeModel.rootHeight','5.0','0.75','',''])
         ops.append(['uniformOperator','treeModel.internalNodeHeights','30.0','','',''])
-        ops.append(['scaleOperator','luca_branch','1.0','0.2','',''])        
-        ops.append(['upDownOperator',  'clock.rate|treeModel.allInternalNodeHeights','5.0','0.75','',''])                
-        return ops    
+        ops.append(['scaleOperator','luca_branch','1.0','0.2','',''])
+        ops.append(['upDownOperator',  'clock.rate|treeModel.allInternalNodeHeights','5.0','0.75','',''])
+        return ops
     ##############################################################
     def _default_priors(self):
         prs = []
         prs.append(["exponentialPrior","cnv.loss","","","1.0","","0.0","","","",""])
-        prs.append(["uniformPrior","luca_height","1.0","50","","","","","","",""])
+        #prs.append(["uniformPrior","luca_height","1.0","50","","","","","","",""])
         return prs
     #############################################################
     def _define_default_logs(self):
@@ -42,19 +42,19 @@ class Phyfum(dt.DataType):
         defaults += ["luca_height","luca_branch","clock.rate",".growthRate",".popSize",".changes",".relativeRates",".rootHeight",".loss"]
         return defaults
     #############################################################
-    def get_datatype_xml(self):        
-        gdt = ""        
-        gdt += '\t<generalDataType id="phyfum">\n'        
-        gdt += '\t</generalDataType>\n'        
+    def get_datatype_xml(self):
+        gdt = ""
+        gdt += '\t<generalDataType id="phyfum">\n'
+        gdt += '\t</generalDataType>\n'
         return gdt
     ##############################################################
     def get_site_model(self):
-        st = ""        
+        st = ""
         st += '<siteModel id="siteModel">\n'
         st += '\t<substitutionModel>\n'
         st += '\t\t<PhyfumModel idref="phyfum_subsmodel"/>\n'
         st += '\t</substitutionModel>\n'
-        st += '</siteModel>\n'                    
+        st += '</siteModel>\n'
         return st
     ##############################################################
     def get_character_patterns(self):

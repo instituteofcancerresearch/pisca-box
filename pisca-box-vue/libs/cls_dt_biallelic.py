@@ -37,7 +37,7 @@ class Biallelic(dt.DataType):
         prs.append(["logNormalPrior","biallelicBinary.demethylation","","","1.0","0.6","0.0","true","","",""])
         prs.append(["logNormalPrior","biallelicBinary.homozygousMethylation","","","1.0","0.6","0.0","true","","",""])
         prs.append(["logNormalPrior","biallelicBinary.homozygousDemethylation","","","1.0","0.6","0.0","true","","",""])
-        prs.append(["uniformPrior","luca_height","1.0","50","","","","","","",""])
+        #prs.append(["uniformPrior","luca_height","1.0","50","","","","","","",""])
         return prs    
     #############################################################
     def _define_default_logs(self):

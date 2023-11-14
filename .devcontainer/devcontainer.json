@@ -1,0 +1,10 @@
+{
+    // Build development container from pre-existing image
+    "image": "rachelicr/pisca-1-dev",
+   
+    // Set *default* container specific settings.json values on container create.
+    "settings": {},
+   
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [],
+   }

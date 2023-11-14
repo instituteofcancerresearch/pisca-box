@@ -15,9 +15,9 @@ tabBB, tabPB, tabTv  = st.tabs(["beauti-box","pisca-box","tree-vue"])
 
 
 with tabBB:
-    pageBe.add_widgets(False)    
+    pageBe.add_widgets(False)
 with tabPB:
-    pagePi.add_widgets(False)        
+    pagePi.add_widgets(False)
 with tabTv:
-    pageTv.add_widgets(False)   
+    pageTv.add_widgets(False)
 
