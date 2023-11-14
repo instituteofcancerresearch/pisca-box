@@ -6,5 +6,8 @@ pydot
 NetworkX
 streamlit_option_menu
 streamlit_extras
+streamlit_ace
 pytest
 ruff
+ete3
+opencv-python-headless

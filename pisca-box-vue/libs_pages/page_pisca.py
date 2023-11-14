@@ -33,8 +33,8 @@ def add_widgets(include_header):
         widgets.page_header('pisca-box')
         
     st.subheader("Choose an xml file")
-    uploaded_file = st.file_uploader("upload xml file",type=['xml'])                            
-    if uploaded_file is not None:                                
+    uploaded_file = st.file_uploader("upload xml file",type=['xml'])
+    if uploaded_file is not None:
         string_data = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
         full_file_name = "temp.xml"
         with open(full_file_name,"w") as fw:
