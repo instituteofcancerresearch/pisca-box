@@ -47,8 +47,8 @@ def add_widgets(include_header):
             col1,col2 = st.columns(2)
             with col1:
                 params_input = st.text_input("Enter additional beast parameters",value="-beagle_off")
-            with col2:
-                docker_version = st.selectbox("Select a beast version",["pisca-box-run","pisca-branch-master"])
+            #with col2:
+            #    docker_version = st.selectbox("Select a beast version",["pisca-box-run","pisca-branch-master"])
             #with col2:
             #    burnin = st.number_input(label="Enter annotation burnin",value=100)
             st.subheader("Check inputs and run")
