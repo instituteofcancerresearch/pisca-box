@@ -1,6 +1,6 @@
 {
     // Build development container from pre-existing image
-    "image": "rachelicr/pisca-1-dev",
+    "image": "rachelicr/env-pisca-v1",
    
     // Set *default* container specific settings.json values on container create.
     "settings": {},

@@ -1,23 +1,28 @@
 ################### BUILD AND RUN THIS DOCKER FILE ############################
 
 ### BUILD IMAGE
+# docker build -t rachelicr/env-pisca-v1 -f .devcontainer/Dockerfile .
 
-# docker build -t rachelicr/pisca-1-dev -f .devcontainer/Dockerfile .
+### USE IMAGE
+# ctrl-sh-p in vscode and select the image
 
-
-### TEST IMAGE
-
-# docker push rachelicr/pisca-1-dev
+### PUSH IMAGE
+# docker push rachelicr/env-pisca-v1
 
 #################################################################################
 # Image downloaded with advice from: # https://stackoverflow.com/questions/54437030/how-can-i-create-a-docker-image-to-run-both-python-and-r
 FROM ubuntu:latest
+#FROM r-base:4.0.3
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential r-base r-cran-randomforest python3.10 python3-pip python3-setuptools python3-dev
+#RUN apt-get update && apt-get install -y --no-install-recommends build-essential libpq-dev python3.10 python3-pip python3-setuptools python3-dev
+#RUN pip3 install --upgrade pip
 WORKDIR /app
 ADD requirements.txt .
 ADD requirements.r .
 # installing python libraries
+#RUN python3 -m venv .cont_env
+#RUN source .cont_env/bin/activate
 RUN pip3 install -r requirements.txt
 # installing r libraries
 RUN Rscript requirements.r

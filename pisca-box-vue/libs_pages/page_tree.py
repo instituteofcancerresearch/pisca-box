@@ -24,7 +24,12 @@ def st_capture(output_func):
         yield
         
 
-def do_plot(internal_tree_file,opts):    
+def do_plot(internal_tree_file,opts):
+    cmd.run_r_script()
+    html_str = ""
+    with open("my_plot.svg", "r") as f:
+        html_str = f.read()
+    st.write(html_str, unsafe_allow_html=True)
     tree = Phylo.read(internal_tree_file, "phyloxml")                                    
     if opts == "Pink":                           
         tree.get_nonterminals()[0].color = '#D71AB9'
@@ -170,7 +175,7 @@ def add_widgets(include_header):
             tree_in = StringIO(uploaded_file.getvalue().decode("utf-8")).read()            
             with open(internal_in_file,"w") as fw:
                 fw.write(tree_in)
-            burnin = st.number_input(label="burnin",value=100)        
+            burnin = st.number_input(label="burnin",value=100)                    
             if st.button('run tree-annotation'):
                 #remove_internal_files(internal_tree_file_orig,internal_out_file_orig,internal_in_file) 
                 output = st.empty()            

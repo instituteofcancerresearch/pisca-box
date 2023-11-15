@@ -51,14 +51,14 @@ def cmd_runner_with_wait(params):
 
 def run_r_script():
     #script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_test.R"
-    script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_plot_tree.R"
+    script = "app/scripts/plot.R"
     cmd_runner_with_wait(["chmod","+x",script])
     params = [script]
     return cmd_runner_with_wait(params)
     
 
 def run_validation(dirs):
-    """Run validation command."""    
+    """Run validation command."""
     print("listing files...")
     result01 = "Current: " + subprocess.run(["ls","-l"],stdout=subprocess.PIPE).stdout.decode('utf-8')
     #result02 = ""
@@ -88,22 +88,22 @@ def get_logs(big_string,log_match):
     return ""
                                 
 def rename_logs(working_dir):
-    #copy everything in tmp to pisca    
-    try:        
-        files=os.listdir(working_dir)   
+    #copy everything in tmp to pisca
+    try:
+        files=os.listdir(working_dir)
         for fname in files:
             if ".xml" not in fname and (".log" in fname or ".ops" in fname or ".trees" in fname):
                 os.rename(os.path.join(working_dir,fname), os.path.join(working_dir,"_" + fname))
     except Exception as e:
         print(str(e))
                             
-def run_beast(params):    
+def run_beast(params):
     print("Welcome to pisca-box version " + VERSION)
-    print("starting pisca-box call to beast...")        
-    try:                                
-        params.insert(0,"beast")                                             
+    print("starting pisca-box call to beast...")
+    try:
+        params.insert(0,"beast")
         print(params)
-        return cmd_runner_with_wait(params)                
+        return cmd_runner_with_wait(params)
     except Exception as e:
         print(str(e))
         return "failed"
@@ -111,16 +111,16 @@ def run_beast(params):
 
 def run_tree(tree_str, burnin,output_file):
     print("Welcome to pisca-box version " + VERSION)
-    print("starting pisca-box call to treeannotator...")        
-    try:                                
+    print("starting pisca-box call to treeannotator...")
+    try:
         #treeannotator -burnin 5000000 pisca.run.trees output.mcc.tree
         with open("pisca.run.trees", "w") as text_file:
-            text_file.write(tree_str)            
+            text_file.write(tree_str)
         with open(output_file, "w") as text_file:
-            text_file.write("")            
-        params = ["treeannotator","-burnin",str(burnin), "pisca.run.trees",output_file]        
+            text_file.write("")
+        params = ["treeannotator","-burnin",str(burnin), "pisca.run.trees",output_file]
         print(params)
-        return cmd_runner_with_wait(params)        
+        return cmd_runner_with_wait(params)
     except Exception as e:
         print(str(e))
         return "failed"

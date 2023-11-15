@@ -33,8 +33,8 @@ def add_widgets(include_header):
         widgets.page_header('pisca-box')
         
     st.subheader("Choose an xml file")
-    uploaded_file = st.file_uploader("upload xml file",type=['xml'])                            
-    if uploaded_file is not None:                                
+    uploaded_file = st.file_uploader("upload xml file",type=['xml'])
+    if uploaded_file is not None:
         string_data = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
         full_file_name = "temp.xml"
         with open(full_file_name,"w") as fw:
@@ -47,8 +47,8 @@ def add_widgets(include_header):
             col1,col2 = st.columns(2)
             with col1:
                 params_input = st.text_input("Enter additional beast parameters",value="-beagle_off")
-            with col2:
-                docker_version = st.selectbox("Select a beast version",["pisca-box-run","pisca-branch-master"])
+            #with col2:
+            #    docker_version = st.selectbox("Select a beast version",["pisca-box-run","pisca-branch-master"])
             #with col2:
             #    burnin = st.number_input(label="Enter annotation burnin",value=100)
             st.subheader("Check inputs and run")
