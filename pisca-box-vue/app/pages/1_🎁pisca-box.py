@@ -3,6 +3,7 @@ import streamlit as st
 import libs_pages.page_beauti as pageBe
 import libs_pages.page_pisca as pagePi
 import libs_pages.page_tree as pageTv
+import libs_pages.page_plot as pageTp
 
 import libs.widgets as widgets
 widgets.page_header('pisca-box',divider=False)
@@ -11,7 +12,7 @@ widgets.page_header('pisca-box',divider=False)
 
 
 # Insert containers separated into tabs:
-tabBB, tabPB, tabTv  = st.tabs(["beauti-box","pisca-box","tree-vue"])
+tabBB, tabPB, tabTv,tabTp  = st.tabs(["beauti-box","pisca-box","tree-box","tree-plot"])
 
 
 with tabBB:
@@ -20,4 +21,6 @@ with tabPB:
     pagePi.add_widgets(False)
 with tabTv:
     pageTv.add_widgets(False)
+with tabTp:
+    pageTp.add_widgets(False)
 

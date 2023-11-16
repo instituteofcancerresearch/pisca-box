@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+#!/usr/bin/R Rscript
 
 sayHello <- function(){
    print('hello')

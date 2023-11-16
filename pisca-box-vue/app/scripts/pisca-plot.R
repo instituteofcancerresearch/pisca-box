@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+#!/opt/R/4.3.2/bin Rscript
 
 library(data.table)
 library(ggplot2)
@@ -12,10 +12,11 @@ library(lubridate)
 burnin=0.1
 ppThreshold=0.8
 
+folder = getwd()
 
 #args=commandArgs(trailingOnly = T)
-args=c(paste0(folder, "input/rlc-exp.mcc"),
-        paste0(folder, "input/ibd-rlc-exp.log"),
+args=c(paste0(folder, "/input/rlc-exp.mcc"),
+        paste0(folder, "/input/ibd-rlc-exp.log"),
         paste0(folder, "Test.plot.pdf"),
        "Title of plot",
        "68"
@@ -115,5 +116,6 @@ mccTreePlot=ggplot(mccTreeDataFrame,aes(x=x,y=y))+ geom_tree(size=1.5, aes(color
 }
 
 
+print("saving plot")
 save_plot(plot = mccTreePlot,filename = outputfile,base_height = 5,base_aspect_ratio = 1.6)
 
