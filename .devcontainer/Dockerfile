@@ -1,13 +1,17 @@
 ################### BUILD AND RUN THIS DOCKER FILE ############################
 
 ### BUILD IMAGE
-# docker build -t rachelicr/env-pisca-v1:v01 -f .devcontainer/Dockerfile .
+# docker build -t rachelicr/env-pisca-v1 -f .devcontainer/Dockerfile .
 
 ### USE IMAGE
 # ctrl-sh-p in vscode and select the image
 
+### TAG IMAGE
+# docker tag rachelicr/env-pisca-v1 rachelicr/env-pisca-v1:v07
+
 ### PUSH IMAGE
 # docker push rachelicr/env-pisca-v1:v01
+# docker push rachelicr/env-pisca-v1
 
 #################################################################################
 # Image downloaded with advice from: # https://stackoverflow.com/questions/54437030/how-can-i-create-a-docker-image-to-run-both-python-and-r
