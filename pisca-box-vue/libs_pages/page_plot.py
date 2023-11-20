@@ -51,18 +51,18 @@ def add_widgets(include_header):
                 st.dataframe(log_csv)
             
         
-        if os.path.isfile(outtree) and os.path.isfile(flog):                                        
+        if os.path.isfile(outtree) and os.path.isfile(flog):
             if st.button('run r-script'):
                 output = st.empty()
                 with st_capture(output.code):
                     ret = cmd.run_r_script(outtree,flog,lh,"temp.svg","")
                     #ret = cmd.run_r_script(outtree,flog,lh,"temp.pdf","")
                     print(ret)
-                if os.path.isfile("temp.svg"):                    
+                if os.path.isfile("temp.svg"):
                     html_str = ""
                     with open("temp.svg", "r") as f:
                         html_str = f.read()
-                    st.write(html_str, unsafe_allow_html=True,use_container_width=True)
+                    st.write(html_str, unsafe_allow_html=True)
             
             
                 

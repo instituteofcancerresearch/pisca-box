@@ -2,11 +2,11 @@
 
 ### BUILD IMAGE
 
-# docker build -t pisca-box-vue .
+# docker build -t rachelicr/pisca-box-vue .
 
 ### TEST IMAGE
 
-# docker run --rm --name pisca-box-vue -p 8002:8501 pisca-box-vue
+# docker run --rm --name pisca-box-vue -p 8002:8501 rachelicr/pisca-box-vue
 # runs on http://localhost:8002/
 
 ### UPLOAD TO DOCKER
@@ -26,7 +26,7 @@
 
 #################################################################################
 # syntax=docker/dockerfile:1
-FROM rachelicr/env-pisca-v1 as base
+FROM rachelicr/env-pisca-v1:v02 as base
 # Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 # Keeps Python from buffering stdout and stderr to avoid situations where
