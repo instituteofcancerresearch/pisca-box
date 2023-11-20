@@ -66,61 +66,66 @@ def add_widgets(include_header):
                 params.append(full_file_name)
                 ret = ""
                 
+                
+                #with st_capture(output.code):
                 with st_capture(output.code):
                     ret  = cmd.run_beast(params)
-                    #ret  = dkr.beast_docker(full_file_name,docker_params,docker_version)
-                    #str = cmd.run_validation(["/project","/project/xml","/mnt"])
-                    #print(str)
-                    if ret == "done":
-                        ops_str,tree_str,log_str = "","",""
-                        flog = cmd.get_logs(string_data,".log")
-                        fops = cmd.get_logs(string_data,".ops")
-                        ftree = cmd.get_logs(string_data,".trees")
-                        #fmle = False
-                                                                        
-                        log_csv = pd.DataFrame()
-                        if os.path.isfile(fops):
-                            with open(fops) as f:
-                                ops_str = f.read()
-                        if os.path.isfile(ftree):
-                            with open(ftree) as f:
-                                tree_str = f.read()
-                        if os.path.isfile(flog):
-                            with open(flog) as f:
-                                log_str = f.read()
-                            log_csv = pd.read_csv(flog,sep="\t",header=3)
-                            
-                        st.divider()
-                        st.write("Save output logs")
-                        nm,ext = fops.split(".")
-                        col1,col2 = st.columns([5,1])
-                        with col1:
-                            with st.expander(f"expand {fops}"):
-                                st.code(ops_str)
-                        with col2:
-                            js = widge.get_saveas(ops_str,nm,ext,"Save ops")
-                            components.html(js, height=30)
+                        #ret  = dkr.beast_docker(full_file_name,docker_params,docker_version)
+                        #str = cmd.run_validation(["/project","/project/xml","/mnt"])
+                        #print(str)
+                if ret == "done":
+                    ops_str,tree_str,log_str = "","",""
+                    flog = cmd.get_logs(string_data,".log")
+                    fops = cmd.get_logs(string_data,".ops")
+                    ftree = cmd.get_logs(string_data,".trees")
+                    
+                    st.session_state["flog"] = flog
+                    st.session_state["fops"] = fops
+                    st.session_state["ftree"] = ftree
+                                                                    
+                    log_csv = pd.DataFrame()
+                    if os.path.isfile(fops):
+                        with open(fops) as f:
+                            ops_str = f.read()
+                    if os.path.isfile(ftree):
+                        with open(ftree) as f:
+                            tree_str = f.read()
+                    if os.path.isfile(flog):
+                        with open(flog) as f:
+                            log_str = f.read()
+                        log_csv = pd.read_csv(flog,sep="\t",header=3)
                         
-                        nm,ext = flog.split(".")
-                        col1,col2 = st.columns([5,1])
-                        with col1:
-                            with st.expander(f"expand {flog}"):
-                                st.write(log_csv)
-                        with col2:
-                            js = widge.get_saveas(log_str,nm,ext,"Save log")
-                            components.html(js, height=30)
-                                                                                                            
-                        nm,ext = ftree.split(".")
-                        col1,col2 = st.columns([5,1])
-                        with col1:
-                            with st.expander(f"expand {ftree}"):
-                                st.code(tree_str)
-                        with col2:
-                            js = widge.get_saveas(tree_str,nm,ext,"Save trees")
-                            components.html(js, height=30)
-                    else:
-                        st.error("The BEAST application failed")
-                
+                    st.divider()
+                    st.write("Save output logs")
+                    nm,ext = fops.split(".")
+                    col1,col2 = st.columns([5,1])
+                    with col1:
+                        with st.expander(f"expand {fops}"):
+                            st.code(ops_str)
+                    with col2:
+                        js = widge.get_saveas(ops_str,nm,ext,"Save ops")
+                        components.html(js, height=30)
+                    
+                    nm,ext = flog.split(".")
+                    col1,col2 = st.columns([5,1])
+                    with col1:
+                        with st.expander(f"expand {flog}"):
+                            st.write(log_csv)
+                    with col2:
+                        js = widge.get_saveas(log_str,nm,ext,"Save log")
+                        components.html(js, height=30)
+                                                                                                        
+                    nm,ext = ftree.split(".")
+                    col1,col2 = st.columns([5,1])
+                    with col1:
+                        with st.expander(f"expand {ftree}"):
+                            st.code(tree_str)
+                    with col2:
+                        js = widge.get_saveas(tree_str,nm,ext,"Save trees")
+                        components.html(js, height=30)
+                else:
+                    st.error("The BEAST application failed")
+                    
                     
                                                 
                 

@@ -49,11 +49,16 @@ def cmd_runner_with_wait(params):
         return "done"
 
 
-def run_r_script():
-    #script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_test.R"
-    script = "app/scripts/plot.R"
+def run_r_script(treefl,logfl,age,outputfl,title):
+    #mccTreeFile=args[1]
+    #logDataFile=args[2]
+    #outputfile=args[3]
+    #title=args[4]
+    #age=as.numeric(args[5])
+    print("Welcome to pisca-box version " + VERSION)    
+    script = "app/scripts/pisca-plot.R"
     cmd_runner_with_wait(["chmod","+x",script])
-    params = [script]
+    params = ["Rscript",script,treefl,logfl,outputfl,title,str(age)]
     return cmd_runner_with_wait(params)
     
 
@@ -109,6 +114,20 @@ def run_beast(params):
         return "failed"
     
 
+def run_tree_from_file(tree_file, burnin,output_file):
+    print("Welcome to pisca-box version " + VERSION)
+    print("starting pisca-box call to treeannotator...")
+    try:
+        #treeannotator -burnin 5000000 pisca.run.trees output.mcc.tree        
+        with open(output_file, "w") as text_file:
+            text_file.write("")
+        params = ["treeannotator","-burnin",str(burnin), tree_file,output_file]
+        print(params)
+        return cmd_runner_with_wait(params)
+    except Exception as e:
+        print(str(e))
+        return "failed"
+    
 def run_tree(tree_str, burnin,output_file):
     print("Welcome to pisca-box version " + VERSION)
     print("starting pisca-box call to treeannotator...")

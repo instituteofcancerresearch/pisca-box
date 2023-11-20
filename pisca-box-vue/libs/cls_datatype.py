@@ -114,6 +114,11 @@ class DataType:
             for opi in opp:
                 if opi not in logs:
                     logs.append(opi)        
+        
+        #for lg in self.default_logs:
+        #    if lg not in logs and "." not in lg:
+        #        logs.append(lg)        
+        
         return logs    
     ##############################################################                                                                        
     def get_min_max_ages(self):

@@ -7,7 +7,7 @@
 # ctrl-sh-p in vscode and select the image
 
 ### TAG IMAGE
-# docker tag rachelicr/env-pisca-v1 rachelicr/env-pisca-v1:v07
+# docker tag rachelicr/env-pisca-v1 rachelicr/env-pisca-v1:v02
 
 ### PUSH IMAGE
 # docker push rachelicr/env-pisca-v1:v01
@@ -41,6 +41,7 @@ RUN apt-get install -y wget
 ###################### INSTALL R ################################
 ###########################################################################
 RUN apt-get install -y gdebi-core
+RUN apt-get install -y libcairo2-dev libxt-dev
 RUN wget -O r-4.3.2_1_amd64.deb https://cdn.rstudio.com/r/ubuntu-2204/pkgs/r-4.3.2_1_amd64.deb
 RUN gdebi -n r-4.3.2_1_amd64.deb
 ENV PATH=/opt/R/4.3.2/bin:$PATH
@@ -52,6 +53,7 @@ RUN R -e "install.packages('ggplot2',dependencies=TRUE, repos='http://cran.rstud
 RUN R -e "install.packages('cowplot',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('HDInterval',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('lubridate',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('svglite',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 # And from BIOCMANAGER
 RUN R -e "install.packages('BiocManager',dependencies=TRUE, repos='http://cran.rstudio.com/')"
 RUN R -e "BiocManager::install('treeio')"

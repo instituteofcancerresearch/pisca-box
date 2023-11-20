@@ -358,7 +358,7 @@ def add_widgets(include_header):
                     my_xml = st_ace(language="xml", theme="monokai", keybinding="vscode",font_size=12,show_gutter=True,value=my_xml,height=400)
                     
                 ################################################################
-                js = widge.get_saveas(my_xml,name)
-                components.html(js, height=30)
+                #js = widge.get_saveas(my_xml,name)
+                #components.html(js, height=30)
                 st.download_button("Download xml",data=my_xml,file_name=f"{name}.xml",mime="text/xml")
                                             
