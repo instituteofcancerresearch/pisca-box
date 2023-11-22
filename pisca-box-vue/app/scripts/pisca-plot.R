@@ -31,42 +31,53 @@ args=commandArgs(trailingOnly = T)
 
 #TODO I need to get the tree and the logs merged, not only from one replicate
 ##TODO Check the args
+#print(args)
 mccTreeFile=args[1]
-logDataFile=args[2]
-outputfile=args[3]
-title=args[4]
-age=as.numeric(args[5])
+age=as.numeric(args[2])
+lucaHeight = as.numeric(args[3])
+hpdLucaHeight_l = as.numeric(args[4])
+hpdLucaHeight_u = as.numeric(args[5])
+lucaRate = as.numeric(args[6])
+useRate = args[7]
+outputfile=args[8]
+title=args[9]
+#logDataFile=args[10]
 
 print(paste("mccfile",mccTreeFile))
-print(paste("logfile",logDataFile))
+print(paste("age",age))
+print(paste("lucaHeight",lucaHeight))
+print(paste("hpdLucaHeight_l",hpdLucaHeight_l))
+print(paste("hpdLucaHeight_u",hpdLucaHeight_u))
+print(paste("lucaRate",lucaRate))
+print(paste("useRate",useRate))
 print(paste("outputfile",outputfile))
 print(paste("title",title))
-print(paste("luca branch",age))
+#print(paste("logfile",logDataFile))
+hpdLucaHeight <- c(hpdLucaHeight_l,hpdLucaHeight_u)
+print(paste("Luca hdi=",hpdLucaHeight))
+
 
 #Parsing cenancestor information from the log file
-logData=fread(logDataFile)
+#logData=fread(logDataFile)
 #lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
 lucaBranch=age
 
-lucaheight = 0
-hpdLucaHeight = 0
-lucaRate = 0
+#lucaheight = 0
+#hpdLucaHeight = 0
+#lucaRate = 0
 
-lucaHeight=mean(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)])
-hpdLucaHeight=hdi(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)],credMass = 0.95)
+#lucaHeight=mean(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)])
+#hpdLucaHeight=hdi(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)],credMass = 0.95)
+
+
 
 tryrates=FALSE ## try to get the colour branches 
-a <- names(logData)
-c <- which(a=='cenancestorRate')
-if (length(c) > 0){
-  tryrates = TRUE
+if (useRate == "Y"){
+  tryrates=TRUE
   print("cenancestor exists")
-  lucaRate=mean(logData[,cenancestorRate][floor(nrow(logData)*burnin):nrow(logData)])    
-}else{
-  print("cenancestor does not exist")
 }
 
-rm(logData)
+#rm(logData)
 
 ##Parsing the tree
 mccTree=read.beast(mccTreeFile)
@@ -132,7 +143,7 @@ if(tryrates){
   #add CEnRate   
   mccTreeDataFrame[luca,"rate"]=lucaRate
   mccTreePlot=ggplot(mccTreeDataFrame,aes(x=x,y=y))+ geom_tree(size=1.5, aes(color=rate))  +
-    scale_color_continuous(low="darkgreen", high="red") +
+    scale_color_continuous(low="blue", high="red") +
     theme_tree2(legend.position=c(0.1,0.7))+
     geom_nodelab(aes(label=round(posterior,2)),hjust=-.1,vjust=1.8,color="black") + ##PP values
     geom_range("height_0.95_HPD", color='black', size=5, alpha=.3) + #HPD height

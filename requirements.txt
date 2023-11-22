@@ -11,3 +11,5 @@ pytest
 ruff
 ete3
 opencv-python-headless
+scipy
+arviz

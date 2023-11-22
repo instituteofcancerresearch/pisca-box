@@ -25,7 +25,7 @@ def st_capture(output_func):
         
 
 def do_plot(internal_tree_file,opts):
-    cmd.run_r_script()
+    #cmd.run_r_script()
     html_str = ""
     with open("my_plot.svg", "r") as f:
         html_str = f.read()
@@ -120,7 +120,7 @@ def show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,interna
             st.error(str(e))
             
         
-def add_widgets(include_header):
+def add_widgets(include_header,upload_file):
     if include_header:
         widgets.page_header('tree-vue')         
                                                                 
@@ -128,14 +128,21 @@ def add_widgets(include_header):
     
     ftree = ""
     outtree = "out.tree"
-    if "ftree" in st.session_state:            
-        ftree = st.session_state["ftree"]
+    if upload_file:
+        uploaded_file = st.file_uploader("Upload trees file for consensus",type=['trees','tres'])        
+        if uploaded_file is not None:
+            string_data = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
+            ftree = "upload.trees"
+            with open(ftree,"w") as fw:
+                fw.write(string_data)
+    else:
+        if "ftree" in st.session_state:            
+            ftree = st.session_state["ftree"]
     if os.path.isfile(ftree):
         with open(ftree) as f:
             tree_str = f.read()
         with st.expander(f"Expand tree file {ftree}"):
-            st.code(tree_str)                                
-        st.divider()        
+            st.code(tree_str)                                             
         burnin = st.number_input(label="burnin",value=10)                    
         if st.button('run tree-annotation'):
             #remove_internal_files(internal_tree_file_orig,internal_out_file_orig,internal_in_file) 
@@ -147,7 +154,8 @@ def add_widgets(include_header):
                     tree_out = f.read()
                 st.session_state["outtree"] = outtree
                 with st.expander("Expand consensus tree"):
-                    st.code(tree_out)
+                    st.code(tree_out)                                        
+                st.download_button("Download consensus tree",tree_out,file_name="consensus.mcc")
             
                                                 
 # Now load the files again as there can be instatiation erros from embedded buttons

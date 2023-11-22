@@ -49,16 +49,19 @@ def cmd_runner_with_wait(params):
         return "done"
 
 
-def run_r_script(treefl,logfl,age,outputfl,title):
+def run_r_script(treefl,age,lucaheight,hpdLucaHeight_lower,hpdLucaHeight_upper,rt_mean,use_rate,outputfl,title):
     #mccTreeFile=args[1]
-    #logDataFile=args[2]
-    #outputfile=args[3]
-    #title=args[4]
-    #age=as.numeric(args[5])
+    #age=as.numeric(args[2])
+    #lucaheighti = as.numeric(args[3])
+    #hpdLucaHeighti = as.numeric(args[4])
+    #lucaRatei = as.numeric(args[5])
+    #outputfile=args[6]
+    #title=args[7]
+    #logDataFile=args[8]
     print("Welcome to pisca-box version " + VERSION)    
     script = "app/scripts/pisca-plot.R"
     cmd_runner_with_wait(["chmod","+x",script])
-    params = ["Rscript",script,treefl,logfl,outputfl,title,str(age)]
+    params = ["Rscript",script,treefl,str(age),str(lucaheight),str(hpdLucaHeight_lower),str(hpdLucaHeight_upper),str(rt_mean),use_rate,outputfl,title]
     return cmd_runner_with_wait(params)
     
 

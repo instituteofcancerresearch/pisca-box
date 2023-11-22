@@ -7,7 +7,7 @@
 # ctrl-sh-p in vscode and select the image
 
 ### TAG IMAGE
-# docker tag rachelicr/env-pisca-v1 rachelicr/env-pisca-v1:v02
+# docker tag rachelicr/env-pisca-v1 rachelicr/env-pisca-v1:v04
 
 ### PUSH IMAGE
 # docker push rachelicr/env-pisca-v1:v01

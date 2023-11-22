@@ -6,7 +6,7 @@ import libs_pages.page_tree as pageTv
 import libs_pages.page_plot as pageTp
 
 import libs.widgets as widgets
-widgets.page_header('pisca-box',divider=False)
+widgets.page_header('beauti-box',divider=False)
 
 #https://dev.to/chrisgreening/complete-list-of-markdown-emojis-for-your-blog-posts-and-readme-s-164j
 

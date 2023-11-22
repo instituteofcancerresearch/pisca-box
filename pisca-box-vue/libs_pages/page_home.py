@@ -4,7 +4,7 @@ import libs.widgets as widgets
 
 def add_widgets(include_header):
     if include_header:
-        widgets.page_header('pisca-box-vue')
+        widgets.page_header('pisca-box')
     st.markdown("""
                 
                 Welcome to **pisca-box-vue**. This application is a user-friendly interface to the pisca-beast plug-in for
