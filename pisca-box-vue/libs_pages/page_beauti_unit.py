@@ -1,13 +1,9 @@
 import __init__ # noqa: F401
-import libs.cls_xml as xml
 import libs.cls_dt_biallelic as bb
 import libs.cls_dt_acna as ac
 import libs.cls_dt_cnv as cv
 import libs.cls_dt_phyfum as phy
-import libs.cls_operators as ops
-import libs.cls_mcmc as mc
 import pandas as pd
-import libs.cls_priors as prs
 import libs.cls_datadetermine as dd
 
 

@@ -13,7 +13,7 @@ def add_widgets(include_header):
                 The pisca-beast plug-in adapts the BEAST MCMC calculations to apply to cancer evolution. The pisca-beast plug-in was 
                 created by Diego Mallo and is available on [github](https://github.com/adamallo/PISCA).
                                 
-                The BEAST eco-system includes command line utiltities and java gui applications, two of which are exposed here in **pisca-box-vue**
+                The BEAST eco-system includes command line utiltities and java gui applications, two of which are exposed here in **pisca-box**
                 
                 **beauti-box**: beauti is the java gui application for creating xml files for the beast application. 
                 In beauti-box you can create pisca-specific xml files, with a helpful guide to the inputs.

@@ -1,8 +1,4 @@
 import __init__ # noqa: F401
-import streamlit as st
-import libs_pages.page_beauti as pageBe
-import libs_pages.page_pisca as pagePi
-import libs_pages.page_tree as pageTv
 import libs_pages.page_plot as pageTp
 
 import libs.widgets as widgets

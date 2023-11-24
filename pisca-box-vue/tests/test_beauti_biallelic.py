@@ -128,27 +128,13 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
         str_store[key] = xmlstr
         
     succ = match_assert(trial_matches,str_store)
-    return success and succ
-            
+                
            
 ############################################    
 
-#def test_0102():    
-#    # these files should be the same
-#    trials = []
-#    trials.append(['data_01b_patient1.fasta_tst.xml','data_01b_patient1_bb_seq.csv_tst.xml'])
-#    
-#    for filea,fileb in trials:
-#        with open(f'{this_dir}/fixtures/{filea}', "r") as f:
-#            filea_str = f.read()
-#        filea_str = filea_str.replace("\n","").replace(" ","").replace("\t","")
-#                
-#        with open(f'{this_dir}/fixtures/{fileb}', "r") as f:
-#            fileb_str = f.read()
-#        fileb_str = fileb_str.replace("\n","").replace(" ","").replace("\t","")
-#        
-#        if filea_str != fileb_str:
-#            help_show_dif(filea_str,fileb_str)                                                         
-#        assert filea_str == fileb_str, f"BEAUTI-02 xml files do not match for {filea} and {fileb}"
+if __name__ == "__main__":
+    #test_biallelic_xml(show_xml=False,save_xml=True,overwrite=True,check_assert = True)
+    test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
+
     
     

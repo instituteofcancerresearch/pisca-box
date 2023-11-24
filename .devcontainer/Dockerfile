@@ -1,7 +1,8 @@
 ################### BUILD AND RUN THIS DOCKER FILE ############################
 
 ### BUILD IMAGE
-# docker build -t rachelicr/env-pisca-v1 -f .devcontainer/Dockerfile .
+## docker build -t rachelicr/env-pisca-v1 -f .devcontainer/Dockerfile .
+# docker build -t env-pisca-v1 -f .devcontainer/Dockerfile .
 
 ### USE IMAGE
 # ctrl-sh-p in vscode and select the image

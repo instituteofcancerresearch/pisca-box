@@ -1,6 +1,5 @@
 import base64
 import streamlit as st
-import libs.temps as temps
 
 
 def show_pdf(file_path,height=800):

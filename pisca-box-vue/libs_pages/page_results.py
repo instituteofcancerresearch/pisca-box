@@ -2,14 +2,9 @@ import __init__ # noqa: F401
 import streamlit as st
 import os
 
-from io import StringIO
 #import cmds_tst as cmd
-import libs.widgets as widge
-import libs.cmds as cmd
-import libs.docker as dkr
 
 import pandas as pd
-import streamlit.components.v1 as components
 import libs.widgets as widgets
 
 IS_TEST = False
@@ -24,7 +19,7 @@ def add_widgets(include_header):
                 
     ops_str,tree_str,log_str = "","",""
      
-    if not "flog" in st.session_state:
+    if "flog" not in st.session_state:
         st.write("No data has been run yet")
     else:
         flog,fops,ftree = "","",""
@@ -47,15 +42,15 @@ def add_widgets(include_header):
                 log_str = f.read()
             log_csv = pd.read_csv(flog,sep="\t",header=3)
                                                                     
-        with st.expander(f"expand trees"):
+        with st.expander("expand trees"):
             st.code(tree_str)    
         st.download_button("Download trees",tree_str,file_name="pisca.trees")
                 
-        with st.expander(f"expand ops"):
+        with st.expander("expand ops"):
             st.code(ops_str)        
         st.download_button("Download ops",ops_str,file_name="pisca.ops")
                 
-        with st.expander(f"expand log"):
+        with st.expander("expand log"):
             st.write(log_csv)        
         st.download_button("Download log",log_str,file_name="pisca.log")
         st.divider()

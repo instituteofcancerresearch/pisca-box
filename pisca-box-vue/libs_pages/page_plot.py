@@ -66,13 +66,11 @@ def add_widgets(include_header,upload_file):
         if os.path.isfile(outtree):
             with open(outtree) as f:
                 ops_str = f.read()
-            with st.expander(f"Expand consensus tree"):
+            with st.expander("Expand consensus tree"):
                 st.code(ops_str)
-        if os.path.isfile(flog):
-            with open(flog) as f:
-                log_str = f.read()
+        if os.path.isfile(flog):            
             log_csv = pd.read_csv(flog,sep="\t",header=3)
-            with st.expander(f"Expand log file"):
+            with st.expander("Expand log file"):
                 st.dataframe(log_csv)
                                             
         cols = st.columns([2,1,1])

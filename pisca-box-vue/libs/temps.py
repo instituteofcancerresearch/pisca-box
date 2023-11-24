@@ -60,10 +60,14 @@ def get_temp_files():
     # list to store files
     res = []
     # Iterate directory
-    for path in os.listdir(dir_path):
-        # check if current path is a file
-        if os.path.isfile(os.path.join(dir_path, path)):
-            res.append(os.path.join(dir_path, path))
+    try:
+        for path in os.listdir(dir_path):
+            # check if current path is a file
+            if os.path.isfile(os.path.join(dir_path, path)):
+                res.append(os.path.join(dir_path, path))
+    except Exception as e:
+        print("File clean error",str(e))
+        
     return res
 
 def delete_temp_files():

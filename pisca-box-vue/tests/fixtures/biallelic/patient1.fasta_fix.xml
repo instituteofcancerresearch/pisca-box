@@ -190,9 +190,6 @@
 			<logNormalPrior mean="1.0" stdev="0.6" offset="0.0" meanInRealSpace="true">
 				<parameter idref="biallelicBinary.homozygousDemethylation"/>
 			</logNormalPrior>
-			<uniformPrior lower="1.0" upper="50">
-				<parameter idref="luca_height"/>
-			</uniformPrior>
 		</prior>
 		<likelihood id="likelihood">
 			<cenancestorTreeLikelihood idref="treeLikelihood"/>
@@ -216,9 +213,6 @@
 		<column label="constant_popSize" sf="6" width="12">
 			<parameter idref="constant.popSize"/>
 		</column>
-		<column label="luca_height" sf="6" width="12">
-			<parameter idref="luca_height"/>
-		</column>
 		<column label="clock_rate" sf="6" width="12">
 			<parameter idref="clock.rate"/>
 		</column>
@@ -236,7 +230,6 @@
 		<likelihood idref="likelihood"/>
 		<coalescentLikelihood idref="coalescent"/>
 		<parameter idref="constant.popSize"/>
-		<parameter idref="luca_height"/>
 		<parameter idref="clock.rate"/>
 		<parameter idref="treeModel.rootHeight"/>
 		<parameter idref="luca_branch"/>
