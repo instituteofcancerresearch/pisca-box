@@ -2,7 +2,6 @@ import __init__ # noqa: F401
 import streamlit as st
 import os
 from io import StringIO
-from contextlib import contextmanager, redirect_stdout
 import libs.cmds as cmd
 from Bio import Phylo
 from matplotlib import pyplot as plt
@@ -131,7 +130,7 @@ def add_widgets(include_header,upload_file):
     if os.path.isfile(ftree):
         with open(ftree) as f:
             tree_str = f.read()
-        with st.expander(f"Expand tree file"):
+        with st.expander("Expand tree file"):
             st.code(tree_str)
         burnin = st.number_input(label="burnin",value=10)
         if st.button('run tree-annotation'):
@@ -145,7 +144,7 @@ def add_widgets(include_header,upload_file):
                 st.session_state["outtree"] = outtree
                 with st.expander("Expand consensus tree"):
                     st.code(tree_out)
-                st.download_button(f"Download consensus tree",tree_out,file_name="consensus.mcc")
+                st.download_button("Download consensus tree",tree_out,file_name="consensus.mcc")
             
                                                 
 # Now load the files again as there can be instatiation erros from embedded buttons

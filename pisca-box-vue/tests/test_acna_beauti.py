@@ -113,7 +113,9 @@ def test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
                 success = False
             assert fix_str == xmlstr, f"BEAUTI-01 xml strings do not match for {seq_file}"
         
-        
-    return success
+            
+if __name__ == "__main__":
+    #test_0101(show_xml=False,save_xml=True,overwrite=True,check_assert = True)
+    test_0101(show_xml=False,save_xml=False,overwrite=False,check_assert = True)
             
            

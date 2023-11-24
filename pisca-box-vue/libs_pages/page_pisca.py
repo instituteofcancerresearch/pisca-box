@@ -1,15 +1,10 @@
 import __init__ # noqa: F401
 import streamlit as st
 import os
-from contextlib import contextmanager, redirect_stdout
 from io import StringIO
 #import cmds_tst as cmd
-import libs.widgets as widge
 import libs.cmds as cmd
-import libs.docker as dkr
 
-import pandas as pd
-import streamlit.components.v1 as components
 import libs.widgets as widgets
 import libs.temps as temps
 

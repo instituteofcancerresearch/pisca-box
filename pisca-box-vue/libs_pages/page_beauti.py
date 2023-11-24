@@ -1,8 +1,6 @@
 import __init__ # noqa: F401
 import streamlit as st
 from streamlit_ace import st_ace
-import streamlit.components.v1 as components
-import libs.widgets as widge
 import pandas as pd
 import libs.cls_xml as xml
 import libs.cls_dt_biallelic as bb

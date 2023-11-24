@@ -358,9 +358,6 @@
 			<exponentialPrior mean="1.0" offset="0.0">
 				<parameter idref="acna.loss"/>
 			</exponentialPrior>
-			<uniformPrior lower="1.0" upper="50">
-				<parameter idref="luca_height"/>
-			</uniformPrior>
 		</prior>
 		<likelihood id="likelihood">
 			<cenancestorTreeLikelihood idref="treeLikelihood"/>
@@ -387,9 +384,6 @@
 		<column label="acna_loss" sf="6" width="12">
 			<parameter idref="acna.loss"/>
 		</column>
-		<column label="luca_height" sf="6" width="12">
-			<parameter idref="luca_height"/>
-		</column>
 		<column label="clock_rate" sf="6" width="12">
 			<parameter idref="clock.rate"/>
 		</column>
@@ -408,7 +402,6 @@
 		<coalescentLikelihood idref="coalescent"/>
 		<parameter idref="constant.popSize"/>
 		<parameter idref="acna.loss"/>
-		<parameter idref="luca_height"/>
 		<parameter idref="clock.rate"/>
 		<parameter idref="treeModel.rootHeight"/>
 		<parameter idref="luca_branch"/>

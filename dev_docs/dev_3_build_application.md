@@ -24,13 +24,13 @@ This will build the image and run it.
 
 ## Test the image
 
-You can test the image by running it locally.
-```docker run --rm --name pisca-box -p 8002:8501 icrsc/pisca-box```
+You can test the image by running it locally.  
+```docker run --rm --name pisca-box -p 8002:8501 icrsc/pisca-box```  
 [localhost:8002](http://localhost:8002) should show the app.
 
 ## Push the image to docker hub
 
-You can find the image in the docker dashboard.
+You can find the image in the docker extension or dashboard.
 
 Right-click and select push to upload to docker hub (you need access to be able to upload it to github).
 
