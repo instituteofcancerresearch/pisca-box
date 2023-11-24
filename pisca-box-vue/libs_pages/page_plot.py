@@ -2,27 +2,14 @@ import __init__ # noqa: F401
 import streamlit as st
 import libs.cmds as cmd
 import libs.widgets as widgets
-from contextlib import contextmanager, redirect_stdout
 from io import StringIO
 import pandas as pd
 import os
 import math
 from scipy import optimize
 import arviz as az
-
-
-@contextmanager
-def st_capture(output_func):
-    with StringIO() as stdout, redirect_stdout(stdout):
-        old_write = stdout.write
-
-        def new_write(string):
-            ret = old_write(string)
-            output_func(stdout.getvalue())
-            return ret
-        
-        stdout.write = new_write
-        yield
+import libs.temps as temps
+import libs.callback as cb
 
 
 def hdi_scipy(distribution, level=0.95):
@@ -51,6 +38,7 @@ def add_widgets(include_header,upload_file):
         widgets.page_header('beauti-box')
             
     with st.container():
+        output = st.empty()
         age,meen,hdi_lower,hdi_upper,rt,rt_mean,rt_orig_mean,burnin = 60,0,0,0,False,0,0,10
         st.write("#### Plot consensus tree")
         flog,outtree = "",""
@@ -58,16 +46,16 @@ def add_widgets(include_header,upload_file):
             uploaded_file = st.file_uploader("Upload consensus tree",type=['tree','mcc'])
             if uploaded_file is not None:
                 string_data = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
-                outtree = "upload.mcc"
+                outtree = temps.get_outtree_temp()
                 with open(outtree,"w") as fw:
                     fw.write(string_data)
             
             uploaded_log = st.file_uploader("Optionally, upload log",type=['log'])
             if uploaded_log is not None:
                 string_log = StringIO(uploaded_log.getvalue().decode("utf-8")).read()
-                flog = "upload.log"                
+                flog = temps.get_flog_temp()
                 with open(flog,"w") as fw:
-                    fw.write(string_log)                
+                    fw.write(string_log)
         else:
             if "flog" in st.session_state:
                 flog = st.session_state["flog"]
@@ -78,13 +66,13 @@ def add_widgets(include_header,upload_file):
         if os.path.isfile(outtree):
             with open(outtree) as f:
                 ops_str = f.read()
-            with st.expander(f"Expand consensus tree {outtree}"):
+            with st.expander(f"Expand consensus tree"):
                 st.code(ops_str)
         if os.path.isfile(flog):
             with open(flog) as f:
                 log_str = f.read()
             log_csv = pd.read_csv(flog,sep="\t",header=3)
-            with st.expander(f"Expand log file {flog}"):
+            with st.expander(f"Expand log file"):
                 st.dataframe(log_csv)
                                             
         cols = st.columns([2,1,1])
@@ -130,23 +118,24 @@ def add_widgets(include_header,upload_file):
             hdi_lower = st.number_input(label="hdi",value=hdi_lower,key="hl")        
         with cols[3]:
             hdi_upper = st.number_input(label="hdi",value=hdi_upper,key="hu")
-        with cols[4]:            
-            if rt:                
+        with cols[4]:
+            if rt:
                 rt_mean = st.number_input(label="mean cenAncestor",value=rt_orig_mean,key="rt_m",format="%.6f")
                                                     
         if os.path.isfile(outtree):
             if st.button('run r-script'):
+                pdf_name = temps.get_pdf_temp(delete=True)
                 output = st.empty()
-                with st_capture(output.code):                         
-                    ret = cmd.run_r_script(outtree,age,meen,hdi_lower,hdi_upper,rt_mean,use_rate,"temp.pdf",title)
+                with cb.st_capture(output.code,temps.get_session_id()):
+                    ret = cmd.run_r_script(outtree,age,meen,hdi_lower,hdi_upper,rt_mean,use_rate,pdf_name,title)
                     print(ret)
                 #if os.path.isfile("temp.svg"):
                 #    html_str = ""
                 #    with open("temp.svg", "r") as f:
                 #        html_str = f.read()
                 #    st.write(html_str, unsafe_allow_html=True)
-                if os.path.isfile("temp.pdf"):
-                    widgets.show_pdf('temp.pdf',height=800)
+                if os.path.isfile(pdf_name):
+                    widgets.show_pdf(pdf_name,height=800)
             
             
                 

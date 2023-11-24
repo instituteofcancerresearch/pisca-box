@@ -47,15 +47,15 @@ def add_widgets(include_header):
                 log_str = f.read()
             log_csv = pd.read_csv(flog,sep="\t",header=3)
                                                                     
-        with st.expander(f"expand {ftree}"):
+        with st.expander(f"expand trees"):
             st.code(tree_str)    
         st.download_button("Download trees",tree_str,file_name="pisca.trees")
                 
-        with st.expander(f"expand {fops}"):
+        with st.expander(f"expand ops"):
             st.code(ops_str)        
         st.download_button("Download ops",ops_str,file_name="pisca.ops")
                 
-        with st.expander(f"expand {flog}"):
+        with st.expander(f"expand log"):
             st.write(log_csv)        
         st.download_button("Download log",log_str,file_name="pisca.log")
         st.divider()

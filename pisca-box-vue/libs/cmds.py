@@ -94,6 +94,28 @@ def get_logs(big_string,log_match):
                     log_file = log_file.replace("'","")
                     return log_file
     return ""
+
+def change_logs(big_string,log_key,log_match,new_name):
+    ls_big_string = big_string.split("\n")
+    for i in range(len(ls_big_string)):
+        line = ls_big_string[i]
+        if log_match in line:            
+            find_pos = line.find(log_key)
+            log_trunca = line[:find_pos]
+            log_truncb = line[find_pos:]
+            #print(log_trunca)
+            log_truncb = log_truncb.replace("'",'"') # just in case, to be consistent                                    
+            poses = [i for i, x in enumerate(log_truncb) if '"' == x]
+            #print(poses)
+            #print(log_truncb)
+            new_trunc = log_truncb[:poses[0]+1] + new_name + log_truncb[poses[1]:]
+            #st_c = poses[]
+            new_line = log_trunca + new_trunc
+            ls_big_string[i] = new_line
+            #print(new_line)
+            break
+    
+    return "\n".join(ls_big_string)
                                 
 def rename_logs(working_dir):
     #copy everything in tmp to pisca

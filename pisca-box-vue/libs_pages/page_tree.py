@@ -7,29 +7,18 @@ import libs.cmds as cmd
 from Bio import Phylo
 from matplotlib import pyplot as plt
 import libs.widgets as widgets
+import libs.temps as temps
+import libs.callback as cb
 
 #https://dev.to/chrisgreening/complete-list-of-markdown-emojis-for-your-blog-posts-and-readme-s-164j
 
-@contextmanager
-def st_capture(output_func):
-    with StringIO() as stdout, redirect_stdout(stdout):
-        old_write = stdout.write
-
-        def new_write(string):
-            ret = old_write(string)
-            output_func(stdout.getvalue())
-            return ret
         
-        stdout.write = new_write
-        yield
-        
-
 def do_plot(internal_tree_file,opts):
     #cmd.run_r_script()
     html_str = ""
     with open("my_plot.svg", "r") as f:
         html_str = f.read()
-    st.write(html_str, unsafe_allow_html=True)
+    st.write(html_str, unsafe_allow_html=True)    
     tree = Phylo.read(internal_tree_file, "phyloxml")                                    
     if opts == "Pink":                           
         tree.get_nonterminals()[0].color = '#D71AB9'
@@ -49,7 +38,7 @@ def do_plot(internal_tree_file,opts):
     ax.set_title("Phylogenetic tree from pisca-box")
     st.pyplot(fig)
     
-def remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig):    
+def remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig):
     if os.path.isfile(internal_tree_file_xml):
         os.remove(internal_tree_file_xml)
     if os.path.isfile(internal_out_file_ano):
@@ -126,40 +115,41 @@ def add_widgets(include_header,upload_file):
                                                                 
     st.subheader("Create consensus tree")
     
+    output = st.empty()
     ftree = ""
-    outtree = "out.tree"
+    outtree = temps.get_outtree_temp()
     if upload_file:
         uploaded_file = st.file_uploader("Upload trees file for consensus",type=['trees','tres'])        
         if uploaded_file is not None:
             string_data = StringIO(uploaded_file.getvalue().decode("utf-8")).read()
-            ftree = "upload.trees"
+            ftree = temps.get_ftree_temp()
             with open(ftree,"w") as fw:
                 fw.write(string_data)
     else:
-        if "ftree" in st.session_state:            
+        if "ftree" in st.session_state:
             ftree = st.session_state["ftree"]
     if os.path.isfile(ftree):
         with open(ftree) as f:
             tree_str = f.read()
-        with st.expander(f"Expand tree file {ftree}"):
-            st.code(tree_str)                                             
-        burnin = st.number_input(label="burnin",value=10)                    
+        with st.expander(f"Expand tree file"):
+            st.code(tree_str)
+        burnin = st.number_input(label="burnin",value=10)
         if st.button('run tree-annotation'):
-            #remove_internal_files(internal_tree_file_orig,internal_out_file_orig,internal_in_file) 
-            output = st.empty()            
-            with st_capture(output.code):
-                cmd.run_tree_from_file(ftree,burnin,outtree)                    
+            #remove_internal_files(internal_tree_file_orig,internal_out_file_orig,internal_in_file)            
+            output = st.empty()
+            with cb.st_capture(output.code,temps.get_session_id()):
+                cmd.run_tree_from_file(ftree,burnin,outtree)
             if os.path.isfile(outtree):
                 with open(outtree) as f:
                     tree_out = f.read()
                 st.session_state["outtree"] = outtree
                 with st.expander("Expand consensus tree"):
-                    st.code(tree_out)                                        
-                st.download_button("Download consensus tree",tree_out,file_name="consensus.mcc")
+                    st.code(tree_out)
+                st.download_button(f"Download consensus tree",tree_out,file_name="consensus.mcc")
             
                                                 
 # Now load the files again as there can be instatiation erros from embedded buttons
-#if uploaded_file is not None:                 
+#if uploaded_file is not None:
 #    show_and_plot(file_type,internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)
 #else:
 #    remove_internal_files(internal_tree_file_xml,internal_out_file_ano,internal_in_file,internal_tree_file_orig,internal_out_file_orig)

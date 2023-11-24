@@ -7,7 +7,7 @@ def add_widgets(include_header):
         widgets.page_header('pisca-box')
     st.markdown("""
                 
-                Welcome to **pisca-box-vue**. This application is a user-friendly interface to the pisca-beast plug-in for
+                Welcome to **pisca-box**. This application is a user-friendly interface to the pisca-beast plug-in for
                 [BEAST](http://beast.community/) (Bayesian Evolutionary Anaylsis Sampling Trees).
                 
                 The pisca-beast plug-in adapts the BEAST MCMC calculations to apply to cancer evolution. The pisca-beast plug-in was 
@@ -27,7 +27,7 @@ def add_widgets(include_header):
                 - consensus plot: runs a custom R Script to give an indication of the convergence.
                 
                 #### Further applications
-                **pisca-box** is also a [containerised command line image](https://hub.docker.com/r/rachelicr/pisca-box) that can be run locally or on an HPC cluster for heavier-duty use
+                **pisca-box** is also a [containerised command line image](https://hub.docker.com/r/rachelicr/pisca-run) that can be run locally or on an HPC cluster for heavier-duty use
                 See the help tab for further information on the parameters and inputs for pisca and for the command line version of pisca-box
                 
                 """)

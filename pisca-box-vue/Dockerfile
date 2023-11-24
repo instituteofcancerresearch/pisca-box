@@ -2,7 +2,7 @@
 
 ### BUILD IMAGE
 
-# docker build -t rachelicr/pisca-box-vue .
+# docker build -t rachelicr/pisca-app .
 
 ### TEST IMAGE
 
