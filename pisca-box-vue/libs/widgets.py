@@ -1,5 +1,6 @@
 import base64
 import streamlit as st
+import libs.temps as temps
 
 
 def show_pdf(file_path,height=800):
@@ -8,11 +9,20 @@ def show_pdf(file_path,height=800):
     pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="{height}" type="application/pdf"></iframe>'
     st.markdown(pdf_display, unsafe_allow_html=True)
 
-def page_header(title,divider=True):
+def page_header(title,divider=True, other_icon="gift"):
     st.set_page_config(page_title='pisca-box', page_icon = 'app/static/pb.png',
             layout = 'wide', initial_sidebar_state = 'auto')
     st.markdown('<style>section[data-testid="stSidebar"] {width: 10px !important; # Set the width to your desired value}</style>',unsafe_allow_html=True,)
-    st.title(f':gift: {title}')
+    if other_icon == "gift":
+        st.title(f':gift: {title}')
+    elif other_icon == "mirror":
+        st.title(f':mirror: {title}')
+    elif other_icon == "tree":
+        st.title(f':deciduous_tree: {title}')
+    elif other_icon == "plot":
+        st.title(f':frame_with_picture: {title}')
+    else:
+        st.title(f':gift: {title}')
     #if divider:
     #    st.divider()
     

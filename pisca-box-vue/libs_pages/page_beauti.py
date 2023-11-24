@@ -301,9 +301,9 @@ def add_widgets(include_header):
                             with cols[2]:
                                 clock_mean = st.number_input(label="clock mean",value=0.0)
                             with cols[3]:
-                                clock_std = st.number_input(label="clock std",value=0.1)                    
+                                clock_std = st.number_input(label="clock std",value=0.1)
                             
-                            #op,prm,lwr,upr,men,std,off,mns,shp,scl,tree                                                        
+                            #op,prm,lwr,upr,men,std,off,mns,shp,scl,tree
                             cl_pr = [prior_type,'clock.rate','','',str(clock_mean),str(clock_std),'','','','','']
                             prrs.update_one_prior(False,'clock.rate',cl_pr)
                         else:
@@ -313,18 +313,18 @@ def add_widgets(include_header):
                     edited_pr = st.data_editor(prrs.get_as_dataframe(),num_rows="dynamic",use_container_width=True)
                     prrs.update_from_dataframe(edited_pr)
                 
-                with st.expander("View or change all operators"):                                            
-                    ### OPERATORS #############################################################                         
+                with st.expander("View or change all operators"):
+                    ### OPERATORS #############################################################
                     operators = ops.Operators(demographic,dt_obj.ops)
                     edited_df = st.data_editor(operators.get_as_dataframe(),num_rows="dynamic",use_container_width=True)
                     operators.update_from_dataframe(edited_df)
                                 
-            ### LOG FILE PARAMS #############################################################             
+            ### LOG FILE PARAMS #############################################################
             with tabLog:
                 st.write("#### :page_facing_up: Log file params")
                 cols = st.columns(2)
                 logs = dt_obj.selected_logs(prrs,operators,log_choices)
-                logs_all = dt_obj.all_logs(prrs,operators)                
+                logs_all = dt_obj.all_logs(prrs,operators)
                 with cols[0]:
                     st.write("Defaults")
                     for k,v in logs.items():
@@ -358,7 +358,7 @@ def add_widgets(include_header):
                     my_xml = st_ace(language="xml", theme="monokai", keybinding="vscode",font_size=12,show_gutter=True,value=my_xml,height=400)
                     
                 ################################################################
-                js = widge.get_saveas(my_xml,name)
-                components.html(js, height=30)
+                #js = widge.get_saveas(my_xml,name)
+                #components.html(js, height=30)
                 st.download_button("Download xml",data=my_xml,file_name=f"{name}.xml",mime="text/xml")
                                             

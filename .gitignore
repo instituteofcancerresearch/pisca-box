@@ -176,4 +176,6 @@ cython_debug/
 *.Zone.Identifier
 .ds_store
 *.svg
+/pisca-box-vue/temp/*
+!/pisca-box-vue/temp/make.txt
 

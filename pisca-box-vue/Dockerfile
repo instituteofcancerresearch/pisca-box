@@ -2,11 +2,11 @@
 
 ### BUILD IMAGE
 
-# docker build -t pisca-box-vue .
+# docker build -t rachelicr/pisca-app .
 
 ### TEST IMAGE
 
-# docker run --rm --name pisca-box-vue -p 8002:8501 pisca-box-vue
+# docker run --rm --name pisca-box-vue -p 8002:8501 rachelicr/pisca-box-vue
 # runs on http://localhost:8002/
 
 ### UPLOAD TO DOCKER

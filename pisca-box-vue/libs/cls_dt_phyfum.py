@@ -38,7 +38,7 @@ class Phyfum(dt.DataType):
         return prs
     #############################################################
     def _define_default_logs(self):
-        defaults = ["posterior","prior","likelihood","coalescent","rateChanges","coefficientOfVariation","covariance","cenancestorRate"]
+        defaults = ["posterior","prior","likelihood","coalescent","cenancestorRate"]
         defaults += ["luca_height","luca_branch","clock.rate",".growthRate",".popSize",".changes",".relativeRates",".rootHeight",".loss"]
         return defaults
     #############################################################

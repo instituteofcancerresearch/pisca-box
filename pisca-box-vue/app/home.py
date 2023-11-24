@@ -5,6 +5,7 @@ import libs_pages.page_home as pageHm
 import libs_pages.page_pisca as pagePi
 import libs_pages.page_tree as pageTv
 import libs.widgets as widgets
+import libs.temps as temps
 
 tabs = False
 if tabs:
@@ -20,5 +21,8 @@ if tabs:
         pageTv.add_widgets(False)
 else:
     pageHm.add_widgets(True)
+    
+st.divider()
+
     
     

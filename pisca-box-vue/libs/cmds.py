@@ -49,11 +49,19 @@ def cmd_runner_with_wait(params):
         return "done"
 
 
-def run_r_script():
-    #script = "/home/ralcraft/dev/beast-icr/pisca-box/pisca-box-vue/app/r_test.R"
-    script = "app/scripts/plot.R"
+def run_r_script(treefl,age,lucaheight,hpdLucaHeight_lower,hpdLucaHeight_upper,rt_mean,use_rate,outputfl,title):
+    #mccTreeFile=args[1]
+    #age=as.numeric(args[2])
+    #lucaheighti = as.numeric(args[3])
+    #hpdLucaHeighti = as.numeric(args[4])
+    #lucaRatei = as.numeric(args[5])
+    #outputfile=args[6]
+    #title=args[7]
+    #logDataFile=args[8]
+    print("Welcome to pisca-box version " + VERSION)    
+    script = "app/scripts/pisca-plot.R"
     cmd_runner_with_wait(["chmod","+x",script])
-    params = [script]
+    params = ["Rscript",script,treefl,str(age),str(lucaheight),str(hpdLucaHeight_lower),str(hpdLucaHeight_upper),str(rt_mean),use_rate,outputfl,title]
     return cmd_runner_with_wait(params)
     
 
@@ -86,6 +94,28 @@ def get_logs(big_string,log_match):
                     log_file = log_file.replace("'","")
                     return log_file
     return ""
+
+def change_logs(big_string,log_key,log_match,new_name):
+    ls_big_string = big_string.split("\n")
+    for i in range(len(ls_big_string)):
+        line = ls_big_string[i]
+        if log_match in line:            
+            find_pos = line.find(log_key)
+            log_trunca = line[:find_pos]
+            log_truncb = line[find_pos:]
+            #print(log_trunca)
+            log_truncb = log_truncb.replace("'",'"') # just in case, to be consistent                                    
+            poses = [i for i, x in enumerate(log_truncb) if '"' == x]
+            #print(poses)
+            #print(log_truncb)
+            new_trunc = log_truncb[:poses[0]+1] + new_name + log_truncb[poses[1]:]
+            #st_c = poses[]
+            new_line = log_trunca + new_trunc
+            ls_big_string[i] = new_line
+            #print(new_line)
+            break
+    
+    return "\n".join(ls_big_string)
                                 
 def rename_logs(working_dir):
     #copy everything in tmp to pisca
@@ -109,6 +139,20 @@ def run_beast(params):
         return "failed"
     
 
+def run_tree_from_file(tree_file, burnin,output_file):
+    print("Welcome to pisca-box version " + VERSION)
+    print("starting pisca-box call to treeannotator...")
+    try:
+        #treeannotator -burnin 5000000 pisca.run.trees output.mcc.tree        
+        with open(output_file, "w") as text_file:
+            text_file.write("")
+        params = ["treeannotator","-burnin",str(burnin), tree_file,output_file]
+        print(params)
+        return cmd_runner_with_wait(params)
+    except Exception as e:
+        print(str(e))
+        return "failed"
+    
 def run_tree(tree_str, burnin,output_file):
     print("Welcome to pisca-box version " + VERSION)
     print("starting pisca-box call to treeannotator...")
