@@ -30,7 +30,7 @@ def add_widgets(include_header):
                 
                 #### Collaborators
                 **Arizona State University**  
-                [Diego Mallo](mailto:???), postdoctoral researcher in the Biodesign Institute
+                [Diego Mallo](mailto:dmalload@asu.edu), postdoctoral researcher in the Biodesign Institute
                           
              """)                         
     

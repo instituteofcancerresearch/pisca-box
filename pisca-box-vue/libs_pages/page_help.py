@@ -8,17 +8,20 @@ import libs.widgets as widgets
 def add_widgets(include_header):   
         if include_header:
                 widgets.page_header('pisca help')
-        #st.markdown('**Documentation for pisca-box-vue**')      
         
-        st.markdown('**[pisca-app](https://hub.docker.com/r/rachelicr/pisca-app)**')
-        st.markdown("_To run the containerised webapp pisca-app_")
+        st.markdown("The code for pisca-box is publicly available on [github](https://github.com/instituteofcancerresearch/pisca-box)")
+        st.markdown("Please raise issues in github using [New issue](https://github.com/instituteofcancerresearch/pisca-box/issues)")
+                
+        st.divider()
+        st.markdown('**[pisca-box](https://hub.docker.com/r/icrsc/pisca-app)**')
+        st.markdown("_To run the containerised webapp pisca-box_")
         st.code("""
-                docker pull rachelicr/pisca-app
-                docker run -p 8000:8501 rachelicr/pisca-app
+                docker pull icrsc/pisca-box
+                docker run -p 8000:8501 icrsc/pisca-box
                 """)
         st.write("It is locally hosted on a port of your choice, in this case 8000. Open the app at [http://localhost:8000/](http://localhost:8000/)")
 
-        st.markdown('**[pisca-box command-line](https://hub.docker.com/r/rachelicr/pisca-run)**')
+        st.markdown('**[pisca-run command-line](https://hub.docker.com/r/icrsc/pisca-run)**')
         msg = "An alternative version of pisca-box is available to run from the command-line for heavier duty use. To communicate with the container's file system a drive must be mounted. "
         msg += "An example is given mapped to the drive :green[~/dev/beast-icr/xml] (should be the folder where your xml input file is). "
         msg += "The folder with the xml file is also used as the working directory, so the output files will be written to this folder."
@@ -28,17 +31,17 @@ def add_widgets(include_header):
         st.markdown("_Running the docker image from docker hub_")
 
         st.code("""
-                docker pull rachelicr/pisca-run                
-                docker run -v ~/dev/beast-icr/xml:/mnt rachelicr/pisca-run testStrictClock.xml
+                docker pull icrsc/pisca-run                
+                docker run -v ~/dev/beast-icr/xml:/mnt icrsc/pisca-run testStrictClock.xml
                 """)
 
 
         st.markdown("_Running the docker image from singularity hub_")
         st.code("""
-                singularity pull docker://rachelicr/pisca-box                       
-                singularity run -B ~/dev/beast-icr/xml:/mnt docker://rachelicr/pisca-box testStrictClock.xml
+                singularity pull docker://icrsc/pisca-run                       
+                singularity run -B ~/dev/beast-icr/xml:/mnt docker://icrsc/pisca-run testStrictClock.xml
                 """)
-
+                
         with st.expander("All the beast command-line inputs"):
                 st.code("""
                 -verbose Give verbose XML parsing messages
