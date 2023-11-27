@@ -6,7 +6,7 @@ import libs.temps as temps
 import streamlit as st
 
 @contextmanager
-def st_capturex(output_func,sess_no):
+def st_capture(output_func,sess_no):
     if sess_no == temps.get_session_id():
         try:
             with StringIO() as stdout, redirect_stdout(stdout):
