@@ -313,7 +313,7 @@ def add_widgets(include_header):
                 
                 with st.expander("View or change all operators"):
                     ### OPERATORS #############################################################
-                    operators = ops.Operators(demographic,dt_obj.ops)
+                    operators = ops.Operators(demographic,clocks,dt_obj.ops)
                     edited_df = st.data_editor(operators.get_as_dataframe(),num_rows="dynamic",use_container_width=True)
                     operators.update_from_dataframe(edited_df)
                                 

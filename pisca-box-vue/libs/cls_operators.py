@@ -4,7 +4,7 @@ import pandas as pd
 # ruff: noqa: F541
 
 class Operators(object):
-    def __init__(self,demographic,default_ops):                        
+    def __init__(self,demographic,clocks,default_ops):                        
         self.ops = default_ops
         # operator, paramater, weight, scaleFactor, size, gaussian
         if demographic == "constant size":
@@ -12,6 +12,9 @@ class Operators(object):
         elif demographic == "exponential growth":
             self.ops.append(['scaleOperator','exponential.popSize','3.0','0.5','',''])
             self.ops.append(['randomWalkOperator','exponential.growthRate', '3','1.0','',''])                
+        if clocks["type"] == "random local clock":
+            self.ops.append(['scaleOperator','localClock.relativeRates','15','0.75','',''])
+            self.ops.append(['bitFlipOperator ','localClock.changes', '15','','',''])                
     ### PUBLIC INTERFACE #########        
     #---------------------------------------------------------------------------------
     def get_operators(self):
@@ -31,6 +34,8 @@ class Operators(object):
                 ops += self._get_narrowExchange(op)
             elif op[0] == "subtreeSlide":
                 ops += self._get_subtreeSlide(op)
+            elif op[0] == "bitFlipOperator ":
+                ops += self._get_bitFlip(op)
         ops += "</operators>\n"
         return ops
     #---------------------------------------------------------------------------------
@@ -48,8 +53,7 @@ class Operators(object):
         op += f'\t<scaleOperator scaleFactor="{scaleFactor}" weight="{weight}">\n'
         op += f'\t\t<parameter idref="{paramater}"/>\n'
         op += f'\t</scaleOperator>\n'
-        return op
-        
+        return op        
     #---------------------------------------------------------------------------------
     def _get_upDownOperator(self,op):
         operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
@@ -102,6 +106,14 @@ class Operators(object):
         op += f'\t</subtreeSlide>\n'
         return op
     #---------------------------------------------------------------------------------
+    def _get_bitFlip(self,op):
+        operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
+        op = ""
+        op += f'\t<bitFlipOperator  weight="{weight}">\n'
+        op += f'\t\t<parameter idref="{paramater}"/>\n'
+        op += f'\t</bitFlipOperator >\n'
+        return op
+    #---------------------------------------------------------------------------------
     def get_as_dataframe(self):                
         df = pd.DataFrame(self.ops,columns=['operator', 'parameter', 'weight', 'scaleFactor', 'size', 'gaussian'])
         return df
@@ -110,6 +122,5 @@ class Operators(object):
         self.ops = []
         for row in df.itertuples():
             self.ops.append([row.operator,row.parameter,row.weight,row.scaleFactor,row.size,row.gaussian])                                
-    #----------------------------------
     
     

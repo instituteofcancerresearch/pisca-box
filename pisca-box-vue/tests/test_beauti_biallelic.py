@@ -97,7 +97,7 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
         
         # Load DATATYPE
         dt_obj =  bb.Biallelic(dic_seq,csv_ages)
-        operators = ops.Operators(demographic,dt_obj.ops)
+        operators = ops.Operators(demographic,clocks,dt_obj.ops)
         prrs = prs.Priors(demographic,dt_obj.prs)
         mcmc = mc.MCMC(mcmcs,clocks,prrs,dt_obj,operators,[])
         xmlwriter = xml.XmlWriter(dt_obj,mcmc,lucas,clocks,demographic,dt_obj,operators)

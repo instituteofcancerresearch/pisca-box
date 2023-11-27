@@ -6,6 +6,7 @@
             "type": "python",
             "request": "launch",
             "module": "streamlit",
+            "cwd": "/workspaces/pisca-box/pisca-box-vue",
             "args": [
                  "run",
                  "${file}",
