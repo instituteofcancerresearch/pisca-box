@@ -6,7 +6,7 @@
 #
 # To upload it go to docker and right click on the container and chose "Push"
 #
-# docker run --rm --name p-b-v -p 8003:8501 rachelicr/pisca-app
+# docker run --rm --name p-b-v -p 8003:8501 icrsc/pisca-box
 
 services:
     app:
