@@ -179,3 +179,4 @@ cython_debug/
 /pisca-box-vue/temp/*
 !/pisca-box-vue/temp/make.txt
 
+pisca-box-vue/Rplots.pdf

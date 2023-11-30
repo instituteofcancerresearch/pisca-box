@@ -59,8 +59,10 @@ def add_widgets(include_header):
                         with st.expander("expand ages file to view"):
                             st.write(seq_ages)
         else:
-            radio_source = st.radio('Select sample data type:', ["acna","cnv","biallelic","phyfum"],key="src_sample")
+            radio_source = st.radio('Select sample data type:', ["acna","cnv","biallelic","phyfum (XML generation only)"],key="src_sample")
             # sequence data
+            if "phyfum" in radio_source:
+                radio_source = "phyfum"
             file_name = f"app/static/{radio_source}-seq.csv"
             typ = "csv"
             if radio_source == "cnv":
@@ -98,7 +100,7 @@ def add_widgets(include_header):
                 datatype_long = ['absolute copy number alterations',
                                 'copy number variant',
                                 'biallelic binary',
-                                "bulk methylation"]
+                                "bulk methylation (phyfum)"]
                 datatype_short = ['acna','cnv','biallelic',"phyfum"]
                 values = datatype_long
                 idx = datatype_short.index(dtyp)
@@ -122,7 +124,7 @@ def add_widgets(include_header):
                 with cols[0]:
                     clock = st.radio('Select clock model:', ["strict clock", "random local clock"],key="cl")
                 with cols[1]:
-                    clock_rate = st.number_input(label="clock rate",value=1.00)
+                    clock_rate = st.number_input(label="starting clock rate",value=1.00)
                 clocks = {}
                 clocks['type'] = clock
                 clocks['rate'] = clock_rate
@@ -134,7 +136,7 @@ def add_widgets(include_header):
                 st.subheader("Luca Height and Branch")
                 with st.container():
                     
-                    luca_model = st.radio("Luca model",["Neoplastic progression","Normal tissue"])
+                    luca_model = st.radio("Luca model",["Neoplastic progression","Normal tissue"],help="acna and cnv would likely be 'Neoplastic progression', phyfum and bb 'Normal tissue'")
                     st.write("---")
                     hlower,hupper = -1,-1
                     blower,bvalue=0,1
