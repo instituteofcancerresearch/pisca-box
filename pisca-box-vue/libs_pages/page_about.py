@@ -20,8 +20,8 @@ def add_widgets(include_header):
                An important modification therefore includes the last common ancestor with an unaltered genomic state (LUCA) as a branch from the 'root' of the tree to the most recent common ancestor (MRCA) of the samples.
                Another important modification is the use of SCA substitution models with gains, losses (and LOH for allele-specific).
                
-               [pisca-box](https://github.com/rachelicr/pisca-box) was created by Rachel Alcraft and Heather Grant with support from Diego Mallo. This containerized version bypasses the more involved installation steps and dependency clashes. 
-               Like BEAST, PISCA also requires the creation of XML files to start analysis, which can be done in PISCA-box and tested out to check for errors. 
+               [pisca-box](https://github.com/instituteofcancerresearch/pisca-box) was created by Rachel Alcraft and Heather Grant with support from Diego Mallo. This containerized version bypasses the more involved installation steps and dependency clashes. 
+               Like BEAST, PISCA also requires the creation of XML files to start analysis, which can be done within PISCA-box and tested out to check for errors. 
                
                 
                 """)

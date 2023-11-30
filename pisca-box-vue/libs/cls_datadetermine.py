@@ -73,7 +73,7 @@ class DataDetermine:
             for taxon in self.dic_taxon_seq:
                 seq = self.dic_taxon_seq[taxon]
                 for ch in seq:
-                    if ch not in "ABCDEFGHIJ":
+                    if ch not in "ABCDEFGHIJ@":
                         not_in = True
                         break
             if not_in:
@@ -109,7 +109,8 @@ class DataDetermine:
             idd = els[0].strip()
             seq = ""
             for el in els[1:]:
-                seq += el.strip()+","
+                el = self._convert_one_seq(el.strip())
+                seq += el+","
             self.dic_taxon_seq[idd] = seq[:-1]
             #print("RA1",idd,seq[:-1])
     ##############################################################
@@ -133,6 +134,31 @@ class DataDetermine:
             seq = seq.replace(",","").replace(" ","").replace("[","").replace("]","")
             self.dic_taxon_seq[taxon] = seq
     ##############################################################
+    def _convert_one_seq(self,seq):
+        if seq == 0:
+            return "@"
+        elif seq == "1":
+            return "A"
+        elif seq == "2":
+            return "B"
+        elif seq == "3":
+            return "C"
+        elif seq == "4":
+            return "D"
+        elif seq == "5":
+            return "E"
+        elif seq == "6":
+            return "F"
+        elif seq == "7":
+            return "G"
+        elif seq == "8":
+            return "H"
+        elif seq == "9":
+            return "I"
+        elif seq == "10":
+            return "J"
+        return seq
+    ##############################################################
     def _convert_seq_data(self,convert,comma):
         for id,seq in self.dic_taxon_seq.items():
             if convert:
@@ -146,7 +172,7 @@ class DataDetermine:
                 seq = seq.replace("7","G")
                 seq = seq.replace("8","H")
                 seq = seq.replace("9","I")
-                #seq = seq.replace("9","J") can't do J because of ambiguity
+                #seq = seq.replace("10","J") can't do J because of ambiguity in whole string replace
             if comma:
                 seq = seq.replace(",","")
             self.dic_taxon_seq[id] = seq

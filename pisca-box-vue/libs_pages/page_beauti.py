@@ -98,7 +98,7 @@ def add_widgets(include_header):
                 datatype_long = ['absolute copy number alterations',
                                 'copy number variant',
                                 'biallelic binary',
-                                "bulk methylation"]
+                                "bulk methylation (phyfum) - XML generation only, coming soon to pisca-box"]
                 datatype_short = ['acna','cnv','biallelic',"phyfum"]
                 values = datatype_long
                 idx = datatype_short.index(dtyp)
@@ -122,7 +122,7 @@ def add_widgets(include_header):
                 with cols[0]:
                     clock = st.radio('Select clock model:', ["strict clock", "random local clock"],key="cl")
                 with cols[1]:
-                    clock_rate = st.number_input(label="clock rate",value=1.00)
+                    clock_rate = st.number_input(label="starting clock rate",value=1.00)
                 clocks = {}
                 clocks['type'] = clock
                 clocks['rate'] = clock_rate
