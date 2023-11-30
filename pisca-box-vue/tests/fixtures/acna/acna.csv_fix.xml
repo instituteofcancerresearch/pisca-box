@@ -321,15 +321,15 @@
 	</substitutionModel>
 </siteModel>
 <!-- TREE LIKELIHOOD -->
-<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false">
+<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false" heightRules="false" >
 	<patterns idref="patterns"/>
 	<treeModel idref="treeModel"/>
 	<siteModel idref="siteModel"/>
 	<cenancestorHeight>
-		<parameter id="luca_height" value="2019.465753"/>
+		<parameter id="luca_height" value="2019.465753" upper="0" lower="2015.339726" />
 	</cenancestorHeight>
 	<cenancestorBranch>
-		<parameter id="luca_branch" value="34" upper="2015.339726" lower="0.0"/>
+		<parameter id="luca_branch" value="1" upper="2015.339726" lower="0" />
 	</cenancestorBranch>
 	<strictClockCenancestorBranchRates idref="branchRates"/>
 </cenancestorTreeLikelihood>
@@ -356,16 +356,21 @@
 	<uniformOperator weight="30.0">
 		<parameter idref="treeModel.internalNodeHeights"/>
 	</uniformOperator>
+	<scaleOperator scaleFactor="0.5" weight="3.0">
+		<parameter idref="constant.popSize"/>
+	</scaleOperator>
 	<scaleOperator scaleFactor="0.2" weight="1.0">
 		<parameter idref="luca_branch"/>
 	</scaleOperator>
 	<upDownOperator scaleFactor="0.75" weight="5.0">
-		<up><parameter idref="clock.rate"/></up>
-		<down><parameter idref="treeModel.allInternalNodeHeights"/></down>
+		<up>
+			<parameter idref="clock.rate"/>
+		</up>
+		<down>
+			<parameter idref="treeModel.allInternalNodeHeights"/>
+			<parameter idref="luca_branch"/>
+		</down>
 	</upDownOperator>
-	<scaleOperator scaleFactor="0.5" weight="3.0">
-		<parameter idref="constant.popSize"/>
-	</scaleOperator>
 </operators>
 <!-- MCMC and PRIORS -->
 <mcmc id="mcmc" chainLength="2500" autoOptimize="true" operatorAnalysis="my name any.ops">
