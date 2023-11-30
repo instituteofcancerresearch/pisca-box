@@ -101,19 +101,19 @@ class DataType:
         #create list from priors and operators
         logs = []
         for pr in prs:
-            prr = [pr]
-            if "|" in pr:
-                prr = pr.split("|")
+            prr = pr.split("|")            
             for pri in prr:
-                if pri not in logs:
-                    logs.append(pri)
+                pris = pri.split(",")
+                for prii in pris:
+                    if pri not in logs:
+                        logs.append(pri)
         for op in ops:
-            opp = [op]
-            if "|" in op:
-                opp = op.split("|")
+            opp = op.split("|")            
             for opi in opp:
-                if opi not in logs:
-                    logs.append(opi)        
+                opis = opi.split(",")
+                for opi in opis:
+                    if opi not in logs:
+                        logs.append(opi)        
         
         #for lg in self.default_logs:
         #    if lg not in logs and "." not in lg:

@@ -4,7 +4,7 @@ import pandas as pd
 # ruff: noqa: F541
 
 class Operators(object):
-    def __init__(self,demographic,clocks,default_ops):                        
+    def __init__(self,demographic,luca_model,clocks,default_ops):                        
         self.ops = default_ops
         # operator, paramater, weight, scaleFactor, size, gaussian
         if demographic == "constant size":
@@ -15,6 +15,11 @@ class Operators(object):
         if clocks["type"] == "random local clock":
             self.ops.append(['scaleOperator','localClock.relativeRates','15','0.75','',''])
             self.ops.append(['bitFlipOperator ','localClock.changes', '15','','',''])                
+        if luca_model == "Neoplastic progression":
+            self.ops.append(['scaleOperator','luca_branch','1.0','0.2','',''])
+            self.ops.append(['upDownOperator',  'clock.rate|treeModel.allInternalNodeHeights,luca_branch','5.0','0.75','',''])
+        else:
+            self.ops.append(['upDownOperator',  'clock.rate|treeModel.allInternalNodeHeights','5.0','0.75','',''])
     ### PUBLIC INTERFACE #########        
     #---------------------------------------------------------------------------------
     def get_operators(self):
@@ -57,12 +62,21 @@ class Operators(object):
     #---------------------------------------------------------------------------------
     def _get_upDownOperator(self,op):
         operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
-        up_p = paramater.split("|")[0]
-        down_p = paramater.split("|")[1]
+        up_ps = paramater.split("|")[0].split(",")
+        down_ps = paramater.split("|")[1].split(",")
         op = ""
         op += f'\t<upDownOperator scaleFactor="{scaleFactor}" weight="{weight}">\n'
-        op += f'\t\t<up><parameter idref="{up_p}"/></up>\n'
-        op += f'\t\t<down><parameter idref="{down_p}"/></down>\n'
+        
+        op += f'\t\t<up>\n'
+        for up_p in up_ps:        
+            op += f'\t\t\t<parameter idref="{up_p}"/>\n'
+        op += f'\t\t</up>\n'
+        
+        op += f'\t\t<down>\n'
+        for down_p in down_ps:        
+            op += f'\t\t\t<parameter idref="{down_p}"/>\n'
+        op += f'\t\t</down>\n'
+        
         op += f'\t</upDownOperator>\n'
         return op
     #---------------------------------------------------------------------------------

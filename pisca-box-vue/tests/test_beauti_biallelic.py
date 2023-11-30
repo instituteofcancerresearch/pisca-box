@@ -72,10 +72,13 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
         max_age = csv_ages['age'].max()   
         min_age = csv_ages['age'].min()
         lucas = {}
-        lucas["height"] = max_age
-        lucas["branch"] = 34
-        lucas["lower"] = 0.0
-        lucas["upper"] = min_age                
+        lucas["model"] = "Neoplastic progression"
+        lucas["hvalue"] = max_age
+        lucas["hupper"] = 0
+        lucas["hlower"] = min_age
+        lucas["bvalue"] = 1
+        lucas["bupper"] = min_age
+        lucas["blower"] = 0     
                 
         # TREES
         demographic =  "constant size" #["constant size", "exponential growth"]
@@ -97,7 +100,7 @@ def test_biallelic_xml(show_xml=False,save_xml=False,overwrite=False,check_asser
         
         # Load DATATYPE
         dt_obj =  bb.Biallelic(dic_seq,csv_ages)
-        operators = ops.Operators(demographic,clocks,dt_obj.ops)
+        operators = ops.Operators(demographic,lucas["model"],clocks,dt_obj.ops)
         prrs = prs.Priors(demographic,dt_obj.prs)
         mcmc = mc.MCMC(mcmcs,clocks,prrs,dt_obj,operators,[])
         xmlwriter = xml.XmlWriter(dt_obj,mcmc,lucas,clocks,demographic,dt_obj,operators)
