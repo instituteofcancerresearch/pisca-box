@@ -152,7 +152,6 @@ def add_widgets(include_header):
                             hupper = st.number_input("Height upper DOLS-DOB",value=max_age)
                             bupper = st.number_input("Branch upper DOLS-DOB",value=min_age)
                     elif luca_model == "Normal tissue":
-                        height_rules = "true"
                         cols = st.columns(3)
                         with cols[0]:
                             st.write("Height lower")
