@@ -59,8 +59,10 @@ def add_widgets(include_header):
                         with st.expander("expand ages file to view"):
                             st.write(seq_ages)
         else:
-            radio_source = st.radio('Select sample data type:', ["acna","cnv","biallelic","phyfum"],key="src_sample")
+            radio_source = st.radio('Select sample data type:', ["acna","cnv","biallelic","phyfum (XML generation only)"],key="src_sample")
             # sequence data
+            if "phyfum" in radio_source:
+                radio_source = "phyfum"
             file_name = f"app/static/{radio_source}-seq.csv"
             typ = "csv"
             if radio_source == "cnv":
@@ -98,7 +100,7 @@ def add_widgets(include_header):
                 datatype_long = ['absolute copy number alterations',
                                 'copy number variant',
                                 'biallelic binary',
-                                "bulk methylation (phyfum) - XML generation only, coming soon to pisca-box"]
+                                "bulk methylation (phyfum)"]
                 datatype_short = ['acna','cnv','biallelic',"phyfum"]
                 values = datatype_long
                 idx = datatype_short.index(dtyp)
