@@ -134,7 +134,7 @@ def add_widgets(include_header):
                 st.subheader("Luca Height and Branch")
                 with st.container():
                     
-                    luca_model = st.radio("Luca model",["Neoplastic progression","Normal tissue"])
+                    luca_model = st.radio("Luca model",["Neoplastic progression","Normal tissue"],help="acna and cnv would likely be 'Neoplastic progression', phyfum and bb 'Normal tissue'")
                     st.write("---")
                     hlower,hupper = -1,-1
                     blower,bvalue=0,1
