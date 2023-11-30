@@ -139,7 +139,6 @@ def add_widgets(include_header):
                     hlower,hupper = -1,-1
                     blower,bvalue=0,1
                     if luca_model == "Neoplastic progression":
-                        height_rules = "false"
                         cols = st.columns(3)
                         with cols[0]:
                             hlower = st.number_input("height lower DOLS-DOFD",value=max_age-min_age)
@@ -167,8 +166,8 @@ def add_widgets(include_header):
                         with cols[2]:
                             st.write("Height upper")
                             st.write("NA")
-                            bupper = st.number_input("branch upper DOFS-DOB",value=min_age)                                                                                                                                                                                                                                                                                                                                                          
-                    st.write("---")                                                                                                                                                                                                                                                                                                                
+                            bupper = st.number_input("branch upper DOFS-DOB",value=min_age)
+                    st.write("---")
                 lucas = {}
                 lucas["model"] = luca_model
                 lucas["hvalue"] = hvalue
