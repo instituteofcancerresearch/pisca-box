@@ -24,9 +24,7 @@ class Acna(dt.DataType):
         ops.append(['wideExchange','treeModel','3.0','','',''])
         ops.append(['wilsonBalding','treeModel','3.0','','',''])
         ops.append(['scaleOperator','treeModel.rootHeight','5.0','0.75','',''])
-        ops.append(['uniformOperator','treeModel.internalNodeHeights','30.0','','',''])
-        ops.append(['scaleOperator','luca_branch','1.0','0.2','',''])
-        ops.append(['upDownOperator',  'clock.rate|treeModel.allInternalNodeHeights','5.0','0.75','',''])
+        ops.append(['uniformOperator','treeModel.internalNodeHeights','30.0','','',''])        
         return ops
     ##############################################################
     def _default_priors(self):

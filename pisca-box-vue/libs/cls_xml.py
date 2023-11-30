@@ -47,9 +47,11 @@ class XmlWriter(object):
         xml += self.fasta.get_cna_model()
         xml += self._add_comment("SITE MODEL")
         xml += self.fasta.get_site_model()
-        lh_val,lb_val,lb_up,lb_low = self.lucas["height"],self.lucas["branch"],self.lucas["upper"],self.lucas["lower"]
+        luca_model = self.lucas["model"]
+        hvalue,hupper,hlower = self.lucas["hvalue"],self.lucas["hupper"],self.lucas["hlower"]
+        bvalue,bupper,blower = self.lucas["bvalue"],self.lucas["bupper"],self.lucas["blower"]
         xml += self._add_comment("TREE LIKELIHOOD")
-        xml += self._get_tree_likelihood(lh_val,lb_val,lb_up,lb_low, self.clocks)
+        xml += self._get_tree_likelihood(luca_model,hvalue,hupper,hlower,bvalue,bupper,blower, self.clocks)
         xml += self._add_comment("OPERATORS")
         xml += self.operators.get_operators()
         xml += self._add_comment("MCMC and PRIORS")
@@ -188,25 +190,39 @@ class XmlWriter(object):
         rts += '</rateCovarianceStatistic>\n'
         return rts                
     #----------------------------------
-    def _get_tree_likelihood(self,lh_val,lb_val,lb_up,lb_low,clocks):        
+    def _get_tree_likelihood(self,luca_model,hvalue,hupper,hlower,bvalue,bupper,blower,clocks):
         cen = ""
-        cen += '<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false">\n'
+        
+        if luca_model == "Neoplastic progression":
+            cen += '<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false" heightRules="false" >\n'
+        else:
+            cen += '<cenancestorTreeLikelihood id="treeLikelihood" useAmbiguities="false" heightRules="true" >\n'
+                        
         cen += '\t<patterns idref="patterns"/>\n'
         cen += '\t<treeModel idref="treeModel"/>\n'
         cen += '\t<siteModel idref="siteModel"/>\n'
+        
         cen += '\t<cenancestorHeight>\n'
-        cen += f'\t\t<parameter id="luca_height" value="{lh_val}"/>\n'
+        if luca_model == "Neoplastic progression":
+            cen += f'\t\t<parameter id="luca_height" value="{hvalue}" upper="{hupper}" lower="{hlower}" />\n'
+        else:
+            cen += f'\t\t<parameter id="luca_height" value="{hvalue}"" />\n'
         cen += '\t</cenancestorHeight>\n'
+        
         cen += '\t<cenancestorBranch>\n'
-        cen += f'\t\t<parameter id="luca_branch" value="{lb_val}" upper="{lb_up}" lower="{lb_low}"/>\n'
+        if luca_model == "Neoplastic progression":            
+            cen += f'\t\t<parameter id="luca_branch" value="{bvalue}" upper="{bupper}" lower="{blower}" />\n'
+        else:
+            cen += f'\t\t<parameter id="luca_branch" value="{bvalue}" upper="{bupper}" lower="{blower}" />\n'
         cen += '\t</cenancestorBranch>\n'
+                                        
         if clocks['type'] == "strict clock":
             cen += '\t<strictClockCenancestorBranchRates idref="branchRates"/>\n'
         elif clocks['type'] == "random local clock":
             cen += '\t<randomLocalClockModelCenancestor idref="branchRates"/>\n'
         cen += '</cenancestorTreeLikelihood>\n'
-        return cen        
-    #----------------------------------        
+        return cen
+    #----------------------------------
     def _get_report(self):
         rp = ""
         rp += '<report>\n'

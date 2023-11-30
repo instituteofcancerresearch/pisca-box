@@ -133,38 +133,51 @@ def add_widgets(include_header):
             with tabLuca:
                 st.subheader("Luca Height and Branch")
                 with st.container():
-                    cols = st.columns([1,1,3])
-                    with cols[0]:
-                        st.write("luca-upper")
-                    with cols[1]:
-                        min_age = st.number_input(label="luca-upper",value=min_age,label_visibility="collapsed")
-                    with cols[2]:
-                        st.caption("This is first branch height, or minimum age")
-                    cols = st.columns([1,1,3])
-                    with cols[0]:
-                        st.write("luca-height")
-                    with cols[1]:
-                        max_age = st.number_input(label="luca-height",value=max_age,label_visibility="collapsed")
-                    with cols[2]:
-                        st.caption("This is total tree height, or maximum age")
                     
-                    cols = st.columns([5,1])
-                    with cols[0]:
-                        col0s = st.columns([4,1])
-                        with col0s[0]:
-                            lb_val = st.slider("luca-branch",
-                                            value = float(round(min_age/2)),
-                                            min_value = float(0),
-                                            max_value = float(min_age),
-                                            help="This can be between 0 and the root node, or minimum age")
-                    
-                    
-                                                                                    
+                    luca_model = st.radio("Luca model",["Neoplastic progression","Normal tissue"])
+                    st.write("---")
+                    hlower,hupper = -1,-1
+                    blower,bvalue=0,1
+                    if luca_model == "Neoplastic progression":
+                        height_rules = "false"
+                        cols = st.columns(3)
+                        with cols[0]:
+                            hlower = st.number_input("height lower DOLS-DOFD",value=max_age-min_age)
+                            blower = 0
+                            st.write("Branch lower")
+                            st.write(f"{blower}")
+                        with cols[1]:
+                            hvalue = st.number_input("height value DOLS-DOFD",value=max_age-min_age)
+                            bvalue = st.number_input("Branch value", value=bvalue)
+                        with cols[2]:
+                            hupper = st.number_input("Height upper DOLS-DOB",value=max_age)
+                            bupper = st.number_input("Branch upper DOLS-DOB",value=min_age)
+                    elif luca_model == "Normal tissue":
+                        height_rules = "true"
+                        cols = st.columns(3)
+                        with cols[0]:
+                            st.write("Height lower")
+                            st.write("NA")
+                            blower=0
+                            st.write("Branch lower")
+                            st.write("0")
+                        with cols[1]:
+                            hvalue = st.number_input("Height value DOLS-DOB", value=max_age)
+                            bvalue = st.number_input("Branch value", value=bvalue)
+                        with cols[2]:
+                            st.write("Height upper")
+                            st.write("NA")
+                            bupper = st.number_input("branch upper DOFS-DOB",value=min_age)                                                                                                                                                                                                                                                                                                                                                          
+                    st.write("---")                                                                                                                                                                                                                                                                                                                
                 lucas = {}
-                lucas["height"] = max_age
-                lucas["branch"] = lb_val
-                lucas["lower"] = 0.0
-                lucas["upper"] = min_age
+                lucas["model"] = luca_model
+                lucas["hvalue"] = hvalue
+                lucas["hupper"] = hupper
+                lucas["hlower"] = hlower
+                lucas["bvalue"] = bvalue
+                lucas["bupper"] = bupper
+                lucas["blower"] = blower
+                
             
             ### TREES ########################################################
             with tabTrees:
@@ -195,38 +208,25 @@ def add_widgets(include_header):
                 prrs = prs.Priors(demographic,dt_obj.prs)
                                                 
                 prior_types = ['oneOnX', 'logNormal', 'normal','exponential','uniform','laplace']
-                prh,prb = [],[]
-                with st.expander("View or change luca priors"):
-                    luca_priors = st.checkbox("Luca priors",value=True,help="Do you want to set priors on the luca branches?")
-                    prh = ['uniform','luca_height',str(lb_val),str(max_age),'','','','','','','']
-                    prb = ['uniform','luca_branch',str(lb_val),str(max_age),'','','','','','','']
-                    if luca_priors:
-                        cols = st.columns([1,1,1])
+                pri = []                                 
+                pri = ['uniform','luca_height',str(hlower),str(hupper),'','','','','','','']
+                use_prior = True
+                if luca_model == "Normal tissue":
+                    use_prior = False                                            
+                with st.expander("View or change luca height priors"):
+                    luca_priors = st.checkbox("Include luca-height priors",value=use_prior,help="Do you want to set priors on the luca branches?")                                        
+                    if luca_priors: 
+                        cols = st.columns(3)
                         with cols[0]:
-                            prior_type = st.selectbox('prior type', prior_types,key="luca",index=4)
-                            prior_type += "Prior"
+                            plower = st.number_input("lower",value=hlower)
                         with cols[1]:
-                            inc_height = st.checkbox("luca-height prior",value=True)
-                            inc_branch = st.checkbox("luca-prior prior",value=False)
-                        with cols[2]:
-                            luca_val = st.number_input(label="luca prior",value=round(lb_val,4))
-                        
-                        prh = [prior_type,'luca_height',str(luca_val),str(max_age),'','','','','','','']
-                        prb = [prior_type,'luca_branch',str(luca_val),str(max_age),'','','','','','','']
-                        if inc_height:
-                            prrs.update_one_prior(False,'luca_height',prh)
-                        else:
-                            prrs.update_one_prior(True,'luca_height',prh)
-                            
-                        if inc_branch:
-                            prrs.update_one_prior(False,'luca_branch',prb)
-                        else:
-                            prrs.update_one_prior(True,'luca_branch',prb)
-                            
+                            pupper = st.number_input("upper",value=hupper)                        
+                        pri = ['uniform','luca_height',str(plower),str(pupper),'','','','','','','']
+                        prrs.update_one_prior(False,'luca_height',pri)
                     else:
-                        prrs.update_one_prior(True,'luca_height',prh)
-                        prrs.update_one_prior(True,'luca_branch',prb)
-
+                        prrs.update_one_prior(True,'luca_height',[])
+                        
+                                                                          
                 if dtyp == 'biallelic':
                     with st.expander("View or change biallelic binary priors"):
                         bb_priors = st.checkbox("Biallelic binary priors",value=dtyp=='biallelic',help="Do you want to set priors on the biallelic binary?")
@@ -313,7 +313,7 @@ def add_widgets(include_header):
                 
                 with st.expander("View or change all operators"):
                     ### OPERATORS #############################################################
-                    operators = ops.Operators(demographic,clocks,dt_obj.ops)
+                    operators = ops.Operators(demographic,luca_model,clocks,dt_obj.ops)
                     edited_df = st.data_editor(operators.get_as_dataframe(),num_rows="dynamic",use_container_width=True)
                     operators.update_from_dataframe(edited_df)
                                 
