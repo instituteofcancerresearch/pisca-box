@@ -112,7 +112,7 @@ class Operators(object):
         op += f'\t</narrowExchange>\n'
         return op
     #---------------------------------------------------------------------------------
-    def _get_subtreeSlide(self,op):         
+    def _get_subtreeSlide(self,op):
         operator, paramater, weight, scaleFactor, size, gaussian = op[0],op[1],op[2],op[3],op[4],op[5]
         op = ""
         op += f'\t<subtreeSlide  size="{size}" gaussian="{gaussian}" weight="{weight}">\n'
@@ -125,16 +125,16 @@ class Operators(object):
         op = ""
         op += f'\t<bitFlipOperator  weight="{weight}">\n'
         op += f'\t\t<parameter idref="{paramater}"/>\n'
-        op += f'\t</bitFlipOperator >\n'
+        op += f'\t</bitFlipOperator>\n'
         return op
     #---------------------------------------------------------------------------------
-    def get_as_dataframe(self):                
+    def get_as_dataframe(self):
         df = pd.DataFrame(self.ops,columns=['operator', 'parameter', 'weight', 'scaleFactor', 'size', 'gaussian'])
         return df
     #---------------------------------------------------------------------------------
     def update_from_dataframe(self,df):
         self.ops = []
         for row in df.itertuples():
-            self.ops.append([row.operator,row.parameter,row.weight,row.scaleFactor,row.size,row.gaussian])                                
+            self.ops.append([row.operator,row.parameter,row.weight,row.scaleFactor,row.size,row.gaussian])
     
     
