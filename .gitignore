@@ -173,6 +173,7 @@ cython_debug/
 !/pisca-box-vue/tests/fixtures/acna/*fix.xml
 !/pisca-box-vue/tests/fixtures/cnv/*fix.xml
 !/pisca-box-vue/tests/fixtures/validation/*fix.xml
+!/pisca-box-vue/tests/external/*/*fix.xml
 *.Zone.Identifier
 .ds_store
 *.svg
@@ -180,3 +181,4 @@ cython_debug/
 !/pisca-box-vue/temp/make.txt
 
 pisca-box-vue/Rplots.pdf
+pisca-box-vue/tests/internal/*

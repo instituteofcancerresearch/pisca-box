@@ -2,7 +2,7 @@
 
 Navigate 1 directory in then run the entry point:  
 ```
-cd pisca-box-run
+cd pisca-box-vue
 streamlit run app/home.py
 ```
 
