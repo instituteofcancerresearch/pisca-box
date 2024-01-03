@@ -34,10 +34,10 @@ args=commandArgs(trailingOnly = T)
 #print(args)
 mccTreeFile=args[1]
 age=as.numeric(args[2])
-lucaHeight = as.numeric(args[3])
-hpdLucaHeight_l = as.numeric(args[4])
-hpdLucaHeight_u = as.numeric(args[5])
-lucaRate = as.numeric(args[6])
+#lucaHeight = as.numeric(args[3])
+#hpdLucaHeight_l = as.numeric(args[4])
+#hpdLucaHeight_u = as.numeric(args[5])
+#lucaRate = as.numeric(args[6])
 useRate = args[7]
 outputfile=args[8]
 title=args[9]
@@ -58,14 +58,14 @@ print(paste("Luca hdi=",hpdLucaHeight))
 
 
 #Parsing cenancestor information from the log file
-#logData=fread(logDataFile)
-#lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
+logData=fread(logDataFile)
+lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
 
 #lucaheight = 0
 #hpdLucaHeight = 0
 #lucaRate = 0
 
-#lucaHeight=mean(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)])
+lucaHeight=mean(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)])
 #hpdLucaHeight=hdi(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)],credMass = 0.95)
 
 
@@ -74,9 +74,10 @@ tryrates=FALSE ## try to get the colour branches
 if (useRate == "Y"){
   tryrates=TRUE
   print("cenancestor exists")
+  lucaRate=mean(logData[,cenancestorRate][floor(nrow(logData)*burnin):nrow(logData)])
 }
 
-#rm(logData)
+rm(logData)
 
 ##Parsing the tree
 mccTree=read.beast(mccTreeFile)
@@ -101,8 +102,8 @@ mccTreeDataFrame$x=mccTreeDataFrame$x+yearsToAdd
 mccTreeDataFrame$branch=mccTreeDataFrame$branch+yearsToAdd
 mostRecentYearsOfAge=age
 mccTreeDataFrame$height_0.95_HPD=lapply(mccTreeDataFrame$height_0.95_HPD,function(x){return(c(mostRecentYearsOfAge-x[2],mostRecentYearsOfAge-x[1]))})
-mccTreeDataFrame$height_0.95_HPD[luca]=list(as.numeric(c(mostRecentYearsOfAge-hpdLucaHeight[2],mostRecentYearsOfAge-hpdLucaHeight[1])))
-
+#mccTreeDataFrame$height_0.95_HPD[luca]=list(as.numeric(c(mostRecentYearsOfAge-hpdLucaHeight[2],mostRecentYearsOfAge-hpdLucaHeight[1])))
+mccTreeDataFrame$height_0.95_HPD[luca]=NA
 #Adding PP info
 mccTreeDataFrame$posteriorAsterisk=as.character(ifelse(mccTreeDataFrame$posterior>=ppThreshold,"*",""))
 
