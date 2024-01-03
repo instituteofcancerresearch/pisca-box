@@ -60,7 +60,6 @@ print(paste("Luca hdi=",hpdLucaHeight))
 #Parsing cenancestor information from the log file
 #logData=fread(logDataFile)
 #lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
-lucaBranch=age
 
 #lucaheight = 0
 #hpdLucaHeight = 0
@@ -83,8 +82,6 @@ if (useRate == "Y"){
 mccTree=read.beast(mccTreeFile)
 mccTreeDataFrame=fortify(mccTree)
 
-##Tree-dependent time calculation
-yearsToAdd=age-max(mccTreeDataFrame[,"x"])
 
 #Adding luca with proper time
 root=which(mccTreeDataFrame$parent==mccTreeDataFrame$node)
@@ -92,14 +89,17 @@ luca=nrow(mccTreeDataFrame)+1
 mccTreeDataFrame[luca,]=mccTreeDataFrame[root,]
 mccTreeDataFrame[root,]=mccTreeDataFrame[luca,]
 mccTreeDataFrame[root,"parent"]=luca
-mccTreeDataFrame[root,"branch.length"]=yearsToAdd
-mccTreeDataFrame[luca,"x"]=max(mccTreeDataFrame[,"x"])-age
+mccTreeDataFrame[root,"branch.length"]=lucaBranch
+mccTreeDataFrame[luca,"x"]=-lucaBranch
 mccTreeDataFrame[luca,"node"]=luca
+
+##Years to add - make x axis the age of sampling (tree file goes from 0-max height, not age)
+yearsToAdd=age-max(mccTreeDataFrame[,"x"])
 
 #Modifying times from time from the present to time from birth
 mccTreeDataFrame$x=mccTreeDataFrame$x+yearsToAdd
 mccTreeDataFrame$branch=mccTreeDataFrame$branch+yearsToAdd
-mostRecentYearsOfAge=max(mccTreeDataFrame$x)
+mostRecentYearsOfAge=age
 mccTreeDataFrame$height_0.95_HPD=lapply(mccTreeDataFrame$height_0.95_HPD,function(x){return(c(mostRecentYearsOfAge-x[2],mostRecentYearsOfAge-x[1]))})
 mccTreeDataFrame$height_0.95_HPD[luca]=list(as.numeric(c(mostRecentYearsOfAge-hpdLucaHeight[2],mostRecentYearsOfAge-hpdLucaHeight[1])))
 
