@@ -34,10 +34,10 @@ args=commandArgs(trailingOnly = T)
 #print(args)
 mccTreeFile=args[1]
 age=as.numeric(args[2])
-#lucaHeight = as.numeric(args[3])
-#hpdLucaHeight_l = as.numeric(args[4])
-#hpdLucaHeight_u = as.numeric(args[5])
-#lucaRate = as.numeric(args[6])
+lucaBranch = as.numeric(args[3])
+hpdLucaBranch_l = as.numeric(args[4])
+hpdLucaBranch_u = as.numeric(args[5])
+lucaRate = as.numeric(args[6])
 useRate = args[7]
 outputfile=args[8]
 title=args[9]
@@ -45,27 +45,27 @@ title=args[9]
 
 print(paste("mccfile",mccTreeFile))
 print(paste("age",age))
-print(paste("lucaHeight",lucaHeight))
-print(paste("hpdLucaHeight_l",hpdLucaHeight_l))
-print(paste("hpdLucaHeight_u",hpdLucaHeight_u))
+print(paste("lucaBranch",lucaBranch))
+print(paste("hpdLucaBranch_l",hpdLucaBranch_l))
+print(paste("hpdLucaBranch_u",hpdLucaBranch_u))
 print(paste("lucaRate",lucaRate))
 print(paste("useRate",useRate))
 print(paste("outputfile",outputfile))
 print(paste("title",title))
 #print(paste("logfile",logDataFile))
-hpdLucaHeight <- c(hpdLucaHeight_l,hpdLucaHeight_u)
-print(paste("Luca hdi=",hpdLucaHeight))
+hpdLucaBranch <- c(hpdLucaBranch_l,hpdLucaBranch_u)
+print(paste("Luca hdi=",hpdLucaBranch))
 
 
 #Parsing cenancestor information from the log file
-logData=fread(logDataFile)
-lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
+#logData=fread(logDataFile)
+#lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
 
 #lucaheight = 0
 #hpdLucaHeight = 0
 #lucaRate = 0
 
-lucaHeight=mean(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)])
+#lucaHeight=mean(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)])
 #hpdLucaHeight=hdi(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)],credMass = 0.95)
 
 
@@ -102,8 +102,8 @@ mccTreeDataFrame$x=mccTreeDataFrame$x+yearsToAdd
 mccTreeDataFrame$branch=mccTreeDataFrame$branch+yearsToAdd
 mostRecentYearsOfAge=age
 mccTreeDataFrame$height_0.95_HPD=lapply(mccTreeDataFrame$height_0.95_HPD,function(x){return(c(mostRecentYearsOfAge-x[2],mostRecentYearsOfAge-x[1]))})
-#mccTreeDataFrame$height_0.95_HPD[luca]=list(as.numeric(c(mostRecentYearsOfAge-hpdLucaHeight[2],mostRecentYearsOfAge-hpdLucaHeight[1])))
-mccTreeDataFrame$height_0.95_HPD[luca]=NA
+mccTreeDataFrame$height_0.95_HPD[luca]=list(as.numeric(c(mostRecentYearsOfAge-hpdLucaBranch[2],mostRecentYearsOfAge-hpdLucaBranch[1])))
+#mccTreeDataFrame$height_0.95_HPD[luca]=NA
 #Adding PP info
 mccTreeDataFrame$posteriorAsterisk=as.character(ifelse(mccTreeDataFrame$posterior>=ppThreshold,"*",""))
 
