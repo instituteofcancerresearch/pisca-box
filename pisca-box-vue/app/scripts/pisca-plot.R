@@ -2,7 +2,12 @@
 
 
 # Call this as follows:
-# Rscript pisca-plot.R consensus.tree my_pisca.log my_plot.pdf 'MY TITLE' 68
+
+## With logfile
+# Rscript pisca-plot.R consensus.tree title,pdf_name,use_rate,burnin,age,my_pisca.log
+
+## Without logfile
+# Rscript pisca-plot.R consensus.tree title,pdf_name,use_rate,age,lucaBranch,lucaRate,hdi_lower,hdi_upper
 
 suppressWarnings({
 
@@ -18,66 +23,64 @@ library(svglite)
 #Configuration
 burnin=0.1
 ppThreshold=0.8
+tryrates = FALSE
+lucaRate = 0
 
 folder = getwd()
-
 args=commandArgs(trailingOnly = T)
-#args=c(paste0(folder, "/input/rlc-exp.mcc"),
-#        paste0(folder, "/input/ibd-rlc-exp.log"),
-#        paste0(folder, "Test.plot.pdf"),
-#        "Title of plot",
-#        "68"
-#        )
+# the args can be entered in 2 ways
+# - from pisca-box we don't pass in the log file
+# - from a script we might do so
 
-#TODO I need to get the tree and the logs merged, not only from one replicate
-##TODO Check the args
-#print(args)
-mccTreeFile=args[1]
-age=as.numeric(args[2])
-lucaBranch = as.numeric(args[3])
-hpdLucaBranch_l = as.numeric(args[4])
-hpdLucaBranch_u = as.numeric(args[5])
-lucaRate = as.numeric(args[6])
-useRate = args[7]
-outputfile=args[8]
-title=args[9]
-#logDataFile=args[10]
+use_log_file = FALSE # False is the default, change only in test
+
+if (use_log_file){
+  mccTreeFile=args[1]
+  title=args[2]
+  outputfile=args[3]
+  useRate = args[4]
+  burnin = args[5]
+  age=as.numeric(args[6])
+  #Parsing cenancestor information from the log file    
+  logDataFile(args[7])
+  logData=fread(logDataFile)
+  lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
+  hpdLucaBranch=hdi(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)],credMass = 0.95)
+  if (useRate == "Y"){
+    tryrates=TRUE    
+    lucaRate=mean(logData[,cenancestorRate][floor(nrow(logData)*burnin):nrow(logData)])
+  }
+  rm(logData)
+} else {
+  mccTreeFile=args[1]
+  title=args[2]
+  outputfile=args[3]
+  useRate = args[4]      
+  age=as.numeric(args[5])
+  # could come from log
+  lucaBranch = as.numeric(args[6])
+  lucaRate = as.numeric(args[7])
+  hpdLucaBranch_l = as.numeric(args[8])
+  hpdLucaBranch_u = as.numeric(args[9])
+  hpdLucaBranch <- c(hpdLucaBranch_l,hpdLucaBranch_u) 
+}
 
 print(paste("mccfile",mccTreeFile))
+print(paste("title",title))
+print(paste("outputfile",outputfile))
+print(paste("useRate",useRate))
+print(paste("burnin",burnin))
 print(paste("age",age))
 print(paste("lucaBranch",lucaBranch))
-print(paste("hpdLucaBranch_l",hpdLucaBranch_l))
-print(paste("hpdLucaBranch_u",hpdLucaBranch_u))
 print(paste("lucaRate",lucaRate))
-print(paste("useRate",useRate))
-print(paste("outputfile",outputfile))
-print(paste("title",title))
-#print(paste("logfile",logDataFile))
-hpdLucaBranch <- c(hpdLucaBranch_l,hpdLucaBranch_u)
-print(paste("Luca hdi=",hpdLucaBranch))
+print(paste("hpdLucaBranch",hpdLucaBranch))
 
-
-#Parsing cenancestor information from the log file
-#logData=fread(logDataFile)
-#lucaBranch=mean(logData[,luca_branch][floor(nrow(logData)*burnin):nrow(logData)])
-
-#lucaheight = 0
-#hpdLucaHeight = 0
-#lucaRate = 0
-
-#lucaHeight=mean(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)])
-#hpdLucaHeight=hdi(logData[,luca_height][floor(nrow(logData)*burnin):nrow(logData)],credMass = 0.95)
-
-
-
-tryrates=FALSE ## try to get the colour branches 
 if (useRate == "Y"){
   tryrates=TRUE
   print("cenancestor exists")
-  lucaRate=mean(logData[,cenancestorRate][floor(nrow(logData)*burnin):nrow(logData)])
 }
 
-rm(logData)
+#rm(logData)
 
 ##Parsing the tree
 mccTree=read.beast(mccTreeFile)
@@ -103,7 +106,7 @@ mccTreeDataFrame$branch=mccTreeDataFrame$branch+yearsToAdd
 mostRecentYearsOfAge=age
 mccTreeDataFrame$height_0.95_HPD=lapply(mccTreeDataFrame$height_0.95_HPD,function(x){return(c(mostRecentYearsOfAge-x[2],mostRecentYearsOfAge-x[1]))})
 mccTreeDataFrame$height_0.95_HPD[luca]=list(as.numeric(c(mostRecentYearsOfAge-hpdLucaBranch[2],mostRecentYearsOfAge-hpdLucaBranch[1])))
-#mccTreeDataFrame$height_0.95_HPD[luca]=NA
+
 #Adding PP info
 mccTreeDataFrame$posteriorAsterisk=as.character(ifelse(mccTreeDataFrame$posterior>=ppThreshold,"*",""))
 
